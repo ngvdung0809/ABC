@@ -6,6 +6,7 @@ export const ADD_CLASSNAME = 'addClassName';
 export const SET_CLASSNAME_BY_POSITION = 'setClassNameByPosition';
 
 export default {
+  namespace: true,
   state: {
     classes: {},
   },
