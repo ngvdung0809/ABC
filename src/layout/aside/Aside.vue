@@ -1,0 +1,298 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable radix */
+/* eslint-disable radix */
+<template>
+  <!-- begin:: Aside -->
+  <div class="aside aside-left d-flex aside-fixed" id="aside" ref="aside">
+    <!--begin::Primary-->
+    <div
+      class="aside-primary d-flex flex-column align-items-center flex-row-auto"
+    >
+      <!--begin::Brand-->
+      <Brand></Brand>
+      <!--end::Brand-->
+      <!--begin::Nav Wrapper-->
+      <div
+        class="aside-nav d-flex flex-column align-items-center flex-column-fluid py-5 scroll scroll-pull ps"
+        style="height: 528px; overflow: hidden;"
+      >
+        <!--begin::Nav-->
+        <ul class="nav flex-column" role="tablist">
+          <!--begin::Item-->
+          <li
+            class="nav-item mb-3"
+            data-placement="right"
+            data-container="body"
+            data-boundary="window"
+            v-b-tooltip.hover.right="'Latest Projects'"
+          >
+            <a
+              href="#"
+              class="nav-link btn btn-icon btn-clean btn-lg"
+              data-toggle="tab"
+              v-on:click="setActiveTab"
+              data-tab="0"
+            >
+              <span class="svg-icon svg-icon-xl">
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/Layout/Layout-4-blocks.svg" />
+                <!--end::Svg Icon-->
+              </span>
+            </a>
+          </li>
+          <!--end::Item-->
+          <!--begin::Item-->
+          <li
+            class="nav-item mb-3"
+            data-placement="right"
+            data-container="body"
+            data-boundary="window"
+            v-b-tooltip.hover.right="'Metronic Features'"
+          >
+            <a
+              href="#"
+              class="nav-link btn btn-icon btn-clean btn-lg"
+              data-toggle="tab"
+              v-on:click="setActiveTab"
+              data-tab="1"
+            >
+              <span class="svg-icon svg-icon-xl">
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/Communication/Group.svg" />
+                <!--end::Svg Icon-->
+              </span>
+            </a>
+          </li>
+          <!--end::Item-->
+          <!--begin::Item-->
+          <li
+            class="nav-item mb-3"
+            data-placement="right"
+            data-container="body"
+            data-boundary="window"
+            v-b-tooltip.hover.right="'Latest Reports'"
+          >
+            <a
+              href="#"
+              class="nav-link btn btn-icon btn-clean btn-lg"
+              data-toggle="tab"
+              v-on:click="setActiveTab"
+              data-tab="2"
+            >
+              <span class="svg-icon svg-icon-xl">
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/Media/Equalizer.svg" />
+                <!--end::Svg Icon-->
+              </span>
+            </a>
+          </li>
+          <!--end::Item-->
+          <!--begin::Item-->
+          <li
+            class="nav-item mb-3"
+            data-placement="right"
+            data-container="body"
+            data-boundary="window"
+            v-b-tooltip.hover.right="'Project Management'"
+          >
+            <a
+              href="#"
+              class="nav-link btn btn-icon btn-clean btn-lg"
+              role="tab"
+              v-on:click="setActiveTab"
+              data-tab="3"
+            >
+              <span class="svg-icon svg-icon-xl">
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/General/Shield-check.svg" />
+                <!--end::Svg Icon-->
+              </span>
+            </a>
+          </li>
+          <!--end::Item-->
+          <!--begin::Item-->
+          <li
+            class="nav-item mb-3"
+            data-placement="right"
+            data-container="body"
+            data-boundary="window"
+            v-b-tooltip.hover.right="'User Management'"
+          >
+            <a
+              href="#"
+              class="nav-link btn btn-icon btn-clean btn-lg active"
+              role="tab"
+              v-on:click="setActiveTab"
+              data-tab="4"
+            >
+              <span class="svg-icon svg-icon-xl">
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/Home/Library.svg" />
+                <!--end::Svg Icon-->
+              </span>
+            </a>
+          </li>
+          <!--end::Item-->
+          <!--begin::Item-->
+          <li
+            class="nav-item mb-3"
+            data-placement="right"
+            data-container="body"
+            data-boundary="window"
+            v-b-tooltip.hover.right="'Finance &amp; Accounting'"
+          >
+            <a
+              href="#"
+              class="nav-link btn btn-icon btn-clean btn-lg"
+              role="tab"
+              v-on:click="setActiveTab"
+              data-tab="5"
+            >
+              <span class="svg-icon svg-icon-xl">
+                <!--begin::Svg Icon-->
+                <inline-svg src="media/svg/icons/Files/File-plus.svg" />
+                <!--end::Svg Icon-->
+              </span>
+            </a>
+          </li>
+          <!--end::Item-->
+        </ul>
+        <!--end::Nav-->
+      </div>
+      <!--end::Nav Wrapper-->
+      <!--begin::Footer-->
+      <div
+        class="aside-footer d-flex flex-column align-items-center flex-column-auto py-4 py-lg-10"
+      >
+        <!--begin::Aside Toggle-->
+        <span
+          class="aside-toggle btn btn-icon btn-primary btn-hover-primary shadow-sm"
+          id="aside_toggle"
+          ref="aside_toggle"
+          data-placement="right"
+          data-container="body"
+          data-boundary="window"
+          v-b-tooltip.hover.right="'Toggle Aside'"
+          @click="minimizedAside"
+        >
+          <inline-svg src="media/svg/icons/Navigation/Angle-left.svg" :style="{transform: asideExpand ? 'rotate(0deg)' : 'rotate(180deg)'}"/>
+        </span>
+        <!--end::Aside Toggle-->
+      </div>
+      <!--end::Footer-->
+    </div>
+    <!--end::Primary-->
+    <!--begin::Secondary-->
+    <div class="aside-secondary d-flex flex-row-fluid">
+      <!--begin::Workspace-->
+      <div
+        class="aside-workspace scroll scroll-push my-2 ps"
+        style="height: 824px; overflow: hidden;"
+      >
+        <!--begin::Tab Content-->
+        <b-tabs class="hide-tabs">
+          <!--begin::Tab Pane-->
+          <b-tab>
+            <!--begin::Aside Menu-->
+            <div
+              class="aside-menu-wrapper flex-column-fluid px-10 py-5"
+              id="aside_menu_wrapper"
+            >
+              <!--begin::Menu Container-->
+              <div
+                ref="aside_menu"
+                id="aside_menu"
+                class="aside-menu min-h-lg-800px"
+                data-menu-vertical="1"
+                data-menu-scroll="1"
+              >
+                <!-- example static menu here -->
+                <Menu></Menu>
+              </div>
+              <!--end::Menu Container-->
+            </div>
+            <!--end::Aside Menu-->
+          </b-tab>
+          <!--end::Tab Pane-->
+        </b-tabs>
+        <!--end::Tab Content-->
+        <!--end::Workspace-->
+      </div>
+      <!--end::Secondary-->
+    </div>
+  </div>
+  <!-- end:: Aside -->
+</template>
+
+<style lang="scss">
+/* hide default vue-bootstrap tab links */
+.hide-tabs > div:not(.tab-content) {
+  display: none;
+}
+</style>
+
+<script>
+import { mapGetters } from 'vuex';
+import Brand from '@/layout/brand/Brand.vue';
+import Menu from '@/layout/aside/Menu.vue';
+
+export default {
+  name: 'Aside',
+  data() {
+    return {
+      insideTm: 0,
+      outsideTm: 0,
+      tabIndex: 0,
+      asideExpand: true,
+    };
+  },
+  components: {
+    Brand,
+    Menu,
+  },
+  computed: {
+    ...mapGetters(['layoutConfig', 'getClasses']),
+
+    /**
+     * Get extra classes for menu based on the options
+     */
+    asideMenuClass() {
+      const classes = this.getClasses('aside_menu');
+      if (typeof classes !== 'undefined') {
+        return classes.join(' ');
+      }
+      return null;
+    },
+  },
+  methods: {
+    setActiveTab(event) {
+      let { target } = event;
+      if (!event.target.classList.contains('nav-link')) {
+        target = event.target.closest('.nav-link');
+      }
+
+      const tab = target.closest('[role="tablist"]');
+      const links = tab.querySelectorAll('.nav-link');
+      // remove active tab links
+      for (let i = 0; i < links.length; i++) {
+        links[i].classList.remove('active');
+      }
+
+      // set clicked tab index to bootstrap tab
+      this.tabIndex = parseInt(target.getAttribute('data-tab'));
+
+      // set current active tab
+      target.classList.add('active');
+    },
+    minimizedAside() {
+      if (this.asideExpand) {
+        document.body.classList.add('aside-minimize');
+        this.asideExpand = false;
+      } else {
+        document.body.classList.remove('aside-minimize');
+        this.asideExpand = true;
+      }
+    },
+  },
+};
+</script>
