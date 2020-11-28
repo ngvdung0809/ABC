@@ -9,7 +9,7 @@ const routes = [
     component: () => import('@/layout/Layout'),
   },
   {
-    path: '/',
+    path: '/login',
     component: () => import('@/pages/auth/Auth'),
     children: [
       {

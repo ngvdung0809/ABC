@@ -1,3 +1,5 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable consistent-return */
 import Vue from 'vue';
 import store from '@/core/services/store/index';
 import App from './App.vue';
@@ -12,19 +14,27 @@ Vue.config.productionTip = false;
 
 // Remove this to disable mock API
 
-// router.beforeEach((to, from, next) => {
-//   // console.log(router);
-//   // Ensure we checked auth before each page load.
-//   // Promise.all([store.dispatch(VERIFY_AUTH)]).then(next);
+router.beforeEach((to, from, next) => {
+  // console.log(router);
+  // Ensure we checked auth before each page load.
+  // Promise.all([store.dispatch(VERIFY_AUTH)]).then(next);
 
-//   // // reset config to initial state
-//   // store.dispatch(RESET_LAYOUT_CONFIG);
+  // // reset config to initial state
+  // store.dispatch(RESET_LAYOUT_CONFIG);
 
-//   // Scroll page to top on every route change
-//   // setTimeout(() => {
-//   //   window.scrollTo(0, 0);
-//   // }, 100);
-// });
+  // Scroll page to top on every route change
+  // setTimeout(() => {
+  //   window.scrollTo(0, 0);
+  // }, 100);
+  // console.log(to.path.split('/'))
+  const publicPages = ['login'];
+  const authRequired = !publicPages.includes(to.path.split('/')[1]);
+  const loggedIn = sessionStorage.getItem('jwtToken');
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+  next();
+});
 
 new Vue({
   router,

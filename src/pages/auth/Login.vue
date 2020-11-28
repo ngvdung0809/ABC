@@ -47,6 +47,8 @@
             class="form-control form-control-solid h-auto py-5 px-6"
             id="example-input-1"
             name="example-input-1"
+            v-model="$v.form.email.$model"
+            :state="validateState('email')"
             aria-describedby="input-1-live-feedback"
           ></b-form-input>
 
@@ -65,6 +67,8 @@
             type="password"
             id="example-input-2"
             name="example-input-2"
+            v-model="$v.form.password.$model"
+            :state="validateState('password')"
             aria-describedby="input-2-live-feedback"
           ></b-form-input>
 
@@ -106,9 +110,13 @@
 </style>
 
 <script>
+import { validationMixin } from 'vuelidate';
+import { email, minLength, required } from 'vuelidate/lib/validators';
+import api from '../../core/services/api/api';
 
 export default {
   name: 'login',
+  mixins: [validationMixin],
   data() {
     return {
       // Remove this dummy login info
@@ -118,31 +126,55 @@ export default {
       },
     };
   },
-  methods: {
-    resetForm() {
+  validations: {
+    form: {
+      email: {
+        required,
+        email,
+      },
+      password: {
+        required,
+        minLength: minLength(3),
+      },
     },
-    onSubmit() {
+  },
+  methods: {
+    validateState(name) {
+      const { $dirty, $error } = this.$v.form[name];
+      return $dirty ? !$error : null;
+    },
+    resetForm() {
+      this.form = {
+        email: null,
+        password: null,
+      };
 
-      // clear existing errors
-
+      this.$nextTick(() => {
+        this.$v.$reset();
+      });
+    },
+    async onSubmit() {
+      this.$v.form.$touch();
+      if (this.$v.form.$anyError) {
+        return;
+      }
+      // const email = this.$v.form.email.$model;
+      // const password = this.$v.form.password.$model;
+      const submitButton = this.$refs.kt_login_signin_submit;
+      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      const res = await api('loginApi', { email: this.form.email, password: this.form.password });
+      if (res) {
+        sessionStorage.setItem('jwtToken', res?.data?.token);
+        // sessionStorage.setItem('user_id', res?.data?.profile?.id.toString());
+        // sessionStorage.setItem('full_name', res?.data?.profile?.username);
+      }
       // set spinner to submit button
-      // const submitButton = this.$refs["login_signin_submit"];
-      // submitButton.classList.add("spinner", "spinner-light", "spinner-right");
 
-      // // dummy delay
-      // setTimeout(() => {
-      //   // send login request
-      //   this.$store
-      //     .dispatch(LOGIN, { email, password })
-      //     // go to which page after successfully login
-      //     .then(() => this.$router.push({ name: "dashboard" }));
-
-      //   submitButton.classList.remove(
-      //     "spinner",
-      //     "spinner-light",
-      //     "spinner-right"
-      //   );
-      // }, 2000);
+      submitButton.classList.remove(
+        'spinner',
+        'spinner-light',
+        'spinner-right',
+      );
     },
   },
 };

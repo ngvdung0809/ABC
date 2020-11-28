@@ -1,5 +1,4 @@
 import axios from 'axios';
-import axiosRetry from 'axios-retry';
 import authApiMap from './apiMap';
 
 // const BASE_URL = 'https://backend-api.happiness-book.jp';
@@ -9,7 +8,6 @@ const request = axios.create({
   withCredentials: true,
   timeout: 10000,
 });
-axiosRetry(request, { retries: 3 });
 
 const config = (method, url, data, header) => {
   const obj = {
