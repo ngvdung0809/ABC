@@ -3,6 +3,12 @@
     <div class="manage-account-container__header">
       <Header />
     </div>
+    <div class="manage-account-container__search-form">
+      <b-form-input placeholder="Họ tên, username, ..."></b-form-input>
+      <div class="manage-account-container__search-form__button">
+        <Button :title="'Tìm kiếm'" :styleCss="styleCss" />
+      </div>
+    </div>
     <div class="manage-account-container__table">
       <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
         <template #cell(actions)="row">
@@ -25,8 +31,16 @@
     </div>
 
     <div>
-      <b-modal id="modal-detail-account" :title="userDetail.full_name">
+      <b-modal id="modal-detail-account" size="lg" :title="userDetail.full_name">
         <PopupDetailAccount :userDetail="userDetail" />
+        <template #modal-footer="{ cancel,ok }">
+          <b-button size="sm" variant="danger" @click="cancel()">
+            Cancel
+          </b-button>
+          <b-button size="sm" variant="success" @click="ok()">
+            OK
+          </b-button>
+        </template>
       </b-modal>
     </div>
   </div>
@@ -34,6 +48,7 @@
 
 <script>
 import Header from '../../components/ManageAccount/Headers/Header.vue';
+import Button from '../../components/ManageAccount/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
 
 export default {
@@ -41,9 +56,11 @@ export default {
   components: {
     Header,
     PopupDetailAccount,
+    Button,
   },
   data() {
     return {
+      styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
         { key: 'username', label: 'Tài khoản' },
@@ -140,6 +157,9 @@ export default {
     getDetailAccount(row) {
       this.userDetail = this.responseAllAccount.data.find((item) => item.username === row.item.username);
     },
+    ok() {
+      console.log('ok');
+    },
   },
 };
 </script>
@@ -148,6 +168,15 @@ export default {
 .manage-account-container {
   &__header {
     margin-bottom: 12px;
+  }
+  &__search-form {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    padding: 12px 0px;
+    &__button {
+      display: flex;
+      justify-content: flex-end;
+    }
   }
   &__table {
     .show-detail {

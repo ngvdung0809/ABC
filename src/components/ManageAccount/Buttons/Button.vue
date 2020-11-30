@@ -27,6 +27,8 @@ export default {
   button {
     border-radius: 10px;
     padding: 5px;
+    height: 35px;
+    border: 1px solid #dcdcdc;
   }
 }
 </style>
