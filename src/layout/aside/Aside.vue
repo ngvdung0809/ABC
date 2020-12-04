@@ -23,10 +23,11 @@
             v-b-tooltip.hover.right="nav.name"
           >
             <router-link
+              :aria-current-value="`${index}`"
               :to="nav.router"
               class="nav-link btn btn-icon btn-clean btn-lg"
               data-toggle="tab"
-              @click.native="setActiveTab"
+              @click.native="(e)=>setActiveTab(e, index)"
               data-tab="0"
             >
               <span class="svg-icon svg-icon-xl">
@@ -87,7 +88,8 @@
                 data-menu-scroll="1"
               >
                 <!-- example static menu here -->
-                <Menu></Menu>
+                <Menu v-if="activeTab == 0"></Menu>
+                <MenuManage v-if="activeTab == 2"></MenuManage>
               </div>
               <!--end::Menu Container-->
             </div>
@@ -115,6 +117,7 @@
 import { mapGetters } from 'vuex';
 import Brand from '@/layout/brand/Brand.vue';
 import Menu from '@/layout/aside/Menu.vue';
+import MenuManage from '@/components/Manage/MenuManage.vue';
 
 export default {
   name: 'Aside',
@@ -124,6 +127,7 @@ export default {
       outsideTm: 0,
       tabIndex: 0,
       asideExpand: true,
+      activeTab: 0,
       listNav: [
         {
           name: 'Dashboard',
@@ -136,9 +140,9 @@ export default {
           router: '/manage-account',
         },
         {
-          name: 'Manage Building',
+          name: 'Manage',
           icon: 'media/svg/icons/Media/Equalizer.svg',
-          router: '/dashboard',
+          router: '/manage',
         },
         {
           name: 'Manage Apartment',
@@ -161,6 +165,7 @@ export default {
   components: {
     Brand,
     Menu,
+    MenuManage,
   },
   computed: {
     ...mapGetters(['layoutConfig', 'getClasses']),
@@ -177,7 +182,9 @@ export default {
     },
   },
   methods: {
-    setActiveTab(event) {
+    setActiveTab(event, index) {
+      // set active menu
+      this.activeTab = index;
       let { target } = event;
       if (!event.target.classList.contains('nav-link')) {
         target = event.target.closest('.nav-link');

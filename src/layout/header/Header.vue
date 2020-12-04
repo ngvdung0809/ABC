@@ -51,26 +51,26 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Topbar from "@/view/layout/header/Topbar.vue";
-import Menu from "@/view/layout/header/Menu.vue";
+import { mapGetters } from 'vuex';
+import Topbar from '@/view/layout/header/Topbar.vue';
+import Menu from '@/view/layout/header/Menu.vue';
 
 export default {
-  name: "Header",
+  name: 'Header',
   components: {
     Topbar,
-    Menu
+    Menu,
   },
   mounted() {},
   computed: {
-    ...mapGetters(["layoutConfig", "getClasses"]),
+    ...mapGetters(['layoutConfig', 'getClasses']),
 
     /**
      * Check if the header menu is enabled
      * @returns {boolean}
      */
     headerMenuEnabled() {
-      return !!this.layoutConfig("header.menu.self.display");
+      return !!this.layoutConfig('header.menu.self.display');
     },
 
     /**
@@ -78,9 +78,9 @@ export default {
      * @returns {null|*}
      */
     headerClasses() {
-      const classes = this.getClasses("header");
-      if (typeof classes !== "undefined") {
-        return classes.join(" ");
+      const classes = this.getClasses('header');
+      if (typeof classes !== 'undefined') {
+        return classes.join(' ');
       }
       return null;
     },
@@ -90,9 +90,9 @@ export default {
      * @returns {null|*}
      */
     headerMenuClasses() {
-      const classes = this.getClasses("header_menu");
-      if (typeof classes !== "undefined") {
-        return classes.join(" ");
+      const classes = this.getClasses('header_menu');
+      if (typeof classes !== 'undefined') {
+        return classes.join(' ');
       }
       return null;
     },
@@ -101,8 +101,8 @@ export default {
      * Check if header container is fluid
      */
     widthFluid() {
-      return this.layoutConfig("header.self.width") === "fluid";
-    }
-  }
+      return this.layoutConfig('header.self.width') === 'fluid';
+    },
+  },
 };
 </script>

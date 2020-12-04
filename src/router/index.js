@@ -4,17 +4,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const routes = [
-  {
-    path: '/dashboard',
-    component: () => import('@/layout/Layout'),
-    children: [
-      {
-        name: 'ManageAccount',
-        path: '/manage-account',
-        component: () => import('@/pages/ManageAccount/ManageAccount'),
-      },
-    ],
-  },
+  // auth
   {
     path: '/login',
     component: () => import('@/pages/auth/Auth'),
@@ -28,6 +18,23 @@ const routes = [
         name: 'Register',
         path: '/register',
         component: () => import('@/pages/auth/Register'),
+      },
+    ],
+  },
+  // nav bar
+  {
+    path: '/dashboard',
+    component: () => import('@/layout/Layout'),
+    children: [
+      {
+        name: 'ManageAccount',
+        path: '/manage-account',
+        component: () => import('@/pages/ManageAccount/ManageAccount'),
+      },
+      {
+        name: 'Manage',
+        path: '/manage',
+        component: () => import('@/pages/Manage'),
       },
     ],
   },
