@@ -31,10 +31,6 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: '*',
-  //   redirect: '/404',
-  // },
 ];
 
 const router = new VueRouter({

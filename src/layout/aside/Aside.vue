@@ -50,7 +50,7 @@
             v-b-tooltip.hover.right="'Metronic Features'"
           >
             <a
-              href="#"
+              href="/dashboard"
               class="nav-link btn btn-icon btn-clean btn-lg"
               data-toggle="tab"
               v-on:click="setActiveTab"

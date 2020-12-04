@@ -12,7 +12,7 @@
     >
       <div class="d-flex align-items-stretch mr-3">
         <div class="header-logo">
-          <router-link to="/">
+          <router-link to="/dashboard">
             <img
               alt="Logo"
               :src="layoutConfig('self.logo.default')"
