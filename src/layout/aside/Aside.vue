@@ -22,11 +22,11 @@
             data-boundary="window"
             v-b-tooltip.hover.right="nav.name"
           >
-            <a
-              href="#"
+            <router-link
+              :to="nav.router"
               class="nav-link btn btn-icon btn-clean btn-lg"
               data-toggle="tab"
-              v-on:click="setActiveTab"
+              @click.native="setActiveTab"
               data-tab="0"
             >
               <span class="svg-icon svg-icon-xl">
@@ -34,7 +34,7 @@
                 <inline-svg :src="nav.icon" />
                 <!--end::Svg Icon-->
               </span>
-            </a>
+            </router-link>
           </li>
         </ul>
         <!--end::Nav-->
@@ -128,26 +128,32 @@ export default {
         {
           name: 'Dashboard',
           icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
+          router: '/dashboard',
         },
         {
           name: 'Manage Account',
           icon: 'media/svg/icons/Communication/Group.svg',
+          router: '/manage-account',
         },
         {
           name: 'Manage Building',
           icon: 'media/svg/icons/Media/Equalizer.svg',
+          router: '/dashboard',
         },
         {
           name: 'Manage Apartment',
           icon: 'media/svg/icons/General/Shield-check.svg',
+          router: '/dashboard',
         },
         {
           name: 'Manage Host',
           icon: 'media/svg/icons/Home/Library.svg',
+          router: '/dashboard',
         },
         {
           name: 'Manage Company',
           icon: 'media/svg/icons/Files/File-plus.svg',
+          router: '/dashboard',
         },
       ],
     };
