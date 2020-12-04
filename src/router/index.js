@@ -7,9 +7,16 @@ const routes = [
   {
     path: '/dashboard',
     component: () => import('@/layout/Layout'),
+    children: [
+      {
+        name: 'ManageAccount',
+        path: '/manage-account',
+        component: () => import('@/pages/ManageAccount/ManageAccount'),
+      },
+    ],
   },
   {
-    path: '/',
+    path: '/login',
     component: () => import('@/pages/auth/Auth'),
     children: [
       {
