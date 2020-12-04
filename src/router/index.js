@@ -1,29 +1,30 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import { ROUTER } from '../config/const';
 
 Vue.use(VueRouter);
 
 const routes = [
   // auth
   {
-    path: '/login',
+    path: ROUTER.login.path,
     component: () => import('@/pages/auth/Auth'),
     children: [
       {
-        name: 'Login',
-        path: '/login',
+        name: ROUTER.login.name,
+        path: ROUTER.login.path,
         component: () => import('@/pages/auth/Login'),
       },
       {
-        name: 'Register',
-        path: '/register',
+        name: ROUTER.register.name,
+        path: ROUTER.register.path,
         component: () => import('@/pages/auth/Register'),
       },
     ],
   },
   // nav bar
   {
-    path: '/dashboard',
+    path: ROUTER.dashboard.path,
     component: () => import('@/layout/Layout'),
     children: [
       {
