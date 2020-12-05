@@ -1,13 +1,9 @@
-/* eslint-disable no-plusplus */
-/* eslint-disable radix */
-/* eslint-disable radix */
+/* eslint-disable no-plusplus */ /* eslint-disable radix */ /* eslint-disable radix */
 <template>
   <!-- begin:: Aside -->
   <div class="aside aside-left d-flex aside-fixed" id="aside" ref="aside">
     <!--begin::Primary-->
-    <div
-      class="aside-primary d-flex flex-column align-items-center flex-row-auto"
-    >
+    <div class="aside-primary d-flex flex-column align-items-center flex-row-auto">
       <!--begin::Brand-->
       <Brand></Brand>
       <!--end::Brand-->
@@ -17,145 +13,30 @@
         style="height: 528px; overflow: hidden;"
       >
         <!--begin::Nav-->
-        <ul class="nav flex-column" role="tablist">
+        <ul class="nav flex-column" role="tablist" v-for="(nav, index) in listNav" :key="index">
           <!--begin::Item-->
           <li
             class="nav-item mb-3"
             data-placement="right"
             data-container="body"
             data-boundary="window"
-            v-b-tooltip.hover.right="'Latest Projects'"
+            v-b-tooltip.hover.right="nav.name"
           >
-            <a
-              href="#"
+            <router-link
+              :aria-current-value="`${index}`"
+              :to="nav.router"
               class="nav-link btn btn-icon btn-clean btn-lg"
               data-toggle="tab"
-              v-on:click="setActiveTab"
+              @click.native="(e)=>setActiveTab(e, index)"
               data-tab="0"
             >
               <span class="svg-icon svg-icon-xl">
                 <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Layout/Layout-4-blocks.svg" />
+                <inline-svg :src="nav.icon" />
                 <!--end::Svg Icon-->
               </span>
-            </a>
+            </router-link>
           </li>
-          <!--end::Item-->
-          <!--begin::Item-->
-          <li
-            class="nav-item mb-3"
-            data-placement="right"
-            data-container="body"
-            data-boundary="window"
-            v-b-tooltip.hover.right="'Metronic Features'"
-          >
-            <a
-              href="#"
-              class="nav-link btn btn-icon btn-clean btn-lg"
-              data-toggle="tab"
-              v-on:click="setActiveTab"
-              data-tab="1"
-            >
-              <span class="svg-icon svg-icon-xl">
-                <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Communication/Group.svg" />
-                <!--end::Svg Icon-->
-              </span>
-            </a>
-          </li>
-          <!--end::Item-->
-          <!--begin::Item-->
-          <li
-            class="nav-item mb-3"
-            data-placement="right"
-            data-container="body"
-            data-boundary="window"
-            v-b-tooltip.hover.right="'Latest Reports'"
-          >
-            <a
-              href="#"
-              class="nav-link btn btn-icon btn-clean btn-lg"
-              data-toggle="tab"
-              v-on:click="setActiveTab"
-              data-tab="2"
-            >
-              <span class="svg-icon svg-icon-xl">
-                <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Media/Equalizer.svg" />
-                <!--end::Svg Icon-->
-              </span>
-            </a>
-          </li>
-          <!--end::Item-->
-          <!--begin::Item-->
-          <li
-            class="nav-item mb-3"
-            data-placement="right"
-            data-container="body"
-            data-boundary="window"
-            v-b-tooltip.hover.right="'Project Management'"
-          >
-            <a
-              href="#"
-              class="nav-link btn btn-icon btn-clean btn-lg"
-              role="tab"
-              v-on:click="setActiveTab"
-              data-tab="3"
-            >
-              <span class="svg-icon svg-icon-xl">
-                <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/General/Shield-check.svg" />
-                <!--end::Svg Icon-->
-              </span>
-            </a>
-          </li>
-          <!--end::Item-->
-          <!--begin::Item-->
-          <li
-            class="nav-item mb-3"
-            data-placement="right"
-            data-container="body"
-            data-boundary="window"
-            v-b-tooltip.hover.right="'User Management'"
-          >
-            <a
-              href="#"
-              class="nav-link btn btn-icon btn-clean btn-lg active"
-              role="tab"
-              v-on:click="setActiveTab"
-              data-tab="4"
-            >
-              <span class="svg-icon svg-icon-xl">
-                <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Home/Library.svg" />
-                <!--end::Svg Icon-->
-              </span>
-            </a>
-          </li>
-          <!--end::Item-->
-          <!--begin::Item-->
-          <li
-            class="nav-item mb-3"
-            data-placement="right"
-            data-container="body"
-            data-boundary="window"
-            v-b-tooltip.hover.right="'Finance &amp; Accounting'"
-          >
-            <a
-              href="#"
-              class="nav-link btn btn-icon btn-clean btn-lg"
-              role="tab"
-              v-on:click="setActiveTab"
-              data-tab="5"
-            >
-              <span class="svg-icon svg-icon-xl">
-                <!--begin::Svg Icon-->
-                <inline-svg src="media/svg/icons/Files/File-plus.svg" />
-                <!--end::Svg Icon-->
-              </span>
-            </a>
-          </li>
-          <!--end::Item-->
         </ul>
         <!--end::Nav-->
       </div>
@@ -175,7 +56,10 @@
           v-b-tooltip.hover.right="'Toggle Aside'"
           @click="minimizedAside"
         >
-          <inline-svg src="media/svg/icons/Navigation/Angle-left.svg" :style="{transform: asideExpand ? 'rotate(0deg)' : 'rotate(180deg)'}"/>
+          <inline-svg
+            src="media/svg/icons/Navigation/Angle-left.svg"
+            :style="{ transform: asideExpand ? 'rotate(0deg)' : 'rotate(180deg)' }"
+          />
         </span>
         <!--end::Aside Toggle-->
       </div>
@@ -194,10 +78,7 @@
           <!--begin::Tab Pane-->
           <b-tab>
             <!--begin::Aside Menu-->
-            <div
-              class="aside-menu-wrapper flex-column-fluid px-10 py-5"
-              id="aside_menu_wrapper"
-            >
+            <div class="aside-menu-wrapper flex-column-fluid px-10 py-5" id="aside_menu_wrapper">
               <!--begin::Menu Container-->
               <div
                 ref="aside_menu"
@@ -207,7 +88,8 @@
                 data-menu-scroll="1"
               >
                 <!-- example static menu here -->
-                <Menu></Menu>
+                <Menu v-if="activeTab == 0"></Menu>
+                <MenuManage v-if="activeTab == 2"></MenuManage>
               </div>
               <!--end::Menu Container-->
             </div>
@@ -235,6 +117,7 @@
 import { mapGetters } from 'vuex';
 import Brand from '@/layout/brand/Brand.vue';
 import Menu from '@/layout/aside/Menu.vue';
+import MenuManage from '@/components/Manage/MenuManage.vue';
 
 export default {
   name: 'Aside',
@@ -244,11 +127,45 @@ export default {
       outsideTm: 0,
       tabIndex: 0,
       asideExpand: true,
+      activeTab: 0,
+      listNav: [
+        {
+          name: 'Dashboard',
+          icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
+          router: '/dashboard',
+        },
+        {
+          name: 'Manage Account',
+          icon: 'media/svg/icons/Communication/Group.svg',
+          router: '/manage-account',
+        },
+        {
+          name: 'Manage',
+          icon: 'media/svg/icons/Media/Equalizer.svg',
+          router: '/manage',
+        },
+        {
+          name: 'Manage Apartment',
+          icon: 'media/svg/icons/General/Shield-check.svg',
+          router: '/dashboard',
+        },
+        {
+          name: 'Manage Host',
+          icon: 'media/svg/icons/Home/Library.svg',
+          router: '/dashboard',
+        },
+        {
+          name: 'Manage Company',
+          icon: 'media/svg/icons/Files/File-plus.svg',
+          router: '/dashboard',
+        },
+      ],
     };
   },
   components: {
     Brand,
     Menu,
+    MenuManage,
   },
   computed: {
     ...mapGetters(['layoutConfig', 'getClasses']),
@@ -265,7 +182,9 @@ export default {
     },
   },
   methods: {
-    setActiveTab(event) {
+    setActiveTab(event, index) {
+      // set active menu
+      this.activeTab = index;
       let { target } = event;
       if (!event.target.classList.contains('nav-link')) {
         target = event.target.closest('.nav-link');
