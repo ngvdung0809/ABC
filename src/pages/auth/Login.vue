@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--begin::Content header-->
-    <div
+    <!-- <div
       class="position-absolute top-0 right-0 text-right mt-5 mb-15 mb-lg-0 flex-column-auto justify-content-center py-5 px-10"
     >
       <span class="font-weight-bold font-size-3 text-dark-60">
@@ -13,7 +13,7 @@
       >
         Sign Up!
       </router-link>
-    </div>
+    </div> -->
     <!--end::Content header-->
 
     <!--begin::Signin-->
@@ -50,14 +50,21 @@
             id="example-input-1"
             name="example-input-1"
             @focus="resetMessageError"
-            v-model="$v.form.email.$model"
-            :state="validateState('email')"
+            v-model="$v.form.username.$model"
+            :state="validateState('username')"
             aria-describedby="input-1-live-feedback"
           ></b-form-input>
 
-          <b-form-invalid-feedback id="input-1-live-feedback">
-            Email is required and a valid email address.
+          <b-form-invalid-feedback id="input-1-live-feedback" v-if="!$v.form.username.required">
+            Xin hãy nhập tên đăng nhập
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback id="input-1-live-feedback" v-else-if="!$v.form.username.minLength">
+            Độ dài tối thiểu của tên đăng nhập là 4
+          </b-form-invalid-feedback>
+          <b-form-invalid-feedback id="input-1-live-feedback" v-else-if="!$v.form.username.maxLength">
+            Độ dài tối đa của tên đăng nhập là 32
+          </b-form-invalid-feedback>
+          <div id="input-1-live-feedback" v-else style="height: 1.4rem"/>
         </b-form-group>
 
         <b-form-group
@@ -76,22 +83,26 @@
             aria-describedby="input-2-live-feedback"
           ></b-form-input>
 
-          <b-form-invalid-feedback id="input-2-live-feedback">
-            Password is required.
+          <b-form-invalid-feedback id="input-2-live-feedback"  v-if="!$v.form.password.required">
+            Xin hãy nhập mật khẩu
           </b-form-invalid-feedback>
+          <b-form-invalid-feedback id="input-1-live-feedback" v-else-if="!$v.form.password.minLength">
+            Độ dài tối thiểu của tên đăng nhập là 6
+          </b-form-invalid-feedback>
+          <div id="input-1-live-feedback" v-else style="height: 1.6rem"/>
         </b-form-group>
 
         <!--begin::Action-->
         <div
-          class="form-group d-flex flex-wrap justify-content-between align-items-center"
+          class="form-group d-flex flex-wrap justify-content-end align-items-center"
         >
-          <a
+          <!-- <a
             href="#"
             class="text-dark-60 text-hover-primary my-3 mr-2"
             id="login_forgot"
           >
             Forgot Password ?
-          </a>
+          </a> -->
           <button
             ref="kt_login_signin_submit"
             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
@@ -115,7 +126,10 @@
 
 <script>
 import { validationMixin } from 'vuelidate';
-import { email, minLength, required, maxLength } from 'vuelidate/lib/validators';
+import {
+  minLength, required, maxLength,
+} from 'vuelidate/lib/validators';
+import { ROUTER } from '../../config/const';
 import api from '../../core/services/api/api';
 
 export default {
@@ -125,22 +139,22 @@ export default {
     return {
       // Remove this dummy login info
       form: {
-        email: 'admin@demo.com',
+        username: 'admin@demo.com',
         password: 'demo',
       },
-      errors: []
+      errors: [],
     };
   },
   validations: {
     form: {
-      email: {
+      username: {
         required,
         minLength: minLength(4),
-        maxLength: maxLength(30)
+        maxLength: maxLength(30),
       },
       password: {
         required,
-        minLength: minLength(3),
+        minLength: minLength(6),
       },
     },
   },
@@ -151,7 +165,7 @@ export default {
     },
     resetForm() {
       this.form = {
-        email: null,
+        username: null,
         password: null,
       };
 
@@ -164,19 +178,17 @@ export default {
       if (this.$v.form.$anyError) {
         return;
       }
-      // const email = this.$v.form.email.$model;
+      // const username = this.$v.form.username.$model;
       // const password = this.$v.form.password.$model;
       const submitButton = this.$refs.kt_login_signin_submit;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
-      const res = await api('loginApi', { username: this.form.email, password: this.form.password });
-      console.log(res.data.response.data.message)
+      const res = await api('loginApi', { username: this.form.username, password: this.form.password });
       if (res.success) {
-        this.errors = []
-        sessionStorage.setItem('jwtToken', res?.data?.token);
-        // sessionStorage.setItem('user_id', res?.data?.profile?.id.toString());
-        // sessionStorage.setItem('full_name', res?.data?.profile?.username);
+        this.errors = [];
+        sessionStorage.setItem('jwtToken', res?.data?.data?.token);
+        this.$router.push(ROUTER.dashboard.path);
       } else {
-        this.errors = [res.data.response.data.message]
+        this.errors = [res.data.response.data.message];
       }
       // set spinner to submit button
 
@@ -187,8 +199,8 @@ export default {
       );
     },
     resetMessageError() {
-      this.errors = []
-    }
+      this.errors = [];
+    },
   },
 };
 </script>

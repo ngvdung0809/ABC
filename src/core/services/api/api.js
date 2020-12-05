@@ -2,7 +2,7 @@ import axios from 'axios';
 import authApiMap from './apiMap';
 
 // const BASE_URL = 'https://backend-api.happiness-book.jp';
-const BASE_URL = 'http://192.168.0.67:8081';
+const BASE_URL = 'http://27.72.88.246:8998';
 const request = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,

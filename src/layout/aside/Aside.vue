@@ -9,7 +9,7 @@
       <!--end::Brand-->
       <!--begin::Nav Wrapper-->
       <div
-        class="aside-nav d-flex flex-column align-items-center flex-column-fluid py-5 scroll scroll-pull ps"
+        class="aside-nav position-relative d-flex flex-column align-items-center flex-column-fluid py-5 scroll scroll-pull ps"
         style="height: 528px; overflow: hidden;"
       >
         <!--begin::Nav-->
@@ -38,6 +38,13 @@
             </router-link>
           </li>
         </ul>
+        <div class="btn-logout" @click="logoutAction">
+          <span class=" svg-icon-xl">
+            <!--begin::Svg Icon-->
+            <inline-svg src="media/svg/icons/Navigation/Sign-out.svg" />
+            <!--end::Svg Icon-->
+          </span>
+        </div>
         <!--end::Nav-->
       </div>
       <!--end::Nav Wrapper-->
@@ -211,6 +218,10 @@ export default {
         document.body.classList.remove('aside-minimize');
         this.asideExpand = true;
       }
+    },
+    logoutAction() {
+      sessionStorage.removeItem('jwtToken');
+      this.$router.push('/login');
     },
   },
 };

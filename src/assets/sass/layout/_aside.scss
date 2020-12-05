@@ -44,6 +44,18 @@
 			@include perfect-scrollbar-ver-offset(4px);
 		}
 	}
+	.btn-logout {
+		position: absolute;
+		cursor: pointer;
+    bottom: 0px;
+    background: rgb(25, 197, 189);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+	}
 }
 
 // Desktop Mode

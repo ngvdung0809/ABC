@@ -2,8 +2,8 @@
 /* eslint-disable radix */
 
 const api = (config) => ({
-  loginApi: ({ email, password }) => config('post', '/auth/v1/login/', {
-    email,
+  loginApi: ({ username, password }) => config('post', '/auth/v1/login/', {
+    username,
     password,
   }),
   getProfile: (tokenUser) => config('get', '/account/v1/profile/', '', {
