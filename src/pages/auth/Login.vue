@@ -28,7 +28,8 @@
       <!--begin::Form-->
       <b-form class="form" @submit.stop.prevent="onSubmit">
 
-        <!-- <div
+        <div style="height: 60px">
+          <div
           role="alert"
           v-bind:class="{ show: errors.length }"
           class="alert fade alert-danger"
@@ -36,7 +37,8 @@
           <div class="alert-text" v-for="(error, i) in errors" :key="i">
             {{ error }}
           </div>
-        </div> -->
+        </div>
+        </div>
 
         <b-form-group
           id="example-input-group-1"
@@ -47,6 +49,7 @@
             class="form-control form-control-solid h-auto py-5 px-6"
             id="example-input-1"
             name="example-input-1"
+            @focus="resetMessageError"
             v-model="$v.form.email.$model"
             :state="validateState('email')"
             aria-describedby="input-1-live-feedback"
@@ -67,6 +70,7 @@
             type="password"
             id="example-input-2"
             name="example-input-2"
+            @focus="resetMessageError"
             v-model="$v.form.password.$model"
             :state="validateState('password')"
             aria-describedby="input-2-live-feedback"
@@ -89,7 +93,7 @@
             Forgot Password ?
           </a>
           <button
-            ref="login_signin_submit"
+            ref="kt_login_signin_submit"
             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
           >
             Sign In
@@ -111,7 +115,7 @@
 
 <script>
 import { validationMixin } from 'vuelidate';
-import { email, minLength, required } from 'vuelidate/lib/validators';
+import { email, minLength, required, maxLength } from 'vuelidate/lib/validators';
 import api from '../../core/services/api/api';
 
 export default {
@@ -124,13 +128,15 @@ export default {
         email: 'admin@demo.com',
         password: 'demo',
       },
+      errors: []
     };
   },
   validations: {
     form: {
       email: {
         required,
-        email,
+        minLength: minLength(4),
+        maxLength: maxLength(30)
       },
       password: {
         required,
@@ -162,11 +168,15 @@ export default {
       // const password = this.$v.form.password.$model;
       const submitButton = this.$refs.kt_login_signin_submit;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
-      const res = await api('loginApi', { email: this.form.email, password: this.form.password });
-      if (res) {
+      const res = await api('loginApi', { username: this.form.email, password: this.form.password });
+      console.log(res.data.response.data.message)
+      if (res.success) {
+        this.errors = []
         sessionStorage.setItem('jwtToken', res?.data?.token);
         // sessionStorage.setItem('user_id', res?.data?.profile?.id.toString());
         // sessionStorage.setItem('full_name', res?.data?.profile?.username);
+      } else {
+        this.errors = [res.data.response.data.message]
       }
       // set spinner to submit button
 
@@ -176,6 +186,9 @@ export default {
         'spinner-right',
       );
     },
+    resetMessageError() {
+      this.errors = []
+    }
   },
 };
 </script>
