@@ -7,6 +7,10 @@ Vue.use(VueRouter);
 const routes = [
   // auth
   {
+    path: '/dashboard',
+    component: () => import('@/layout/Layout'),
+  },
+  {
     path: ROUTER.login.path,
     component: () => import('@/pages/auth/Auth'),
     children: [
