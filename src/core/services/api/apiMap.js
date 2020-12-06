@@ -22,7 +22,7 @@ const api = (config) => ({
     Authorization: `JWT ${tokenUser}`,
   }),
   updateAccount: (payload) => config('patch', '/account/v1/list-account/', {
-    id: payload.id
+    id: payload.id,
   }, {
     Authorization: `JWT ${payload.tokenUser}`,
     data: payload.data,

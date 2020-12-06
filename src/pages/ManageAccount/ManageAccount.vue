@@ -31,16 +31,16 @@
     </div>
 
     <div>
-      <b-modal id="modal-detail-account" no-close-on-backdrop hide-footer size="lg" :title="userDetail.full_name">
-        <PopupDetailAccount :userDetail="userDetail"/>
-        <!-- <template #modal-footer="">
+      <b-modal id="modal-detail-account" no-close-on-backdrop size="lg" :title="userDetail.full_name">
+        <PopupDetailAccount :userDetail="userDetail" @update="updateData"/>
+        <template #modal-footer="">
           <b-button size="sm" variant="danger" @click="cancel">
             Hủy bỏ
           </b-button>
-          <b-button size="sm" variant="success" @click="ok">
-            Sửa
+          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
+            Thay đổi
           </b-button>
-        </template> -->
+        </template>
       </b-modal>
     </div>
   </div>
@@ -71,6 +71,7 @@ export default {
         { key: 'company', label: 'Tên công ty' },
         { key: 'actions', label: 'Tùy chọn' },
       ],
+      canUpdate: false,
     };
   },
   computed: {
@@ -91,14 +92,40 @@ export default {
     getToken() {
       return window.sessionStorage.jwtToken;
     },
+    convertRole() {
+      let result;
+      if (this.dataSubmit.role === 'Admin') {
+        result = 1;
+      } else if (this.dataSubmit.role === 'View') {
+        result = 2;
+      } else {
+        result = 3;
+      }
+      return result;
+    },
   },
   methods: {
     getDetailAccount(row) {
       this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
       this.$store.dispatch('getTenant', this.getToken);
     },
-    ok() {
-      console.log('ok');
+    updateData(newData) {
+      const oldData = {
+        full_name: this.userDetail.full_name,
+        role: this.userDetail.role,
+        staff_code: this.userDetail.staff_code,
+        tenant: this.userDetail.tenant.id,
+      };
+
+      // check data is changed -> active button submit
+      if (JSON.stringify(oldData) === JSON.stringify(newData)) {
+        this.canUpdate = false;
+      } else {
+        this.canUpdate = true;
+      }
+    },
+    submit() {
+      // console.log('ok');
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');

@@ -22,9 +22,13 @@ export default {
         // show message failed
       }
     },
-    async updateAccount({ commit }, payload) {
-      console.log(payload);
+    async updateAccount(payload) {
       const response = await api('updateAccount', payload);
+      if (response.data.error_code === 0) {
+        // commit('SET_LIST_ACCOUNT', response.data.data);
+      } else {
+        // show message failed
+      }
     },
   },
 };

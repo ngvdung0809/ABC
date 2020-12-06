@@ -122,7 +122,7 @@
 import { mapGetters } from 'vuex';
 import Brand from '@/layout/brand/Brand.vue';
 import Menu from '@/layout/aside/Menu.vue';
-import MenuManage from '@/components/Manage/MenuManage.vue';
+// import MenuManage from '@/components/Manage/MenuManage.vue';
 
 export default {
   name: 'Aside',
