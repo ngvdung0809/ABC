@@ -22,20 +22,18 @@
             data-boundary="window"
             v-b-tooltip.hover.right="nav.name"
           >
-            <router-link
+            <div
               :aria-current-value="`${index}`"
-              :to="nav.router"
-              class="nav-link btn btn-icon btn-clean btn-lg"
+              :class="['nav-link btn btn-icon btn-clean btn-lg', activeTab === index && 'active']"
               data-toggle="tab"
-              @click.native="(e)=>setActiveTab(e, index)"
-              data-tab="0"
+              @click="setActiveTab(index)"
             >
               <span class="svg-icon svg-icon-xl">
                 <!--begin::Svg Icon-->
                 <inline-svg :src="nav.icon" />
                 <!--end::Svg Icon-->
               </span>
-            </router-link>
+            </div>
           </li>
         </ul>
         <div class="btn-logout" @click="logoutAction">
@@ -95,8 +93,8 @@
                 data-menu-scroll="1"
               >
                 <!-- example static menu here -->
-                <Menu v-if="activeTab == 0"></Menu>
-                <MenuManage v-if="activeTab == 2"></MenuManage>
+                <Menu :subMenu="listNav[activeTab].child"></Menu>
+                <!-- <MenuManage v-if="activeTab == 2"></MenuManage> -->
               </div>
               <!--end::Menu Container-->
             </div>
@@ -139,32 +137,91 @@ export default {
         {
           name: 'Dashboard',
           icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
-          router: '/dashboard',
+          child: [
+            {
+              nameSubNav: 'Summary',
+              router: '/summary',
+            },
+          ],
         },
         {
-          name: 'Manage Account',
-          icon: 'media/svg/icons/Communication/Group.svg',
-          router: '/manage-account',
+          name: 'Admin',
+          icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
+          child: [
+            {
+              nameSubNav: 'Account',
+              router: '/manage-account',
+            },
+          ],
         },
         {
           name: 'Manage',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          icon: 'media/svg/icons/Communication/Group.svg',
           router: '/manage',
+          child: [
+            {
+              nameSubNav: 'Building',
+              router: '/manage-building',
+            },
+            {
+              nameSubNav: 'Appartment',
+              router: '/manage-appartment',
+            },
+            {
+              nameSubNav: 'Services',
+              router: '/manage-service',
+            },
+          ],
         },
         {
-          name: 'Manage Apartment',
-          icon: 'media/svg/icons/General/Shield-check.svg',
-          router: '/dashboard',
+          name: 'Contract',
+          icon: 'media/svg/icons/Media/Equalizer.svg',
+          child: [
+            {
+              nameSubNav: 'Manage Contract',
+              router: '/manage-contract',
+            },
+            {
+              nameSubNav: 'Host',
+              router: '/manage-host',
+            },
+            {
+              nameSubNav: 'EndUser',
+              router: '/manage-enduser',
+            },
+            {
+              nameSubNav: 'Company',
+              router: '/manage-company',
+            },
+          ],
         },
         {
-          name: 'Manage Host',
-          icon: 'media/svg/icons/Home/Library.svg',
-          router: '/dashboard',
+          name: 'Finance',
+          icon: 'media/svg/icons/Media/Equalizer.svg',
+          child: [
+            {
+              nameSubNav: 'Danh sách kỳ thanh toán hợp đồng',
+              router: '/period-payment-contract',
+            },
+            {
+              nameSubNav: 'Danh sách kỳ thanh toán dịch vụ',
+              router: '/period-payment-service',
+            },
+          ],
         },
         {
-          name: 'Manage Company',
-          icon: 'media/svg/icons/Files/File-plus.svg',
-          router: '/dashboard',
+          name: 'Báo cáo chung',
+          icon: 'media/svg/icons/Media/Equalizer.svg',
+          child: [
+            {
+              nameSubNav: 'Báo cáo nợ xấu kỳ hợp đồng',
+              router: '/bad-debt-contract',
+            },
+            {
+              nameSubNav: 'Báo cáo nợ xấu kỳ dịch vụ',
+              router: '/bad-debt-service',
+            },
+          ],
         },
       ],
     };
@@ -172,7 +229,7 @@ export default {
   components: {
     Brand,
     Menu,
-    MenuManage,
+    // MenuManage,
   },
   computed: {
     ...mapGetters(['layoutConfig', 'getClasses']),
@@ -189,26 +246,11 @@ export default {
     },
   },
   methods: {
-    setActiveTab(event, index) {
+    setActiveTab(index) {
       // set active menu
       this.activeTab = index;
-      let { target } = event;
-      if (!event.target.classList.contains('nav-link')) {
-        target = event.target.closest('.nav-link');
-      }
-
-      const tab = target.closest('[role="tablist"]');
-      const links = tab.querySelectorAll('.nav-link');
-      // remove active tab links
-      for (let i = 0; i < links.length; i++) {
-        links[i].classList.remove('active');
-      }
-
-      // set clicked tab index to bootstrap tab
-      this.tabIndex = parseInt(target.getAttribute('data-tab'));
-
-      // set current active tab
-      target.classList.add('active');
+      document.body.classList.remove('aside-minimize');
+      this.asideExpand = true;
     },
     minimizedAside() {
       if (this.asideExpand) {
