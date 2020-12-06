@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { ROUTER } from '../config/const';
+import store from '../core/services/store/index';
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,11 @@ const routes = [
       {
         name: 'ManageAccount',
         path: '/manage-account',
+        beforeEnter: async (to, from, next) => {
+          const tokenUser = window.sessionStorage.jwtToken;
+          await store.dispatch('getAccount', tokenUser);
+          next();
+        },
         component: () => import('@/pages/ManageAccount/ManageAccount'),
       },
       {

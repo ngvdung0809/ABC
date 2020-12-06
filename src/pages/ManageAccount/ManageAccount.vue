@@ -3,7 +3,7 @@
     <div class="manage-account-container__header">
       <Header />
     </div>
-    <div class="manage-account-container__search-form">
+    <div class="manage-account-container__search-form" v-show="false">
       <b-form-input placeholder="Họ tên, username, ..."></b-form-input>
       <div class="manage-account-container__search-form__button">
         <Button :title="'Tìm kiếm'" :styleCss="styleCss" />
@@ -31,22 +31,23 @@
     </div>
 
     <div>
-      <b-modal id="modal-detail-account" size="lg" :title="userDetail.full_name">
-        <PopupDetailAccount :userDetail="userDetail" />
-        <template #modal-footer="{ cancel,ok }">
-          <b-button size="sm" variant="danger" @click="cancel()">
-            Cancel
+      <b-modal id="modal-detail-account" no-close-on-backdrop hide-footer size="lg" :title="userDetail.full_name">
+        <PopupDetailAccount :userDetail="userDetail"/>
+        <!-- <template #modal-footer="">
+          <b-button size="sm" variant="danger" @click="cancel">
+            Hủy bỏ
           </b-button>
-          <b-button size="sm" variant="success" @click="ok()">
-            OK
+          <b-button size="sm" variant="success" @click="ok">
+            Sửa
           </b-button>
-        </template>
+        </template> -->
       </b-modal>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Header from '../../components/ManageAccount/Headers/Header.vue';
 import Button from '../../components/ManageAccount/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
@@ -67,98 +68,40 @@ export default {
         { key: 'employeeName', label: 'Nhân viên' },
         { key: 'role', label: 'Vai trò' },
         { key: 'staffCode', label: 'Mã nhân viên' },
-        { key: 'address', label: 'Địa chỉ' },
+        { key: 'company', label: 'Tên công ty' },
         { key: 'actions', label: 'Tùy chọn' },
       ],
-      responseAllAccount: {
-        error_code: 0,
-        message: 'Success',
-        data: [
-          {
-            id: 1,
-            username: 'dungnv',
-            full_name: 'Nguyễn Văn Dũng',
-            role: 'Nông dân',
-            staff_code: 'dungnv01',
-            tenant: {
-              id: 1,
-              name: 'TEst',
-              address: 'Hà Nội',
-              description: null,
-              phone: 'a',
-              phone2: null,
-              email: 'a',
-              email2: null,
-              dkkd: 'a',
-              tax_code: 'a',
-              rep: 'a',
-              rep_role: 'a',
-              ten_tk: 'a',
-              so_TK: 'a',
-              chi_nhanh: 'a',
-              ngan_hang: 'a',
-              ten_tk2: null,
-              so_TK2: null,
-              chi_nhanh2: null,
-              ngan_hang2: null,
-              note: null,
-            },
-          },
-          {
-            id: 2,
-            username: 'tungdv',
-            full_name: 'Đào Văn Tùng',
-            role: 'Shipper',
-            staff_code: 'tungdv01',
-            tenant: {
-              id: 1,
-              name: 'TEst',
-              address: 'Hà Nội',
-              description: null,
-              phone: 'a',
-              phone2: null,
-              email: 'a',
-              email2: null,
-              dkkd: 'a',
-              tax_code: 'a',
-              rep: 'a',
-              rep_role: 'a',
-              ten_tk: 'a',
-              so_TK: 'a',
-              chi_nhanh: 'a',
-              ngan_hang: 'a',
-              ten_tk2: null,
-              so_TK2: null,
-              chi_nhanh2: null,
-              ngan_hang2: null,
-              note: null,
-            },
-          },
-        ],
-      },
     };
   },
   computed: {
+    ...mapGetters(['getListAccount']),
     setItemsTable() {
       const items = [];
-      this.responseAllAccount.data.forEach((item) => {
+      this.getListAccount.forEach((item) => {
         items.push({
           username: item.username,
           employeeName: item.full_name,
           role: item.role,
+          company: item.tenant.name,
           staffCode: item.staff_code,
-          address: item.tenant.address,
         });
       });
       return items;
     },
+    getToken() {
+      return window.sessionStorage.jwtToken;
+    },
   },
   methods: {
     getDetailAccount(row) {
-      this.userDetail = this.responseAllAccount.data.find((item) => item.username === row.item.username);
+      this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
+      this.$store.dispatch('getTenant', this.getToken);
     },
     ok() {
       console.log('ok');
+    },
+    cancel() {
+      this.$bvModal.hide('modal-detail-account');
     },
   },
 };
