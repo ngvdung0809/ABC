@@ -9,10 +9,15 @@ const request = axios.create({
   timeout: 10000,
 });
 
-const config = (method, url, data, header) => {
+const config = (method, url, data) => {
+  const token = sessionStorage.getItem('jwtToken');
+
   const obj = {
     method,
     url,
+    headers: {
+      Authorization: token && `JWT ${token}`,
+    },
   };
   if (data) {
     if (method === 'get') {
@@ -20,9 +25,6 @@ const config = (method, url, data, header) => {
     } else {
       obj.data = data;
     }
-  }
-  if (header) {
-    obj.headers = header;
   }
   return obj;
 };
