@@ -5,6 +5,7 @@ import htmlClass from './htmlclass.module';
 import config from './config.module';
 import account from './account';
 import tenant from './tenant';
+import chunha from './chunha'
 
 Vue.use(Vuex);
 
@@ -14,5 +15,6 @@ export default new Vuex.Store({
     config,
     account,
     tenant,
+    chunha,
   },
 });

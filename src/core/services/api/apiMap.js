@@ -25,9 +25,8 @@ const api = (config) => ({
     Authorization: `JWT ${payload.tokenUser}`,
     data: payload.data,
   }),
-  getTenant: (tokenUser) => config('get', '/tenant/v1/list-tenant/', '', {
-    Authorization: `JWT ${tokenUser}`,
-  }),
+  getTenant: () => config('get', '/tenant/v1/list-tenant/', ''),
+  getChuNha: (keyword) => config('get', `/chu-nha/v1/list-chu-nha/?search=${keyword}`, ''),
 });
 
 export default api;

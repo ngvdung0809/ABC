@@ -36,11 +36,19 @@ const routes = [
         name: 'ManageAccount',
         path: '/manage-account',
         beforeEnter: async (to, from, next) => {
-          const tokenUser = window.sessionStorage.jwtToken;
-          await store.dispatch('getAccount', tokenUser);
+          await store.dispatch('getAccount');
           next();
         },
         component: () => import('@/pages/ManageAccount/ManageAccount'),
+      },
+      {
+        name: 'ManageChuNha',
+        path: '/manage-host',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getHost', '');
+          next();
+        },
+        component: () => import('@/pages/ManageChuNha/ManageChuNha'),
       },
       {
         name: 'Manage',
