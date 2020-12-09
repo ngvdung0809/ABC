@@ -14,8 +14,8 @@ export default {
     },
   },
   actions: {
-    async getAccount({ commit }, payload) {
-      const response = await api('getAccount', payload);
+    async getAccount({ commit }) {
+      const response = await api('getAccount');
       if (response.data.error_code === 0) {
         commit('SET_LIST_ACCOUNT', response.data.data);
       } else {

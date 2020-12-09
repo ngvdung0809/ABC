@@ -36,8 +36,7 @@ const routes = [
         name: 'ManageAccount',
         path: '/manage-account',
         beforeEnter: async (to, from, next) => {
-          const tokenUser = window.sessionStorage.jwtToken;
-          await store.dispatch('getAccount', tokenUser);
+          await store.dispatch('getAccount');
           next();
         },
         component: () => import('@/pages/ManageAccount/ManageAccount'),

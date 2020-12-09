@@ -10,7 +10,12 @@
       </div>
     </div>
     <div class="manage-account-container__table">
-      <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
+      <b-table sticky-header selectable show-empty small Striped hover stacked="md" :items="setItemsTable" :fields="fields" >
+        <!-- <template v-slot:cell(selected)="">
+          <b-form-group>
+            <input type="checkbox" />
+          </b-form-group>
+        </template> -->
         <template #cell(actions)="row">
           <div class="show-detail">
             <inline-svg
@@ -64,6 +69,7 @@ export default {
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
+        // { key: 'selected', label: '' },
         { key: 'username', label: 'Tài khoản' },
         { key: 'employeeName', label: 'Nhân viên' },
         { key: 'role', label: 'Vai trò' },
@@ -90,14 +96,14 @@ export default {
       });
       return items;
     },
-    getToken() {
-      return window.sessionStorage.jwtToken;
-    },
+    // getToken() {
+    //   return window.sessionStorage.jwtToken;
+    // },
   },
   methods: {
     getDetailAccount(row) {
       this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-      this.$store.dispatch('getTenant', this.getToken);
+      this.$store.dispatch('getTenant');
     },
     convertRole(role) {
       // change role to number
@@ -136,13 +142,13 @@ export default {
           tenant: newData.data.tenant,
         },
         id: newData.id,
-        tokenUser: this.getToken,
       };
     },
     async submit() {
       // update account
       await this.$store.dispatch('updateAccount', this.dataChanged);
       this.$bvModal.hide('modal-detail-account');
+      await this.$store.dispatch('getAccount');
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
@@ -185,5 +191,8 @@ thead {
   background: #28c5bd;
   opacity: 0.7;
   color: #ffffff;
+}
+td {
+  vertical-align: middle !important;
 }
 </style>
