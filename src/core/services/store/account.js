@@ -22,7 +22,8 @@ export default {
         // show message failed
       }
     },
-    async updateAccount(payload) {
+    async updateAccount({ commit }, payload) {
+      console.log(payload);
       const response = await api('updateAccount', payload);
       if (response.data.error_code === 0) {
         // commit('SET_LIST_ACCOUNT', response.data.data);

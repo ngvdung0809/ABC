@@ -72,6 +72,7 @@ export default {
         { key: 'actions', label: 'Tùy chọn' },
       ],
       canUpdate: false,
+      dataChanged: {},
     };
   },
   computed: {
@@ -92,24 +93,26 @@ export default {
     getToken() {
       return window.sessionStorage.jwtToken;
     },
-    convertRole() {
-      let result;
-      if (this.dataSubmit.role === 'Admin') {
-        result = 1;
-      } else if (this.dataSubmit.role === 'View') {
-        result = 2;
-      } else {
-        result = 3;
-      }
-      return result;
-    },
   },
   methods: {
     getDetailAccount(row) {
       this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
       this.$store.dispatch('getTenant', this.getToken);
     },
+    convertRole(role) {
+      // change role to number
+      let result;
+      if (role === 'Admin') {
+        result = 1;
+      } else if (role === 'View') {
+        result = 2;
+      } else {
+        result = 3;
+      }
+      return result;
+    },
     updateData(newData) {
+      // data before is changed
       const oldData = {
         full_name: this.userDetail.full_name,
         role: this.userDetail.role,
@@ -118,14 +121,28 @@ export default {
       };
 
       // check data is changed -> active button submit
-      if (JSON.stringify(oldData) === JSON.stringify(newData)) {
+      if (JSON.stringify(oldData) === JSON.stringify(newData.data)) {
         this.canUpdate = false;
       } else {
         this.canUpdate = true;
       }
+
+      // data to submit api
+      this.dataChanged = {
+        data: {
+          full_name: newData.data.full_name,
+          role: this.convertRole(newData.data.role),
+          staff_code: newData.data.staff_code,
+          tenant: newData.data.tenant,
+        },
+        id: newData.id,
+        tokenUser: this.getToken,
+      };
     },
-    submit() {
-      // console.log('ok');
+    async submit() {
+      // update account
+      await this.$store.dispatch('updateAccount', this.dataChanged);
+      this.$bvModal.hide('modal-detail-account');
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
