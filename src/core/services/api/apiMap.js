@@ -18,13 +18,9 @@ const api = (config) => ({
   }, {
     Authorization: `JWT ${tokenUser} `,
   }),
-  getAccount: (tokenUser) => config('get', '/account/v1/list-account/', '', {
-    Authorization: `JWT ${tokenUser}`,
-  }),
+  getAccount: () => config('get', '/account/v1/list-account/'),
   updateAccount: (payload) => config('patch', `/account/v1/${payload.id}/`, {
     data: payload.data,
-  }, {
-    Authorization: `JWT ${payload.tokenUser}`,
   }),
   getTenant: (tokenUser) => config('get', '/tenant/v1/list-tenant/', '', {
     Authorization: `JWT ${tokenUser}`,
