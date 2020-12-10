@@ -1,16 +1,16 @@
 <template>
-  <div class="manage-chunha-container">
-    <div class="manage-chunha-container__header">
+  <div class="manage-khachthue-container">
+    <div class="manage-khachthue-container__header">
       <Header />
     </div>
-    <div class="manage-chunha-container__search-form" v-show="true">
+    <div class="manage-khachthue-container__search-form" v-show="true">
       <loading :active.sync="isLoading" color='#28C5BD' :is-full-page=false></loading>
       <b-form-input placeholder="Họ tên, username, ..." v-model="search"></b-form-input>
-      <div class="manage-chunha-container__search-form__button">
+      <div class="manage-khachthue-container__search-form__button">
         <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/>
       </div>
     </div>
-    <div class="manage-chunha-container__table">
+    <div class="manage-khachthue-container__table">
       <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
         <template #cell(actions)="row">
           <div class="show-detail">
@@ -47,12 +47,12 @@
 import { mapGetters } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import Header from '../../components/ManageChuNha/Headers/Header.vue';
-import Button from '../../components/ManageChuNha/Buttons/Button.vue';
+import Header from '../../components/ManageKhachThue/Headers/Header.vue';
+import Button from '../../components/ManageKhachThue/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
 
 export default {
-  name: 'ManageChuNha',
+  name: 'ManageKhachThue',
   components: {
     Header,
     PopupDetailAccount,
@@ -76,10 +76,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getlistChuNha']),
+    ...mapGetters(['getlistKhachThue']),
     setItemsTable() {
       const items = [];
-      this.getlistChuNha.forEach((item) => {
+      this.getlistKhachThue.forEach((item) => {
         items.push({
           name: item.name,
           phone: item.phone,
@@ -116,7 +116,7 @@ export default {
     // },
     setItemsTableWithSearch() {
       this.isLoading = true;
-      this.$store.dispatch('getHost', this.search);
+      this.$store.dispatch('getGuest', this.search);
       this.isLoading = false
     },
     submit() {
@@ -130,7 +130,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.manage-chunha-container {
+.manage-khachthue-container {
   &__header {
     margin-bottom: 12px;
   }

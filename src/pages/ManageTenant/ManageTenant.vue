@@ -1,16 +1,16 @@
 <template>
-  <div class="manage-chunha-container">
-    <div class="manage-chunha-container__header">
+  <div class="manage-tenant-container">
+    <div class="manage-tenant-container__header">
       <Header />
     </div>
-    <div class="manage-chunha-container__search-form" v-show="true">
+    <div class="manage-tenant-container__search-form" v-show="true">
       <loading :active.sync="isLoading" color='#28C5BD' :is-full-page=false></loading>
       <b-form-input placeholder="Họ tên, username, ..." v-model="search"></b-form-input>
-      <div class="manage-chunha-container__search-form__button">
+      <div class="manage-tenant-container__search-form__button">
         <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/>
       </div>
     </div>
-    <div class="manage-chunha-container__table">
+    <div class="manage-tenant-container__table">
       <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
         <template #cell(actions)="row">
           <div class="show-detail">
@@ -47,12 +47,12 @@
 import { mapGetters } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import Header from '../../components/ManageChuNha/Headers/Header.vue';
-import Button from '../../components/ManageChuNha/Buttons/Button.vue';
+import Header from '../../components/ManageTenant/Headers/Header.vue';
+import Button from '../../components/ManageTenant/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
 
 export default {
-  name: 'ManageChuNha',
+  name: 'ManageTenant',
   components: {
     Header,
     PopupDetailAccount,
@@ -64,10 +64,11 @@ export default {
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
-        { key: 'name', label: 'Tên chủ nhà' },
+        { key: 'name', label: 'Tên công ty' },
         { key: 'phone', label: 'Số điện thoại' },
         { key: 'email', label: 'Email' },
-        { key: 'identity', label: 'Giấy tờ tùy thân' },
+        { key: 'rep', label: 'Người đại diện' },
+        { key: 'address', label: 'Địa chỉ' },
         { key: 'actions', label: 'Tùy chọn' },
       ],
       canUpdate: false,
@@ -76,16 +77,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getlistChuNha']),
+    ...mapGetters(['getListTenant']),
     setItemsTable() {
       const items = [];
-      this.getlistChuNha.forEach((item) => {
+      this.getListTenant.forEach((item) => {
         items.push({
           name: item.name,
-          phone: item.phone,
-          email: item.email,
-          identity: item.cmt ?? item.cccd ?? item.passport_no ?? '-',
-
+          phone: item.phone ?? item.phone2 ?? '-',
+          email: item.email ?? item.email2 ?? '-',
+          rep: item.rep,
+          address: item.address,
         });
       });
       return items;
@@ -116,7 +117,7 @@ export default {
     // },
     setItemsTableWithSearch() {
       this.isLoading = true;
-      this.$store.dispatch('getHost', this.search);
+      this.$store.dispatch('getTenant', this.search);
       this.isLoading = false
     },
     submit() {
@@ -130,7 +131,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.manage-chunha-container {
+.manage-tenant-container {
   &__header {
     margin-bottom: 12px;
   }

@@ -1,17 +1,28 @@
 <template>
-  <div class="manage-chunha-container">
-    <div class="manage-chunha-container__header">
+  <div class="manage-service-container">
+    <div class="manage-service-container__header">
       <Header />
     </div>
-    <div class="manage-chunha-container__search-form" v-show="true">
-      <loading :active.sync="isLoading" color='#28C5BD' :is-full-page=false></loading>
-      <b-form-input placeholder="Họ tên, username, ..." v-model="search"></b-form-input>
-      <div class="manage-chunha-container__search-form__button">
-        <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/>
+    <div class="manage-service-container__search-form" v-show="true">
+      <loading :active.sync="isLoading" color='#28C5BD' :is-full-page="true"></loading>
+      <b-form-input placeholder="Tên căn hộ, username, ..." v-model="search"></b-form-input>
+      <!-- <div class="date-picker-warpper">
+        <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+        <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
+      </div> -->
+      <div class="manage-service-container__search-form__button">
+        <!-- <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/> -->
+        <b-button variant="info">Tìm kiếm</b-button>
+
       </div>
     </div>
-    <div class="manage-chunha-container__table">
+    <div class="manage-service-container__table">
       <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
+        <template #cell(dinhky)="row">
+          <div style="padding-left:15%">
+            <b-icon :icon="row.item.dinhky ? 'check-circle' : 'x-circle'" scale="2" :variant="row.item.dinhky ? 'primary' : 'danger'" style="margin-top:7px;"></b-icon>
+          </div>
+        </template>
         <template #cell(actions)="row">
           <div class="show-detail">
             <inline-svg
@@ -47,12 +58,12 @@
 import { mapGetters } from 'vuex';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import Header from '../../components/ManageChuNha/Headers/Header.vue';
-import Button from '../../components/ManageChuNha/Buttons/Button.vue';
+import Header from '../../components/ManageToaNha/Headers/Header.vue';
+import Button from '../../components/ManageToaNha/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
 
 export default {
-  name: 'ManageChuNha',
+  name: 'ManageToaNha',
   components: {
     Header,
     PopupDetailAccount,
@@ -64,10 +75,10 @@ export default {
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
-        { key: 'name', label: 'Tên chủ nhà' },
-        { key: 'phone', label: 'Số điện thoại' },
-        { key: 'email', label: 'Email' },
-        { key: 'identity', label: 'Giấy tờ tùy thân' },
+        { key: 'name', label: 'Tên dịch vụ' },
+        { key: 'donvi', label: 'Đơn vị' },
+        { key: 'code', label: 'Mã dịch vụ' },
+        { key: 'dinhky', label: 'Thanh toán định kỳ' },
         { key: 'actions', label: 'Tùy chọn' },
       ],
       canUpdate: false,
@@ -76,16 +87,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getlistChuNha']),
+    ...mapGetters(['getlistService']),
     setItemsTable() {
       const items = [];
-      this.getlistChuNha.forEach((item) => {
+      this.getlistService.forEach((item) => {
         items.push({
           name: item.name,
-          phone: item.phone,
-          email: item.email,
-          identity: item.cmt ?? item.cccd ?? item.passport_no ?? '-',
-
+          donvi: item.don_vi,
+          code: item.code,
+          dinhky: item.dinh_ky,
         });
       });
       return items;
@@ -116,7 +126,7 @@ export default {
     // },
     setItemsTableWithSearch() {
       this.isLoading = true;
-      this.$store.dispatch('getHost', this.search);
+      this.$store.dispatch('getService', this.search);
       this.isLoading = false
     },
     submit() {
@@ -130,7 +140,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.manage-chunha-container {
+.manage-service-container {
   &__header {
     margin-bottom: 12px;
   }
@@ -156,11 +166,25 @@ export default {
       }
     }
   }
+  table td {
+    vertical-align: middle !important;
+  }
+//   .date-picker-warpper {
+//     display: flex;
+//     justify-content: space-between;
+//     .b-form-datepicker {
+//       width: 350px;
+//     }
+//   }
+// table, th, td {
+//   padding: 15px !important;
+//   color: red i !important;
+// }
 }
 </style>
 <style lang='scss'>
 thead {
-  background: #28c5bd;
+  background: linear-gradient(to bottom right, #9966ff 0%, #ff3300 100%);
   opacity: 0.7;
   color: #ffffff;
 }
