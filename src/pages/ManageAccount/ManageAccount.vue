@@ -10,7 +10,22 @@
       </div>
     </div>
     <div class="manage-account-container__table">
-      <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
+      <b-table
+        sticky-header 
+        show-empty
+        bordered
+        outlined
+        Striped 
+        hover 
+        stacked="md" 
+        :items="setItemsTable" 
+        :fields="fields" 
+      >
+        <!-- <template v-slot:cell(selected)="">
+          <b-form-group>
+            <input type="checkbox" />
+          </b-form-group>
+        </template> -->
         <template #cell(actions)="row">
           <div class="show-detail">
             <inline-svg
@@ -31,16 +46,16 @@
     </div>
 
     <div>
-      <b-modal id="modal-detail-account" no-close-on-backdrop hide-footer size="lg" :title="userDetail.full_name">
-        <PopupDetailAccount :userDetail="userDetail"/>
-        <!-- <template #modal-footer="">
+      <b-modal id="modal-detail-account" no-close-on-backdrop size="lg" :title="userDetail.full_name">
+        <PopupDetailAccount :userDetail="userDetail" @update="updateData"/>
+        <template #modal-footer="">
           <b-button size="sm" variant="danger" @click="cancel">
             Hủy bỏ
           </b-button>
-          <b-button size="sm" variant="success" @click="ok">
-            Sửa
+          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
+            Thay đổi
           </b-button>
-        </template> -->
+        </template>
       </b-modal>
     </div>
   </div>
@@ -61,9 +76,11 @@ export default {
   },
   data() {
     return {
+      title: 'Thêm tài khoản',
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
+        // { key: 'selected', label: '' },
         { key: 'username', label: 'Tài khoản' },
         { key: 'employeeName', label: 'Nhân viên' },
         { key: 'role', label: 'Vai trò' },
@@ -71,6 +88,8 @@ export default {
         { key: 'company', label: 'Tên công ty' },
         { key: 'actions', label: 'Tùy chọn' },
       ],
+      canUpdate: false,
+      dataChanged: {},
     };
   },
   computed: {
@@ -88,17 +107,59 @@ export default {
       });
       return items;
     },
-    getToken() {
-      return window.sessionStorage.jwtToken;
-    },
+    // getToken() {
+    //   return window.sessionStorage.jwtToken;
+    // },
   },
   methods: {
     getDetailAccount(row) {
       this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-      this.$store.dispatch('getTenant', this.getToken);
+      this.$store.dispatch('getTenant');
     },
-    ok() {
-      console.log('ok');
+    convertRole(role) {
+      // change role to number
+      let result;
+      if (role === 'Admin') {
+        result = 1;
+      } else if (role === 'View') {
+        result = 2;
+      } else {
+        result = 3;
+      }
+      return result;
+    },
+    updateData(newData) {
+      // data before is changed
+      const oldData = {
+        full_name: this.userDetail.full_name,
+        role: this.userDetail.role,
+        staff_code: this.userDetail.staff_code,
+        tenant: this.userDetail.tenant.id,
+      };
+
+      // check data is changed -> active button submit
+      if (JSON.stringify(oldData) === JSON.stringify(newData.data)) {
+        this.canUpdate = false;
+      } else {
+        this.canUpdate = true;
+      }
+
+      // data to submit api
+      this.dataChanged = {
+        data: {
+          full_name: newData.data.full_name,
+          role: this.convertRole(newData.data.role),
+          staff_code: newData.data.staff_code,
+          tenant: newData.data.tenant,
+        },
+        id: newData.id,
+      };
+    },
+    async submit() {
+      // update account
+      await this.$store.dispatch('updateAccount', this.dataChanged);
+      this.$bvModal.hide('modal-detail-account');
+      await this.$store.dispatch('getAccount');
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
@@ -138,8 +199,11 @@ export default {
 </style>
 <style lang='scss'>
 thead {
-  background: #28c5bd;
+  background: linear-gradient(to bottom left, #6600cc 0%, #ff99cc 100%);
   opacity: 0.7;
   color: #ffffff;
+}
+td {
+  vertical-align: middle !important;
 }
 </style>

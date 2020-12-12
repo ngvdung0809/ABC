@@ -12,7 +12,7 @@
       <label for="role">Vai trò:</label>
       <select id="role" v-model="dataSubmit.role" class="b-dropdown">
         <option value="Admin">ADMIN</option>
-        <option value="View">VIEW</option>
+        <option value="View">VIEWER</option>
         <option value="Disable">DISABLED</option>
       </select>
     </div>
@@ -26,6 +26,14 @@
         <option v-for="company in getListTenant" :key="company.id" :value="company.id">{{ company.name }}</option>
       </select>
     </div>
+    <!-- <div class="popup-detail-account__button-wrapper">
+      <b-button size="sm" @click="cancel">
+        Hủy bỏ
+      </b-button>
+      <b-button size="sm" variant="success" @click="submit">
+        Sửa
+      </b-button>
+    </div> -->
   </div>
 </template>
 
@@ -54,10 +62,7 @@ export default {
   watch: {
     dataSubmit: {
       handler(val) {
-        this.$emit('update', {
-          data: val,
-          id: this.userDetail.id,
-        });
+        this.$emit('update', val);
       },
       deep: true,
     },

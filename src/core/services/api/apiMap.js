@@ -19,15 +19,13 @@ const api = (config) => ({
     Authorization: `JWT ${tokenUser} `,
   }),
   getAccount: () => config('get', '/account/v1/list-account/', ''),
-  updateAccount: (payload) => config('patch', '/account/v1/list-account/', {
-    id: payload.id
-  }, {
-    Authorization: `JWT ${payload.tokenUser}`,
-    data: payload.data,
-  }),
-  getTenant: (tokenUser) => config('get', '/tenant/v1/list-tenant/', '', {
-    Authorization: `JWT ${tokenUser}`,
-  }),
+  getTenant: (keyword) => config('get', `/tenant/v1/list-tenant/?search=${keyword}`, ''),
+  getChuNha: (keyword) => config('get', `/chu-nha/v1/list-chu-nha/?search=${keyword}`, ''),
+  getKhachThue: (keyword) => config('get', `/khach-thue/v1/list-khach_thue/?search=${keyword}`, ''),
+  getCanHo: (keyword) => config('get', `/can-ho/v1/list-can-ho/?search=${keyword}`, ''),
+  getToaNha: (keyword) => config('get', `/toa-nha/v1/list-toa-nha/?search=${keyword}`, ''),
+  getService: (keyword) => config('get', `/dich-vu/v1/list-dich-vu/?search=${keyword}`, ''),
+  updateAccount: (payload) => config('patch', `/account/v1/${payload.id}/`, payload.data),
 });
 
 export default api;
