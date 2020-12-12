@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     getTenant() {
-      this.$store.dispatch('getTenant');
+      this.$store.dispatch('getTenant', '');
     },
   },
 };

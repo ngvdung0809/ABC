@@ -192,7 +192,7 @@ export default {
   methods: {
     getDetailAccount(row) {
       this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-      this.$store.dispatch('getTenant');
+      this.$store.dispatch('getTenant', '');
     },
     onRowSelected(items) {
       this.selectedList = items;
