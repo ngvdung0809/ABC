@@ -186,8 +186,8 @@ export default {
               router: '/manage-host',
             },
             {
-              nameSubNav: 'EndUser',
-              router: '/manage-enduser',
+              nameSubNav: 'Guest',
+              router: '/manage-guest',
             },
             {
               nameSubNav: 'Company',

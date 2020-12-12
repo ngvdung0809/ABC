@@ -42,6 +42,60 @@ const routes = [
         component: () => import('@/pages/ManageAccount/ManageAccount'),
       },
       {
+        name: 'ManageChuNha',
+        path: '/manage-host',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getHost', '');
+          next();
+        },
+        component: () => import('@/pages/ManageChuNha/ManageChuNha'),
+      },
+      {
+        name: 'ManageKhachThue',
+        path: '/manage-guest',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getGuest', '');
+          next();
+        },
+        component: () => import('@/pages/ManageKhachThue/ManageKhachThue'),
+      },
+      {
+        name: 'ManageCanHo',
+        path: '/manage-appartment',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getAppartment', '');
+          next();
+        },
+        component: () => import('@/pages/ManageCanHo/ManageCanHo'),
+      },
+      {
+        name: 'ManageToaNha',
+        path: '/manage-building',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getBuilding', '');
+          next();
+        },
+        component: () => import('@/pages/ManageToaNha/ManageToaNha'),
+      },
+      {
+        name: 'ManageTenant',
+        path: '/manage-company',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getTenant', '');
+          next();
+        },
+        component: () => import('@/pages/ManageTenant/ManageTenant'),
+      },
+      {
+        name: 'ManageService',
+        path: '/manage-service',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getService', '');
+          next();
+        },
+        component: () => import('@/pages/ManageService/ManageService'),
+      },
+      {
         name: 'Manage',
         path: '/manage',
         component: () => import('@/pages/Manage'),

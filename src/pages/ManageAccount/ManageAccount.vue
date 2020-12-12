@@ -129,6 +129,7 @@ export default {
   },
   data() {
     return {
+      title: 'Thêm tài khoản',
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
@@ -331,7 +332,7 @@ export default {
 </style>
 <style lang='scss'>
 thead {
-  background: #28c5bd;
+  background: linear-gradient(to bottom left, #6600cc 0%, #ff99cc 100%);
   opacity: 0.7;
   color: #ffffff;
 }
