@@ -18,11 +18,11 @@ const api = (config) => ({
   }, {
     Authorization: `JWT ${tokenUser} `,
   }),
-  getAccount: () => config('get', '/account/v1/list-account/'),
+  getAccount: (keyword) => config('get', `/account/v1/list-account/?search=${keyword}`),
+  addAccount: (payload) => config('post', '/auth/v1/register/', payload),
   updateAccount: (payload) => config('patch', `/account/v1/${payload.id}/`, payload.data),
-  getTenant: (tokenUser) => config('get', '/tenant/v1/list-tenant/', '', {
-    Authorization: `JWT ${tokenUser}`,
-  }),
+  getTenant: () => config('get', '/tenant/v1/list-tenant/'),
+  deleteAccount: (payload) => config('post', '/account/v1/delete_account/', payload),
 });
 
 export default api;

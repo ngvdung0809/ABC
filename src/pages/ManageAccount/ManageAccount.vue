@@ -3,33 +3,77 @@
     <div class="manage-account-container__header">
       <Header />
     </div>
-    <div class="manage-account-container__search-form" v-show="false">
-      <b-form-input placeholder="Họ tên, username, ..."></b-form-input>
-      <div class="manage-account-container__search-form__button">
-        <Button :title="'Tìm kiếm'" :styleCss="styleCss" />
+    <div class="manage-account-container__options">
+      <b-form @submit="searchAccount" >
+        <div class="manage-account-container__options__search-form" >
+          <b-form-input class="search-form-input" placeholder="Tìm kiếm" v-model="inputSearch" ></b-form-input>
+          <b-icon-search class="search-form-icon" :font-scale="1.5" @click="searchAccount"></b-icon-search>
+        </div>
+      </b-form>
+      <div class="manage-account-container__options__button-group">
+        <b-icon-ui-checks-grid
+          class="btn-group-options"
+          variant="success"
+          font-scale="2.5"
+          :class="checkSelectedAll ? '': '-disable'"
+          @click="selectAllRows"
+        >
+        </b-icon-ui-checks-grid>
+        <b-icon-arrow-counterclockwise
+          class="btn-group-options"
+          variant="success"
+          font-scale="2.5"
+          :class="checkClearAll ? '' : '-disable'"
+          @click="clearSelectedRows"
+        >
+        </b-icon-arrow-counterclockwise>
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-b-modal.modal-delete-account
+          v-if="checkCanDelete"
+        >
+        </b-icon-trash>
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-else
+        >
+        </b-icon-trash>
       </div>
     </div>
     <div class="manage-account-container__table">
-      <b-table sticky-header selectable show-empty small Striped hover stacked="md" :items="setItemsTable" :fields="fields" >
-        <!-- <template v-slot:cell(selected)="">
-          <b-form-group>
-            <input type="checkbox" />
-          </b-form-group>
-        </template> -->
+      <b-table
+        ref="selectableTable"
+        sticky-header
+        selectable
+        show-empty
+        small
+        Striped
+        hover
+        stacked="md"
+        :items="setItemsTable"
+        :fields="fields"
+        responsive="sm"
+        empty-text="không có bản ghi"
+        @row-selected="onRowSelected"
+      >
         <template #cell(actions)="row">
           <div class="show-detail">
-            <inline-svg
-              src="media/svg/icons/Design/Edit.svg"
-              class="edit-svg"
+            <b-icon-pencil-square
+              variant="light"
               @click="getDetailAccount(row)"
               v-b-modal.modal-detail-account
-            />
-             <inline-svg
-              src="media/svg/icons/General/Trash.svg"
-              class="delete-svg"
-              @click="getDetailAccount(row)"
-              v-b-modal.modal-detail-account
-            />
+            ></b-icon-pencil-square>
+            <b-icon-trash
+              variant="light"
+              class="rounded-circle bg-danger p-2"
+              v-b-modal.modal-delete-account
+            ></b-icon-trash>
           </div>
         </template>
       </b-table>
@@ -48,28 +92,46 @@
         </template>
       </b-modal>
     </div>
+
+    <div>
+      <PopupDeleteAccount
+        :titleModal="constants.TITLE_POPUP_DELETE"
+        :idModal="constants.ID_POPUP_DELETE_ACCOUNT"
+        :contentModal="constants.CONTENT_POPUP_DELETE"
+        :selectedListId="selectedListId"
+      />
+    </div>
+
+    <div>
+      <PopupAddAccount
+        :titleModal="constants.TITLE_POPUP_ADD_ACCOUNT"
+        :idModal="constants.ID_POPUP_ADD_ACCOUNT"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageAccount/Headers/Header.vue';
-import Button from '../../components/ManageAccount/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
+import PopupDeleteAccount from '../../components/ManageAccount/Popups/PopupDeleteAccount.vue';
+import PopupAddAccount from '../../components/ManageAccount/Popups/PopupAddAccount.vue';
+import constants from '../../constants/index';
 
 export default {
   name: 'ManageAccount',
   components: {
     Header,
     PopupDetailAccount,
-    Button,
+    PopupDeleteAccount,
+    PopupAddAccount,
   },
   data() {
     return {
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
-        // { key: 'selected', label: '' },
         { key: 'username', label: 'Tài khoản' },
         { key: 'employeeName', label: 'Nhân viên' },
         { key: 'role', label: 'Vai trò' },
@@ -79,10 +141,13 @@ export default {
       ],
       canUpdate: false,
       dataChanged: {},
+      selectedList: [],
+      constants,
+      inputSearch: '',
     };
   },
   computed: {
-    ...mapGetters(['getListAccount']),
+    ...mapGetters(['getListAccount', 'getErrorCode']),
     setItemsTable() {
       const items = [];
       this.getListAccount.forEach((item) => {
@@ -92,18 +157,50 @@ export default {
           role: item.role,
           company: item.tenant.name,
           staffCode: item.staff_code,
+          id: item.id,
         });
       });
       return items;
     },
-    // getToken() {
-    //   return window.sessionStorage.jwtToken;
-    // },
+    selectedListId() {
+      const result = [];
+      this.selectedList.forEach((item) => {
+        result.push(item.id);
+      });
+      return result;
+    },
+    checkSelectedAll() {
+      let result;
+      if (this.selectedListId.length < this.getListAccount.length) result = true;
+      else result = false;
+      return result;
+    },
+    checkClearAll() {
+      let result;
+      if (this.selectedListId.length > 0) result = true;
+      else result = false;
+      return result;
+    },
+    checkCanDelete() {
+      let result;
+      if (this.selectedListId.length > 0) result = true;
+      else result = false;
+      return result;
+    },
   },
   methods: {
     getDetailAccount(row) {
       this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
       this.$store.dispatch('getTenant');
+    },
+    onRowSelected(items) {
+      this.selectedList = items;
+    },
+    selectAllRows() {
+      this.$refs.selectableTable.selectAllRows();
+    },
+    clearSelectedRows() {
+      this.$refs.selectableTable.clearSelected();
     },
     convertRole(role) {
       // change role to number
@@ -144,14 +241,31 @@ export default {
         id: newData.id,
       };
     },
+    makeToastMessage(message, status) {
+      this.$bvToast.toast(message, {
+        title: 'Thông báo',
+        variant: status,
+        autoHideDelay: 2000,
+        solid: true,
+      });
+    },
     async submit() {
       // update account
       await this.$store.dispatch('updateAccount', this.dataChanged);
-      this.$bvModal.hide('modal-detail-account');
-      await this.$store.dispatch('getAccount');
+      if (this.getErrorCode === 0) {
+        this.$bvModal.hide(`${constants.ID_POPUP_DETAIL_ACCOUNT}`);
+        await this.$store.dispatch('getAccount');
+        this.makeToastMessage(constants.MESSAGE_UPDATE_SUCCEED, 'success');
+      } else {
+        this.makeToastMessage(constants.MESSAGE_UPDATE_FAILED, 'danger');
+      }
+    },
+    searchAccount(event) {
+      event.preventDefault();
+      this.$store.dispatch('getAccount', this.inputSearch);
     },
     cancel() {
-      this.$bvModal.hide('modal-detail-account');
+      this.$bvModal.hide(`${constants.ID_POPUP_DETAIL_ACCOUNT}`);
     },
   },
 };
@@ -162,13 +276,42 @@ export default {
   &__header {
     margin-bottom: 12px;
   }
-  &__search-form {
+  &__options {
     display: grid;
-    grid-template-columns: 80% 20%;
-    padding: 12px 0px;
-    &__button {
+    grid-template-columns: 50% 50%;
+    &__search-form {
+      display: flex;
+      align-items: center;
+      padding: 12px 0px;
+      position: relative;
+      .search-form-input {
+        padding-left: 35px;
+      }
+      .search-form-icon {
+        position: absolute;
+        cursor: pointer;
+        left: 10px;
+      }
+    }
+    &__button-group {
+      margin: 12px 0px;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      .btn-group-options {
+        margin: 0px 5px;
+        cursor: pointer;
+      }
+      .btn-group-options:first-child {
+        margin-left: 0px;
+      }
+      .btn-group-options:last-child {
+        margin-right: 0px;
+      }
+      .-disable {
+        opacity: 0.2;
+        cursor: default;
+      }
     }
   }
   &__table {

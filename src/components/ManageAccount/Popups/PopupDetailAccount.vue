@@ -22,7 +22,7 @@
     </div>
     <div class="form-input">
       <label for="company">Tên công ty:</label>
-      <select id="role" class="b-dropdown" v-model="dataSubmit.tenant">
+      <select id="company" class="b-dropdown" v-model="dataSubmit.tenant">
         <option v-for="company in getListTenant" :key="company.id" :value="company.id">{{ company.name }}</option>
       </select>
     </div>
@@ -65,13 +65,7 @@ export default {
   computed: {
     ...mapGetters(['getListTenant']),
   },
-  methods: {
-    submit() {
-    },
-    cancel() {
-      this.$bvModal.hide('modal-detail-account');
-    },
-  },
+  methods: {},
 };
 </script>
 
