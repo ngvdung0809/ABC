@@ -14,14 +14,16 @@
       <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
         <template #cell(actions)="row">
           <div class="show-detail">
-            <inline-svg
+            <!-- <inline-svg
               src="media/svg/icons/Design/Edit.svg"
               class="edit-svg"
             />
              <inline-svg
               src="media/svg/icons/General/Trash.svg"
               class="delete-svg"
-            />
+            /> -->
+            <b-icon-pencil-square></b-icon-pencil-square>
+            <b-icon-trash class="rounded-circle bg-danger p-2"></b-icon-trash>
           </div>
         </template>
       </b-table>
