@@ -2,53 +2,35 @@
   <div class="popup-detail-account">
     <div class="form-input">
       <label for="username">Tài khoản:</label>
-      <b-form-input placeholder="" id="username"></b-form-input>
+      <b-form-input placeholder="" id="username" v-model="userDetail.username" disabled></b-form-input>
     </div>
     <div class="form-input">
-      <label for="fullName">Họ và tên:</label>
-      <b-form-input placeholder="" id="fullName"></b-form-input>
+      <label for="fullName">Nhân viên:</label>
+      <b-form-input placeholder="" id="fullName" v-model="dataSubmit.full_name"></b-form-input>
     </div>
     <div class="form-input">
       <label for="role">Vai trò:</label>
-      <b-form-input placeholder="" id="role"></b-form-input>
+      <select id="role" v-model="dataSubmit.role" class="b-dropdown">
+        <option value="Admin">ADMIN</option>
+        <option value="View">VIEW</option>
+        <option value="Disable">DISABLED</option>
+      </select>
     </div>
     <div class="form-input">
-      <label for="sex">Giới tính:</label>
-      <b-form-input placeholder="" id="sex"></b-form-input>
+      <label for="staffCode">Mã nhân viên:</label>
+      <b-form-input placeholder="" id="staffCode" v-model="dataSubmit.staff_code"></b-form-input>
     </div>
     <div class="form-input">
-      <label for="dob">Ngày sinh:</label>
-      <b-form-input placeholder="" id="dob"></b-form-input>
-    </div>
-    <div class="form-input">
-      <label for="phone">Số điện thoại:</label>
-      <b-form-input placeholder="" id="phone"></b-form-input>
-    </div>
-    <div class="form-input">
-      <label for="email">Email:</label>
-      <b-form-input placeholder="" id="email"></b-form-input>
-    </div>
-    <div class="form-input">
-      <label for="address">Địa chỉ:</label>
-      <b-form-input placeholder="" id="address"></b-form-input>
-    </div>
-    <div class="form-input">
-      <label for="taxCode">Mã số thuế:</label>
-      <b-form-input placeholder="" id="taxCode"></b-form-input>
-    </div>
-    <div class="form-input">
-      <label for="note">Chú thích:</label>
-      <b-form-textarea
-        id="note"
-        placeholder=""
-        rows="3"
-        max-rows="6"
-      ></b-form-textarea>
+      <label for="company">Tên công ty:</label>
+      <select id="role" class="b-dropdown" v-model="dataSubmit.tenant">
+        <option v-for="company in getListTenant" :key="company.id" :value="company.id">{{ company.name }}</option>
+      </select>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PopupDetailAccount',
@@ -61,11 +43,35 @@ export default {
   },
   data() {
     return {
+      dataSubmit: {
+        full_name: this.userDetail.full_name,
+        role: this.userDetail.role,
+        staff_code: this.userDetail.staff_code,
+        tenant: this.userDetail.tenant.id,
+      },
     };
   },
-  computed: {
+  watch: {
+    dataSubmit: {
+      handler(val) {
+        this.$emit('update', {
+          data: val,
+          id: this.userDetail.id,
+        });
+      },
+      deep: true,
+    },
   },
-  methods: {},
+  computed: {
+    ...mapGetters(['getListTenant']),
+  },
+  methods: {
+    submit() {
+    },
+    cancel() {
+      this.$bvModal.hide('modal-detail-account');
+    },
+  },
 };
 </script>
 
@@ -75,6 +81,21 @@ export default {
    display: grid;
    grid-template-columns: 20% 80%;
    margin-bottom: 12px;
+   .b-dropdown {
+     width: 130px;
+     border: 1px solid #dcdcdc;
+     outline: none;
+   }
+ }
+ &__button-wrapper {
+   display: flex;
+   justify-content: flex-end;
+   button {
+     margin-right: 7px;
+   }
+   button:last-child {
+     margin-right: 0px;
+   }
  }
 }
 </style>

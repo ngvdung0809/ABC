@@ -1,20 +1,23 @@
 import axios from 'axios';
-import axiosRetry from 'axios-retry';
 import authApiMap from './apiMap';
 
 // const BASE_URL = 'https://backend-api.happiness-book.jp';
-const BASE_URL = 'http://27.72.88.246:8311';
+const BASE_URL = 'http://27.72.88.246:8998';
 const request = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   timeout: 10000,
 });
-axiosRetry(request, { retries: 3 });
 
-const config = (method, url, data, header) => {
+const config = (method, url, data) => {
+  const token = sessionStorage.getItem('jwtToken');
+
   const obj = {
     method,
     url,
+    headers: {
+      Authorization: token && `JWT ${token}`,
+    },
   };
   if (data) {
     if (method === 'get') {
@@ -22,9 +25,6 @@ const config = (method, url, data, header) => {
     } else {
       obj.data = data;
     }
-  }
-  if (header) {
-    obj.headers = header;
   }
   return obj;
 };

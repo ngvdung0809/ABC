@@ -4,7 +4,7 @@
     class="header-mobile align-items-center"
   >
     <!--begin::Logo-->
-    <a href="/">
+    <a href="/dashboard">
       <img alt="Logo" src="../../../public/media/logos/logo-letter-2.png" class="logo-default max-h-30px" />
     </a>
     <!--end::Logo-->
