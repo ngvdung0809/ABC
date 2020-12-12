@@ -4,7 +4,6 @@
       <Header />
     </div>
     <div class="manage-khachthue-container__search-form" v-show="true">
-      <loading :active.sync="isLoading" color='#28C5BD' :is-full-page=false></loading>
       <b-form-input placeholder="Họ tên, username, ..." v-model="search"></b-form-input>
       <div class="manage-khachthue-container__search-form__button">
         <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/>
@@ -12,7 +11,7 @@
     </div>
     <div class="manage-khachthue-container__table">
       <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
-        <template #cell(actions)="row">
+        <template #cell(actions)="">
           <div class="show-detail">
             <inline-svg
               src="media/svg/icons/Design/Edit.svg"
@@ -45,8 +44,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 import Header from '../../components/ManageKhachThue/Headers/Header.vue';
 import Button from '../../components/ManageKhachThue/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
@@ -57,7 +54,6 @@ export default {
     Header,
     PopupDetailAccount,
     Button,
-    Loading,
   },
   data() {
     return {
@@ -72,7 +68,6 @@ export default {
       ],
       canUpdate: false,
       search: '',
-      isLoading: false
     };
   },
   computed: {
@@ -115,9 +110,7 @@ export default {
     //   }
     // },
     setItemsTableWithSearch() {
-      this.isLoading = true;
       this.$store.dispatch('getGuest', this.search);
-      this.isLoading = false
     },
     submit() {
       // console.log('ok');

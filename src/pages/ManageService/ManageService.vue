@@ -4,7 +4,6 @@
       <Header />
     </div>
     <div class="manage-service-container__search-form" v-show="true">
-      <loading :active.sync="isLoading" color='#28C5BD' :is-full-page="true"></loading>
       <b-form-input placeholder="Tên căn hộ, username, ..." v-model="search"></b-form-input>
       <!-- <div class="date-picker-warpper">
         <b-form-datepicker id="example-datepicker" v-model="value" class="mb-2"></b-form-datepicker>
@@ -23,7 +22,7 @@
             <b-icon :icon="row.item.dinhky ? 'check-circle' : 'x-circle'" scale="2" :variant="row.item.dinhky ? 'primary' : 'danger'" style="margin-top:7px;"></b-icon>
           </div>
         </template>
-        <template #cell(actions)="row">
+        <template #cell(actions)="">
           <div class="show-detail">
             <inline-svg
               src="media/svg/icons/Design/Edit.svg"
@@ -56,8 +55,6 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/vue-loading.css';
 import Header from '../../components/ManageToaNha/Headers/Header.vue';
 import Button from '../../components/ManageToaNha/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
@@ -68,7 +65,6 @@ export default {
     Header,
     PopupDetailAccount,
     Button,
-    Loading,
   },
   data() {
     return {
@@ -83,7 +79,6 @@ export default {
       ],
       canUpdate: false,
       search: '',
-      isLoading: false
     };
   },
   computed: {
@@ -125,9 +120,7 @@ export default {
     //   }
     // },
     setItemsTableWithSearch() {
-      this.isLoading = true;
       this.$store.dispatch('getService', this.search);
-      this.isLoading = false
     },
     submit() {
       // console.log('ok');
