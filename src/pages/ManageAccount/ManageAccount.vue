@@ -10,7 +10,17 @@
       </div>
     </div>
     <div class="manage-account-container__table">
-      <b-table sticky-header selectable show-empty small Striped hover stacked="md" :items="setItemsTable" :fields="fields" >
+      <b-table
+        sticky-header 
+        show-empty
+        bordered
+        outlined
+        Striped 
+        hover 
+        stacked="md" 
+        :items="setItemsTable" 
+        :fields="fields" 
+      >
         <!-- <template v-slot:cell(selected)="">
           <b-form-group>
             <input type="checkbox" />
@@ -66,6 +76,7 @@ export default {
   },
   data() {
     return {
+      title: 'Thêm tài khoản',
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
@@ -188,7 +199,7 @@ export default {
 </style>
 <style lang='scss'>
 thead {
-  background: #28c5bd;
+  background: linear-gradient(to bottom left, #6600cc 0%, #ff99cc 100%);
   opacity: 0.7;
   color: #ffffff;
 }
