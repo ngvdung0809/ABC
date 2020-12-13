@@ -129,8 +129,6 @@ export default {
   },
   data() {
     return {
-      title: 'Thêm tài khoản',
-      styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
       fields: [
         { key: 'username', label: 'Tài khoản' },
@@ -254,8 +252,8 @@ export default {
       // update account
       await this.$store.dispatch('updateAccount', this.dataChanged);
       if (this.getErrorCode === 0) {
-        this.$bvModal.hide(`${constants.ID_POPUP_DETAIL_ACCOUNT}`);
-        await this.$store.dispatch('getAccount');
+        this.$bvModal.hide(constants.ID_POPUP_DETAIL_ACCOUNT);
+        await this.$store.dispatch('getAccount', '');
         this.makeToastMessage(constants.MESSAGE_UPDATE_SUCCEED, 'success');
       } else {
         this.makeToastMessage(constants.MESSAGE_UPDATE_FAILED, 'danger');
@@ -266,7 +264,7 @@ export default {
       this.$store.dispatch('getAccount', this.inputSearch);
     },
     cancel() {
-      this.$bvModal.hide(`${constants.ID_POPUP_DETAIL_ACCOUNT}`);
+      this.$bvModal.hide(constants.ID_POPUP_DETAIL_ACCOUNT);
     },
   },
 };
@@ -331,12 +329,11 @@ export default {
 }
 </style>
 <style lang='scss'>
-thead {
-  background: linear-gradient(to bottom left, #6600cc 0%, #ff99cc 100%);
-  opacity: 0.7;
-  color: #ffffff;
+th {
+  background: #dcdcdc;
 }
 td {
   vertical-align: middle !important;
+  padding: 10px !important;
 }
 </style>

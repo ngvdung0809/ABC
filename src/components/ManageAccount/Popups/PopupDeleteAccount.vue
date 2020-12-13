@@ -13,6 +13,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import constants from '../../../constants/index';
+
 export default {
   props: {
     idModal: {
@@ -26,19 +29,40 @@ export default {
     },
     selectedListId: {
       type: Array,
-    }
+    },
+  },
+  data() {
+    return {
+      constants,
+    };
+  },
+  computed: {
+    ...mapGetters(['getErrorCode']),
   },
   methods: {
+    makeToastMessage(message, status) {
+      this.$bvToast.toast(message, {
+        title: 'Thông báo',
+        variant: status,
+        autoHideDelay: 2000,
+        solid: true,
+      });
+    },
     async submit() {
       const payload = {
         list_id: this.selectedListId,
       };
       await this.$store.dispatch('deleteAccount', payload);
-      this.$bvModal.hide(`${this.idModal}`);
-      await this.$store.dispatch('getAccount');
+      this.$bvModal.hide(this.idModal);
+      if (this.getErrorCode === 0) {
+        this.makeToastMessage(constants.MESSAGE_DELETE_SUCCEED, 'success');
+      } else {
+        this.makeToastMessage(constants.MESSAGE_DELETE_FAILED, 'danger');
+      }
+      await this.$store.dispatch('getAccount', '');
     },
     cancel() {
-      this.$bvModal.hide(`${this.idModal}`);
+      this.$bvModal.hide(this.idModal);
     },
   },
 };

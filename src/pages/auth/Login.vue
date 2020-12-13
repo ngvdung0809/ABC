@@ -19,9 +19,9 @@
     <!--begin::Signin-->
     <div class="login-form login-signin">
       <div class="text-center mb-10 mb-lg-20">
-        <h3 class="font-size-h1">Sign In</h3>
+        <h3 class="font-size-h1">Đăng nhập</h3>
         <p class="text-muted font-weight-semi-bold">
-          Enter your username and password
+          Hãy nhập tài khoản và mật khẩu của bạn
         </p>
       </div>
 
@@ -53,6 +53,7 @@
             v-model="$v.form.username.$model"
             :state="validateState('username')"
             aria-describedby="input-1-live-feedback"
+            placeholder="tài khoản"
           ></b-form-input>
 
           <b-form-invalid-feedback id="input-1-live-feedback" v-if="!$v.form.username.required">
@@ -81,13 +82,14 @@
             v-model="$v.form.password.$model"
             :state="validateState('password')"
             aria-describedby="input-2-live-feedback"
+            placeholder="mật khẩu"
           ></b-form-input>
 
           <b-form-invalid-feedback id="input-2-live-feedback"  v-if="!$v.form.password.required">
             Xin hãy nhập mật khẩu
           </b-form-invalid-feedback>
           <b-form-invalid-feedback id="input-1-live-feedback" v-else-if="!$v.form.password.minLength">
-            Độ dài tối thiểu của tên đăng nhập là 6
+            Độ dài tối thiểu của mật khẩu là 6
           </b-form-invalid-feedback>
           <div id="input-1-live-feedback" v-else style="height: 1.6rem"/>
         </b-form-group>
@@ -107,7 +109,7 @@
             ref="kt_login_signin_submit"
             class="btn btn-primary font-weight-bold px-9 py-4 my-3 font-size-3"
           >
-            Sign In
+            Đăng nhập
           </button>
         </div>
         <!--end::Action-->
@@ -139,8 +141,8 @@ export default {
     return {
       // Remove this dummy login info
       form: {
-        username: 'admin@demo.com',
-        password: 'demo',
+        username: '',
+        password: '',
       },
       errors: [],
     };
