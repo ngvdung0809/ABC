@@ -56,6 +56,7 @@ export default {
       this.$bvModal.hide(this.idModal);
       if (this.getErrorCode === 0) {
         this.makeToastMessage(constants.MESSAGE_DELETE_SUCCEED, 'success');
+        this.selectedListId = [];
       } else {
         this.makeToastMessage(constants.MESSAGE_DELETE_FAILED, 'danger');
       }
