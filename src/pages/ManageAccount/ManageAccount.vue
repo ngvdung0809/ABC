@@ -31,38 +31,6 @@
       </div>
     </div>
     <div class="manage-account-container__table">
-      <!-- <b-table
-        ref="selectableTable"
-        sticky-header
-        show-empty
-        small
-        Striped
-        hover
-        stacked="md"
-        :items="setItemsTable"
-        :fields="fields"
-        responsive="sm"
-        empty-text="không có bản ghi"
-        @row-selected="onRowSelected"
-      >
-        <template #cell(selectBox)="row">
-          <b-form-checkbox rowSelected ></b-form-checkbox>
-        </template>
-        <template #cell(actions)="row">
-          <div class="show-detail">
-            <b-icon-pencil-square
-              variant="light"
-              @click="getDetailAccount(row)"
-              v-b-modal.modal-detail-account
-            ></b-icon-pencil-square>
-            <b-icon-trash
-              variant="light"
-              class="rounded-circle bg-danger p-2"
-              v-b-modal.modal-delete-account
-            ></b-icon-trash>
-          </div>
-        </template>
-      </b-table> -->
       <table class="table table-hover">
         <thead>
           <tr>
@@ -122,18 +90,20 @@
     </div>
 
     <div>
-      <PopupDeleteAccount
-        :titleModal="constants.TITLE_POPUP_DELETE_ACCOUNT"
-        :idModal="constants.ID_POPUP_DELETE_ACCOUNT"
-        :contentModal="constants.CONTENT_POPUP_DELETE_ACCOUNT"
+      <PopupDelete
+        :titleModal="constants.ACCOUNT_CONST.TITLE_POPUP_DELETE_ACCOUNT"
+        :idModal="constants.ACCOUNT_CONST.ID_POPUP_DELETE_ACCOUNT"
+        :contentModal="constants.ACCOUNT_CONST.CONTENT_POPUP_DELETE_ACCOUNT"
         :selectedListId="selectedListAccount"
+        :action="constants.ACCOUNT_CONST.ACTION"
+        :listAction="constants.ACCOUNT_CONST.LIST_ACTION"
       />
     </div>
 
     <div>
       <PopupAddAccount
-        :titleModal="constants.TITLE_POPUP_ADD_ACCOUNT"
-        :idModal="constants.ID_POPUP_ADD_ACCOUNT"
+        :titleModal="constants.ACCOUNT_CONST.TITLE_POPUP_ADD_ACCOUNT"
+        :idModal="constants.ACCOUNT_CONST.ID_POPUP_ADD_ACCOUNT"
       />
     </div>
   </div>
@@ -143,7 +113,7 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageAccount/Headers/Header.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
-import PopupDeleteAccount from '../../components/ManageAccount/Popups/PopupDeleteAccount.vue';
+import PopupDelete from '../../components/Common/PopupDelete.vue';
 import PopupAddAccount from '../../components/ManageAccount/Popups/PopupAddAccount.vue';
 import constants from '../../constants/index';
 
@@ -152,21 +122,12 @@ export default {
   components: {
     Header,
     PopupDetailAccount,
-    PopupDeleteAccount,
+    PopupDelete,
     PopupAddAccount,
   },
   data() {
     return {
       userDetail: {},
-      fields: [
-        { key: 'selectBox', label: '' },
-        { key: 'username', label: 'Tài khoản' },
-        { key: 'employeeName', label: 'Nhân viên' },
-        { key: 'role', label: 'Vai trò' },
-        { key: 'staffCode', label: 'Mã nhân viên' },
-        { key: 'company', label: 'Tên công ty' },
-        { key: 'actions', label: 'Tùy chọn' },
-      ],
       canUpdate: false,
       dataChanged: {},
       isSelectedAll: false,
@@ -290,12 +251,12 @@ export default {
       // update account
       await this.$store.dispatch('updateAccount', this.dataChanged);
       if (this.getErrorCode === 0) {
-        this.$bvModal.hide(constants.ID_POPUP_DETAIL_ACCOUNT);
+        this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
         await this.$store.dispatch('getAccount', '');
-        this.makeToastMessage(constants.MESSAGE_UPDATE_SUCCEED, 'success');
+        this.makeToastMessage(constants.ACCOUNT_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
         this.canUpdate = false;
       } else {
-        this.makeToastMessage(constants.MESSAGE_UPDATE_FAILED, 'danger');
+        this.makeToastMessage(constants.ACCOUNT_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
     },
     searchAccount(event) {
@@ -305,7 +266,7 @@ export default {
     },
     cancel() {
       // close popup detail
-      this.$bvModal.hide(constants.ID_POPUP_DETAIL_ACCOUNT);
+      this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
       this.canUpdate = false;
     },
   },

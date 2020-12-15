@@ -4,6 +4,7 @@ export default {
   namespace: true,
   state: {
     listCanHo: [],
+    errorCode: 0,
   },
   getters: {
     getlistCanHo: (state) => state.listCanHo,
@@ -11,6 +12,9 @@ export default {
   mutations: {
     SET_LIST_CANHO(state, payload) {
       state.listCanHo = payload;
+    },
+    SET_ERROR_CODE(state, payload) {
+      state.errorCode = payload;
     },
   },
   actions: {
@@ -21,6 +25,11 @@ export default {
       } else {
         // show message failed
       }
+    },
+    async deleteCanHo({ commit }, payload) {
+      const response = await api('deleteCanHo', payload);
+      console.log();
+      commit('SET_ERROR_CODE', response.data.error_code);
     },
     // async updateAccount(payload) {
     //   const response = await api('updateAccount', payload);

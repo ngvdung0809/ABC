@@ -1,14 +1,15 @@
 <template>
   <div class="header-container">
-    <div class="header-container__title">QUẢN LÝ CĂN HỘ</div>
+    <div class="header-container__title">{{ constants.CANHO_CONST.HEADER_MANAGE}}</div>
     <div>
-      <Button :title="title" :styleCss="styleCss" />
+      <b-button>{{ constants.ACCOUNT_CONST.TITLE_MANAGE_ACCOUNT }}</b-button>
     </div>
   </div>
 </template>
 
 <script>
 import Button from '../Buttons/Button.vue';
+import constants from '../../../constants/index'
 
 export default {
   name: 'Header',
@@ -17,8 +18,7 @@ export default {
   },
   data() {
     return {
-      title: 'Thêm căn hộ',
-      styleCss: 'background: #FFFFFF;color:#333333;',
+      constants
     };
   },
   methods: {},
@@ -37,6 +37,7 @@ export default {
     align-items: center;
     font-weight: 900;
     font-size: 18px;
+    color: whitesmoke;
   }
 }
 </style>

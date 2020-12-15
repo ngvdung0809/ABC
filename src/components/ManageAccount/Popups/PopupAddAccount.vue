@@ -85,7 +85,7 @@
             aria-describedby="input-staffCode-feedback"
           ></b-form-input>
           <b-form-invalid-feedback id="input-staffCode-feedback" v-if="!$v.staffCode.minLength" >
-            Mã nhân viên phải có tối thiểu 5 kí tự
+            Mã nhân viên phải có tối thiểu 4 kí tự
           </b-form-invalid-feedback>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default {
       required,
     },
     staffCode: {
-      minLength: minLength(5),
+      minLength: minLength(4),
     },
   },
   computed: {
@@ -196,10 +196,10 @@ export default {
       if (this.getErrorCode === 0) {
         this.$bvModal.hide(this.idModal);
         this.clearData();
-        await this.$store.dispatch('getAccount');
-        this.makeToastMessage(constants.MESSAGE_ADD_SUCCEED, 'success');
+        await this.$store.dispatch('getAccount', '');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_SUCCEED, 'success');
       } else {
-        this.makeToastMessage(constants.MESSAGE_ADD_FAILED, 'danger');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
       }
     },
   },

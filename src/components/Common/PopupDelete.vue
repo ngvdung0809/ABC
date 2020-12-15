@@ -14,7 +14,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import constants from '../../../constants/index';
+import constants from '../../constants/index';
 
 export default {
   props: {
@@ -30,6 +30,12 @@ export default {
     selectedListId: {
       type: Array,
     },
+    action: {
+      type: String
+    },
+    listAction: {
+      type: String
+    }
   },
   data() {
     return {
@@ -52,15 +58,15 @@ export default {
       const payload = {
         list_id: this.selectedListId,
       };
-      await this.$store.dispatch('deleteAccount', payload);
+      await this.$store.dispatch(this.action, payload);
       this.$bvModal.hide(this.idModal);
       if (this.getErrorCode === 0) {
-        this.makeToastMessage(constants.MESSAGE_DELETE_SUCCEED, 'success');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
         this.selectedListId = [];
       } else {
-        this.makeToastMessage(constants.MESSAGE_DELETE_FAILED, 'danger');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
       }
-      await this.$store.dispatch('getAccount', '');
+      await this.$store.dispatch(this.listAction, '');
     },
     cancel() {
       this.$bvModal.hide(this.idModal);
