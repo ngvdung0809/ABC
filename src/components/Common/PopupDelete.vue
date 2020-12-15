@@ -63,6 +63,7 @@ export default {
       if (this.getErrorCode === 0) {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
         this.selectedListId = [];
+        this.$emit('updateSelectedListId', this.selectedListId);
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
       }

@@ -80,6 +80,7 @@
         :selectedListId="selectedListCanHo"
         :action="constants.CANHO_CONST.ACTION"
         :listAction="constants.CANHO_CONST.LIST_ACTION"
+        @updateSelectedListId="updateSelectedListId"
       />
     </div>
   </div>
@@ -150,7 +151,7 @@ export default {
           this.isSelectedAll = false;
         }
       }
-    }
+    },
   },
   methods: {
     setIsSelectedAll() {
@@ -171,6 +172,9 @@ export default {
     cancel() {
       this.$bvModal.hide('modal-detail-account');
     },
+    updateSelectedListId(value) {
+      this.selectedListCanHo = value
+    }
   },
 };
 </script>

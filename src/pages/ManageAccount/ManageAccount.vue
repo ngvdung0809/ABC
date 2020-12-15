@@ -192,6 +192,7 @@ export default {
       }
     },
     getDetailAccount(id) {
+      this.selectedListAccount = [id];
       this.userDetail = this.getListAccount.find((item) => item.id === id);
       this.$store.dispatch('getTenant', '');
     },
