@@ -1,35 +1,42 @@
-const HEADER_MANAGE_ACCOUNT = 'QUẢN LÝ TÀI KHOẢN';
-const TITLE_MANAGE_ACCOUNT = 'Thêm tài khoản';
-const ID_POPUP_ADD_ACCOUNT = 'modal-add-account';
-const ID_POPUP_DETAIL_ACCOUNT = 'modal-detail-account';
-const ID_POPUP_DELETE_ACCOUNT = 'modal-delete-account';
-const CONTENT_POPUP_DELETE_ACCOUNT = 'Bạn có chắc chắn muốn xóa tài khoản này ?';
-const TITLE_POPUP_ADD_ACCOUNT = 'Thêm tài khoản';
-const TITLE_POPUP_DETAIL_ACCOUNT = 'Chi tiết tài khoản';
-const TITLE_POPUP_DELETE_ACCOUNT = 'Xóa tài khoản';
-const MESSAGE_UPDATE_SUCCEED = 'Sửa thành công';
-const MESSAGE_UPDATE_FAILED = 'Sửa thất bại';
-const MESSAGE_ADD_SUCCEED = 'Tạo mới thành công';
-const MESSAGE_ADD_FAILED = 'Tạo mới thất bại';
-const MESSAGE_DELETE_SUCCEED = 'Xóa thành công';
-const MESSAGE_DELETE_FAILED = 'Xóa mới thất bại';
-const regexPassword = '^(?=.*[a-z])(?=.*[A-Z])(?=.*)[A-Za-z!@#$%^&*?]{8,50}$';
+const COMMON_CONST = {
+  MESSAGE_UPDATE_SUCCEED: 'Sửa thành công',
+  MESSAGE_UPDATE_FAILE: 'Sửa thất bại',
+  MESSAGE_ADD_SUCCEED: 'Tạo mới thành công',
+  MESSAGE_ADD_FAILED: 'Tạo mới thất bại',
+  MESSAGE_DELETE_SUCCEED: 'Xóa thành công',
+  MESSAGE_DELETE_FAILED: 'Xóa mới thất bại',
+}
+
+const ACCOUNT_CONST = {
+  HEADER_MANAGE_ACCOUNT: 'QUẢN LÝ TÀI KHOẢN',
+  TITLE_MANAGE_ACCOUNT: 'Thêm tài khoản',
+  ID_POPUP_ADD_ACCOUNT: 'modal-add-account',
+  ID_POPUP_DETAIL_ACCOUNT: 'modal-detail-account',
+  ID_POPUP_DELETE_ACCOUNT: 'modal-delete-account',
+  CONTENT_POPUP_DELETE_ACCOUNT: 'Bạn có chắc chắn muốn xóa tài khoản này ?',
+  TITLE_POPUP_ADD_ACCOUNT: 'Thêm tài khoản',
+  TITLE_POPUP_DETAIL_ACCOUNT: 'Chi tiết tài khoản',
+  TITLE_POPUP_DELETE_ACCOUNT: 'Xóa tài khoản',
+  regexPassword: '^(?=.*[a-z])(?=.*[A-Z])(?=.*)[A-Za-z!@#$%^&*?]{8,50}$',
+  ACTION: 'deleteAccount',
+  LIST_ACTION: 'getAccount',
+}
+
+const CANHO_CONST = {
+  HEADER_MANAGE: 'QUẢN LÝ CĂN HỘ',
+  TITLE_MANAGE: 'Thêm căn hộ',
+  ID_POPUP_ADD: 'modal-add-canho',
+  ID_POPUP_DETAIL: 'modal-detail-canho',
+  ID_POPUP_DELETE: 'modal-delete-canho',
+  CONTENT_POPUP_DELETE: 'Bạn có chắc chắn muốn xóa căn hộ này ?',
+  TITLE_POPUP_ADD: 'Thêm tài khoản',
+  TITLE_POPUP_DELETE: 'Xóa căn hộ',
+  ACTION: 'deleteCanHo',
+  LIST_ACTION: 'getAppartment',
+}
 
 export default {
-  HEADER_MANAGE_ACCOUNT,
-  TITLE_MANAGE_ACCOUNT,
-  ID_POPUP_ADD_ACCOUNT,
-  ID_POPUP_DETAIL_ACCOUNT,
-  ID_POPUP_DELETE_ACCOUNT,
-  CONTENT_POPUP_DELETE_ACCOUNT,
-  TITLE_POPUP_ADD_ACCOUNT,
-  TITLE_POPUP_DETAIL_ACCOUNT,
-  TITLE_POPUP_DELETE_ACCOUNT,
-  MESSAGE_UPDATE_SUCCEED,
-  MESSAGE_UPDATE_FAILED,
-  MESSAGE_ADD_SUCCEED,
-  MESSAGE_ADD_FAILED,
-  MESSAGE_DELETE_SUCCEED,
-  MESSAGE_DELETE_FAILED,
-  regexPassword,
+  COMMON_CONST,
+  ACCOUNT_CONST,
+  CANHO_CONST
 };
