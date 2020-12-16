@@ -8,7 +8,7 @@ export default {
   },
   getters: {
     getListAccount: (state) => state.listAccount,
-    getErrorCode: (state) => state.errorCode,
+    getErrorCodeAccount: (state) => state.errorCode,
   },
   mutations: {
     SET_LIST_ACCOUNT(state, payload) {

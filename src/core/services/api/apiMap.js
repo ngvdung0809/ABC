@@ -28,7 +28,9 @@ const api = (config) => ({
   getCanHo: (keyword) => config('get', `/can-ho/v1/list-can-ho/?search=${keyword}`, ''),
   deleteCanHo: (payload) => config('post', '/can-ho/v1/delete_canho/', payload),
   getToaNha: (keyword) => config('get', `/toa-nha/v1/list-toa-nha/?search=${keyword}`, ''),
+  deleteToaNha: (payload) => config('post', '/toa-nha/v1/delete_toanha/', payload),
   getService: (keyword) => config('get', `/dich-vu/v1/list-dich-vu/?search=${keyword}`, ''),
+  deleteService: (payload) => config('post', '/dich-vu/v1/delete_dichvu/', payload),
 });
 
 export default api;

@@ -8,6 +8,7 @@ export default {
   },
   getters: {
     getlistCanHo: (state) => state.listCanHo,
+    getErrorCodeCanHo: (state) => state.errorCode,
   },
   mutations: {
     SET_LIST_CANHO(state, payload) {
@@ -28,7 +29,6 @@ export default {
     },
     async deleteCanHo({ commit }, payload) {
       const response = await api('deleteCanHo', payload);
-      console.log();
       commit('SET_ERROR_CODE', response.data.error_code);
     },
     // async updateAccount(payload) {

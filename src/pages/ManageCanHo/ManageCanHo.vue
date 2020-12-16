@@ -73,13 +73,11 @@
     </div>
 
     <div>
-      <PopupDelete
+      <PopupDeleteCanHo
         :titleModal="constants.CANHO_CONST.TITLE_POPUP_DELETE"
         :idModal="constants.CANHO_CONST.ID_POPUP_DELETE"
         :contentModal="constants.CANHO_CONST.CONTENT_POPUP_DELETE"
         :selectedListId="selectedListCanHo"
-        :action="constants.CANHO_CONST.ACTION"
-        :listAction="constants.CANHO_CONST.LIST_ACTION"
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
@@ -90,14 +88,14 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageCanHo/Headers/Header.vue';
 import Button from '../../components/ManageCanHo/Buttons/Button.vue';
-import PopupDelete from '../../components/Common/PopupDelete.vue';
+import PopupDeleteCanHo from '../../components/ManageCanHo/Popups/PopupDeleteCanHo.vue';
 import constants from '../../constants/index';
 
 export default {
   name: 'ManageCanHo',
   components: {
     Header,
-    PopupDelete,
+    PopupDeleteCanHo,
     Button,
   },
   data() {

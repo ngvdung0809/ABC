@@ -90,13 +90,12 @@
     </div>
 
     <div>
-      <PopupDelete
+      <PopupDeleteAccount
         :titleModal="constants.ACCOUNT_CONST.TITLE_POPUP_DELETE_ACCOUNT"
         :idModal="constants.ACCOUNT_CONST.ID_POPUP_DELETE_ACCOUNT"
         :contentModal="constants.ACCOUNT_CONST.CONTENT_POPUP_DELETE_ACCOUNT"
         :selectedListId="selectedListAccount"
-        :action="constants.ACCOUNT_CONST.ACTION"
-        :listAction="constants.ACCOUNT_CONST.LIST_ACTION"
+        @updateSelectedListId="updateSelectedListId"
       />
     </div>
 
@@ -113,7 +112,7 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageAccount/Headers/Header.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
-import PopupDelete from '../../components/Common/PopupDelete.vue';
+import PopupDeleteAccount from '../../components/ManageAccount/Popups/PopupDeleteAccount.vue';
 import PopupAddAccount from '../../components/ManageAccount/Popups/PopupAddAccount.vue';
 import constants from '../../constants/index';
 
@@ -122,7 +121,7 @@ export default {
   components: {
     Header,
     PopupDetailAccount,
-    PopupDelete,
+    PopupDeleteAccount,
     PopupAddAccount,
   },
   data() {
@@ -149,7 +148,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['getListAccount', 'getErrorCode']),
+    ...mapGetters(['getListAccount', 'getErrorCodeAccount']),
     listAccount() {
       // set list account
       const result = [];
@@ -251,13 +250,13 @@ export default {
     async submit() {
       // update account
       await this.$store.dispatch('updateAccount', this.dataChanged);
-      if (this.getErrorCode === 0) {
+      if (this.getErrorCodeAccount === 0) {
         this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
         await this.$store.dispatch('getAccount', '');
-        this.makeToastMessage(constants.ACCOUNT_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
         this.canUpdate = false;
       } else {
-        this.makeToastMessage(constants.ACCOUNT_CONST.MESSAGE_UPDATE_FAILED, 'danger');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
     },
     searchAccount(event) {
@@ -269,6 +268,9 @@ export default {
       // close popup detail
       this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
       this.canUpdate = false;
+    },
+    updateSelectedListId(value) {
+      this.selectedListAccount = value;
     },
   },
 };

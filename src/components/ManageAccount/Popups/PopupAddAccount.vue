@@ -156,7 +156,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['getListTenant', 'getErrorCode']),
+    ...mapGetters(['getListTenant', 'getErrorCodeAccount']),
   },
   methods: {
     validateState(name) {
@@ -193,7 +193,7 @@ export default {
         tenant: this.company,
       };
       await this.$store.dispatch('addAccount', payload);
-      if (this.getErrorCode === 0) {
+      if (this.getErrorCodeAccount === 0) {
         this.$bvModal.hide(this.idModal);
         this.clearData();
         await this.$store.dispatch('getAccount', '');

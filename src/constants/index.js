@@ -18,8 +18,6 @@ const ACCOUNT_CONST = {
   TITLE_POPUP_DETAIL_ACCOUNT: 'Chi tiết tài khoản',
   TITLE_POPUP_DELETE_ACCOUNT: 'Xóa tài khoản',
   regexPassword: '^(?=.*[a-z])(?=.*[A-Z])(?=.*)[A-Za-z!@#$%^&*?]{8,50}$',
-  ACTION: 'deleteAccount',
-  LIST_ACTION: 'getAccount',
 }
 
 const CANHO_CONST = {
@@ -29,14 +27,36 @@ const CANHO_CONST = {
   ID_POPUP_DETAIL: 'modal-detail-canho',
   ID_POPUP_DELETE: 'modal-delete-canho',
   CONTENT_POPUP_DELETE: 'Bạn có chắc chắn muốn xóa căn hộ này ?',
-  TITLE_POPUP_ADD: 'Thêm tài khoản',
+  TITLE_POPUP_ADD: 'Thêm căn hộ',
   TITLE_POPUP_DELETE: 'Xóa căn hộ',
-  ACTION: 'deleteCanHo',
-  LIST_ACTION: 'getAppartment',
+}
+
+const TOANHA_CONST = {
+  HEADER_MANAGE: 'QUẢN LÝ TÒA NHÀ',
+  TITLE_MANAGE: 'Thêm tòa nhà',
+  ID_POPUP_ADD: 'modal-add-toanha',
+  ID_POPUP_DETAIL: 'modal-detail-toanha',
+  ID_POPUP_DELETE: 'modal-delete-toanha',
+  CONTENT_POPUP_DELETE: 'Bạn có chắc chắn muốn xóa tòa nhà này ?',
+  TITLE_POPUP_ADD: 'Thêm tòa nhà',
+  TITLE_POPUP_DELETE: 'Xóa tòa nhà',
+}
+
+const SERVICE_CONST = {
+  HEADER_MANAGE: 'QUẢN LÝ DỊCH VỤ',
+  TITLE_MANAGE: 'Thêm dịch vụ',
+  ID_POPUP_ADD: 'modal-add-service',
+  ID_POPUP_DETAIL: 'modal-detail-service',
+  ID_POPUP_DELETE: 'modal-delete-service',
+  CONTENT_POPUP_DELETE: 'Bạn có chắc chắn muốn xóa dịch vụ này ?',
+  TITLE_POPUP_ADD: 'Thêm dịch vụ',
+  TITLE_POPUP_DELETE: 'Xóa dịch vụ',
 }
 
 export default {
   COMMON_CONST,
   ACCOUNT_CONST,
-  CANHO_CONST
+  CANHO_CONST,
+  TOANHA_CONST,
+  SERVICE_CONST
 };
