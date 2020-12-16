@@ -8,6 +8,9 @@ const ID_POPUP_ADD_ACCOUNT = 'modal-add-account';
 const TITLE_POPUP_ADD_ACCOUNT = 'Thêm tài khoản';
 const MESSAGE_UPDATE_SUCCEED = 'Sửa thành công';
 const MESSAGE_UPDATE_FAILED = 'Sửa thất bại';
+const HEADER_MANAGE_CHUNHA = 'QUẢN LÝ CHỦ NHÀ';
+const ID_POPUP_ADD_CHUNHA = 'modal-add-chunha';
+const TITLE_POPUP_ADD_CHUNHA = 'Thêm chủ nhà';
 
 export default {
   ID_POPUP_DETAIL_ACCOUNT,
@@ -20,4 +23,7 @@ export default {
   TITLE_POPUP_ADD_ACCOUNT,
   MESSAGE_UPDATE_SUCCEED,
   MESSAGE_UPDATE_FAILED,
+  HEADER_MANAGE_CHUNHA,
+  ID_POPUP_ADD_CHUNHA,
+  TITLE_POPUP_ADD_CHUNHA,
 };

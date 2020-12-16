@@ -26,6 +26,14 @@
       </b-table>
     </div>
 
+    <div>
+      <PopupAddAccount
+        :titleModal="constants.TITLE_POPUP_ADD_CHUNHA"
+        :idModal="constants.ID_POPUP_ADD_CHUNHA"
+      />
+    </div>
+    
+
     <!-- <div>
       <b-modal id="modal-detail-account" no-close-on-backdrop size="lg" :title="userDetail.full_name">
         <PopupDetailAccount :userDetail="userDetail" @update="updateData"/>
@@ -39,6 +47,7 @@
         </template>
       </b-modal>
     </div> -->
+    
   </div>
 </template>
 
@@ -47,6 +56,8 @@ import { mapGetters } from 'vuex';
 import Header from '../../components/ManageChuNha/Headers/Header.vue';
 import Button from '../../components/ManageChuNha/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
+import PopupAddAccount from '../../components/ManageChuNha/Popups/PopupAddChuNha.vue';
+import constants from '../../constants/index';
 
 export default {
   name: 'ManageChuNha',
@@ -54,6 +65,7 @@ export default {
     Header,
     PopupDetailAccount,
     Button,
+    PopupAddAccount,
   },
   data() {
     return {
@@ -68,6 +80,7 @@ export default {
       ],
       canUpdate: false,
       search: '',
+      constants,
     };
   },
   computed: {
