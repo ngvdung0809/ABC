@@ -37,7 +37,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getErrorCodeService']),
+    ...mapGetters(['getErrorCodeToaNha']),
   },
   methods: {
     makeToastMessage(message, status) {
@@ -52,16 +52,16 @@ export default {
       const payload = {
         list_id: this.selectedListId,
       };
-      await this.$store.dispatch('deleteService', payload);
+      await this.$store.dispatch('deleteHost', payload);
       this.$bvModal.hide(this.idModal);
-      if (this.getErrorCodeService === 0) {
+      if (this.getErrorCodeToaNha === 0) {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
         this.selectedListId = [];
         this.$emit('updateSelectedListId', this.selectedListId);
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
       }
-      await this.$store.dispatch('getService', '');
+      await this.$store.dispatch('getHost', '');
     },
     cancel() {
       this.$bvModal.hide(this.idModal);

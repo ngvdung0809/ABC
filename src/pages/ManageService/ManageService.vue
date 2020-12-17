@@ -87,7 +87,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageToaNha/Headers/Header.vue';
-import Button from '../../components/ManageToaNha/Buttons/Button.vue';
 import PopupDeleteService from '../../components/ManageService/Popups/PopupDeleteService.vue';
 import constants from '../../constants/index';
 
@@ -95,8 +94,7 @@ export default {
   name: 'ManageService',
   components: {
     Header,
-    Button,
-    PopupDeleteService
+    PopupDeleteService,
   },
   data() {
     return {
@@ -118,8 +116,8 @@ export default {
         } else {
           this.isSelectedAll = false;
         }
-      }
-    }
+      },
+    },
   },
   computed: {
     ...mapGetters(['getlistService']),
@@ -139,31 +137,31 @@ export default {
     listIdServce() {
       const result = [];
       this.listServices.forEach((item) => {
-        result.push(item.id)
+        result.push(item.id);
       });
-      return result
+      return result;
     },
     checkCanDelete() {
       let result;
       if (this.selectedListService.length > 0) result = true;
       else result = false;
-      return result
-    }
+      return result;
+    },
   },
   methods: {
     setItemsTableWithSearch() {
       this.$store.dispatch('getService', this.search);
     },
     getSingleIdService(id) {
-      this.selectedListService = [id]
+      this.selectedListService = [id];
     },
     setIsSelectedAll() {
       console.log('vao day');
-      this.isSelectedAll = !this.isSelectedAll
+      this.isSelectedAll = !this.isSelectedAll;
       if (this.isSelectedAll) {
-        this.selectedListService = this.listIdServce
+        this.selectedListService = this.listIdServce;
       } else {
-        this.selectedListService = []
+        this.selectedListService = [];
       }
     },
     updateSelectedListId(value) {

@@ -29,7 +29,7 @@ export default {
     },
     async deleteBuilding({ commit }, payload) {
       const response = await api('deleteToaNha', payload);
-      commit('SET_ERROR_CODE', response.data.error_code)
+      commit('SET_ERROR_CODE', response.data.error_code);
     },
   },
 };

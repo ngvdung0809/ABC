@@ -89,7 +89,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageToaNha/Headers/Header.vue';
-import Button from '../../components/ManageToaNha/Buttons/Button.vue';
 import PopupDeleteToaNha from '../../components/ManageToaNha/Popups/PopupDeleteToaNha.vue';
 import constants from '../../constants/index';
 
@@ -98,12 +97,10 @@ export default {
   components: {
     Header,
     PopupDeleteToaNha,
-    Button,
   },
   data() {
     return {
       styleCss: 'background: #FFFFFF;color:#333333;',
-      
       canUpdate: false,
       isSelectedAll: false,
       inputSearch: '',
@@ -119,8 +116,8 @@ export default {
         } else {
           this.isSelectedAll = false;
         }
-      }
-    }
+      },
+    },
   },
   computed: {
     ...mapGetters(['getlistToaNha']),
@@ -133,7 +130,7 @@ export default {
           phuong: item.phuong,
           district: item.district.name,
           city: item.city,
-          id: item.id
+          id: item.id,
         });
       });
       return items;
@@ -156,11 +153,11 @@ export default {
   methods: {
 
     setIsSelectedAll() {
-      this.isSelectedAll = !this.isSelectedAll
+      this.isSelectedAll = !this.isSelectedAll;
       if (this.isSelectedAll) {
-        this.selectedListBuilding = this.listIdBuilding
+        this.selectedListBuilding = this.listIdBuilding;
       } else {
-        this.selectedListBuilding = []
+        this.selectedListBuilding = [];
       }
     },
     searchBuilding(event) {
@@ -171,7 +168,7 @@ export default {
       this.selectedListBuilding = value;
     },
     getSingleIdBuilding(id) {
-      this.selectedListBuilding = [id]
+      this.selectedListBuilding = [id];
     },
     submit() {
       // console.log('ok');

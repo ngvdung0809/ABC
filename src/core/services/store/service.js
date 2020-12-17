@@ -8,6 +8,7 @@ export default {
   },
   getters: {
     getlistService: (state) => state.listService,
+    getErrorCodeService: (state) => state.errorCode,
   },
   mutations: {
     SET_LIST_DV(state, payload) {
@@ -28,7 +29,7 @@ export default {
     },
     async deleteService({ commit }, payload) {
       const response = await api('deleteService', payload);
-      commit('SET_ERROR_CODE', response.data.error_code)
+      commit('SET_ERROR_CODE', response.data.error_code);
     },
     // async updateAccount(payload) {
     //   const response = await api('updateAccount', payload);

@@ -4,13 +4,18 @@ export default {
   namespace: true,
   state: {
     listKhachThue: [],
+    errorCode: 0,
   },
   getters: {
     getlistKhachThue: (state) => state.listKhachThue,
+    getErrorGuest: (state) => state.errorCode,
   },
   mutations: {
     SET_LIST_KHACHTHUE(state, payload) {
       state.listKhachThue = payload;
+    },
+    SET_ERROR_CODE(state, payload) {
+      state.errorCode = payload;
     },
   },
   actions: {
@@ -21,6 +26,10 @@ export default {
       } else {
         // show message failed
       }
+    },
+    async deleteGuest({ commit }, payload) {
+      const response = await api('deleteGuest', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
     },
     // async updateAccount(payload) {
     //   const response = await api('updateAccount', payload);
