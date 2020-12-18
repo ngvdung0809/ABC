@@ -82,7 +82,7 @@
           <b-button size="sm" variant="danger" @click="cancel">
             Hủy bỏ
           </b-button>
-          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
+          <b-button ref="btn_update_account" size="sm" variant="success" @click="submit" :disabled="!canUpdate" :class="{ '-disable': !canUpdate }">
             Thay đổi
           </b-button>
         </template>
@@ -221,10 +221,10 @@ export default {
       };
 
       // check data is changed -> active button submit
-      if (JSON.stringify(oldData) === JSON.stringify(newData.data)) {
-        this.canUpdate = false;
-      } else {
+      if (JSON.stringify(oldData) !== JSON.stringify(newData.data) && !newData.canUpdate) {
         this.canUpdate = true;
+      } else {
+        this.canUpdate = false;
       }
 
       // data to submit api
@@ -249,6 +249,8 @@ export default {
     },
     async submit() {
       // update account
+      const submitButton = this.$refs.btn_update_account;
+      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateAccount', this.dataChanged);
       if (this.getErrorCodeAccount === 0) {
         this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
@@ -258,6 +260,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
+      submitButton.classList.remove(
+        'spinner',
+        'spinner-light',
+        'spinner-right',
+      );
     },
     searchAccount(event) {
       // call api search account
@@ -341,5 +348,8 @@ th {
 td {
   vertical-align: middle !important;
   padding: 10px !important;
+}
+.-disable {
+  cursor: default !important;
 }
 </style>

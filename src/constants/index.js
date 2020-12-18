@@ -1,10 +1,11 @@
 const COMMON_CONST = {
   MESSAGE_UPDATE_SUCCEED: 'Sửa thành công',
-  MESSAGE_UPDATE_FAILE: 'Sửa thất bại',
+  MESSAGE_UPDATE_FAILED: 'Sửa thất bại',
   MESSAGE_ADD_SUCCEED: 'Tạo mới thành công',
   MESSAGE_ADD_FAILED: 'Tạo mới thất bại',
   MESSAGE_DELETE_SUCCEED: 'Xóa thành công',
   MESSAGE_DELETE_FAILED: 'Xóa mới thất bại',
+  MESSAGE_DELETE_MY_ACCOUNT: 'Không thể xóa tài khoản của chính mình',
 };
 
 const ACCOUNT_CONST = {
@@ -17,7 +18,7 @@ const ACCOUNT_CONST = {
   TITLE_POPUP_ADD_ACCOUNT: 'Thêm tài khoản',
   TITLE_POPUP_DETAIL_ACCOUNT: 'Chi tiết tài khoản',
   TITLE_POPUP_DELETE_ACCOUNT: 'Xóa tài khoản',
-  regexPassword: '^(?=.*[a-z])(?=.*[A-Z])(?=.*)[A-Za-z!@#$%^&*?]{8,50}$',
+  REGEX_PASSWORD: '^(?=.*[a-z])(?=.*[A-Z])(?=.*)[A-Za-z!@#$%^&*?]{8,50}$',
 };
 
 const CANHO_CONST = {

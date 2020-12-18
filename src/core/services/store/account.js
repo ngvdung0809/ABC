@@ -4,7 +4,7 @@ export default {
   namespace: true,
   state: {
     listAccount: [],
-    errorCode: 0,
+    errorCode: null,
   },
   getters: {
     getListAccount: (state) => state.listAccount,
