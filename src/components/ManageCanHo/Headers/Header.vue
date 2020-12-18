@@ -2,7 +2,7 @@
   <div class="header-container">
     <div class="header-container__title">{{ constants.CANHO_CONST.HEADER_MANAGE}}</div>
     <div>
-      <b-button>{{ constants.ACCOUNT_CONST.TITLE_MANAGE_ACCOUNT }}</b-button>
+      <b-button>{{ constants.CANHO_CONST.TITLE_MANAGE }}</b-button>
     </div>
   </div>
 </template>

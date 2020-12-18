@@ -8,7 +8,7 @@ export default {
   },
   getters: {
     getListAccount: (state) => state.listAccount,
-    getErrorCode: (state) => state.errorCode,
+    getErrorCodeAccount: (state) => state.errorCode,
   },
   mutations: {
     SET_LIST_ACCOUNT(state, payload) {
@@ -37,11 +37,7 @@ export default {
     },
     async deleteAccount({ commit }, payload) {
       const response = await api('deleteAccount', payload);
-      if (response.data.error_code === 0) {
-        // commit('SET_LIST_ACCOUNT', response.data.data);
-      } else {
-        // show message failed
-      }
+      commit('SET_ERROR_CODE', response.data.error_code);
     },
   },
 };

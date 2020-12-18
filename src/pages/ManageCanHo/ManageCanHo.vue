@@ -73,13 +73,12 @@
     </div>
 
     <div>
-      <PopupDelete
+      <PopupDeleteCanHo
         :titleModal="constants.CANHO_CONST.TITLE_POPUP_DELETE"
         :idModal="constants.CANHO_CONST.ID_POPUP_DELETE"
         :contentModal="constants.CANHO_CONST.CONTENT_POPUP_DELETE"
         :selectedListId="selectedListCanHo"
-        :action="constants.CANHO_CONST.ACTION"
-        :listAction="constants.CANHO_CONST.LIST_ACTION"
+        @updateSelectedListId="updateSelectedListId"
       />
     </div>
   </div>
@@ -88,16 +87,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageCanHo/Headers/Header.vue';
-import Button from '../../components/ManageCanHo/Buttons/Button.vue';
-import PopupDelete from '../../components/Common/PopupDelete.vue';
+import PopupDeleteCanHo from '../../components/ManageCanHo/Popups/PopupDeleteCanHo.vue';
 import constants from '../../constants/index';
 
 export default {
   name: 'ManageCanHo',
   components: {
     Header,
-    PopupDelete,
-    Button,
+    PopupDeleteCanHo,
   },
   data() {
     return {
@@ -107,7 +104,7 @@ export default {
       inputSearch: '',
       selectedListCanHo: [],
       isSelectedAll: false,
-      constants
+      constants,
     };
   },
   computed: {
@@ -120,7 +117,7 @@ export default {
           host: item.chu_nha.name,
           building: item.toa_nha.name,
           address: item.address,
-          id: item.id
+          id: item.id,
         });
       });
       return items;
@@ -144,13 +141,13 @@ export default {
   watch: {
     selectedListCanHo: {
       handler() {
-        if (this.selectedListCanHo.length === this.listCanHo.length) {
+        if (this.selectedListCanHo.length === this.listIdCanHo.length) {
           this.isSelectedAll = true;
         } else {
           this.isSelectedAll = false;
         }
-      }
-    }
+      },
+    },
   },
   methods: {
     setIsSelectedAll() {
@@ -165,11 +162,14 @@ export default {
       this.selectedListCanHo = [id];
     },
     searchCanHo(event) {
-      event.preventDefault()
+      event.preventDefault();
       this.$store.dispatch('getAppartment', this.inputSearch);
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
+    },
+    updateSelectedListId(value) {
+      this.selectedListCanHo = value;
     },
   },
 };

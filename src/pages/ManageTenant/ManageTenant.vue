@@ -3,42 +3,86 @@
     <div class="manage-tenant-container__header">
       <Header />
     </div>
-    <div class="manage-tenant-container__search-form" v-show="true">
-      <b-form-input placeholder="Họ tên, username, ..." v-model="search"></b-form-input>
-      <div class="manage-tenant-container__search-form__button">
-        <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/>
+    <div class="manage-tenant-container__options">
+      <b-form @submit="searchTenant" >
+        <div class="manage-tenant-container__options__search-form" >
+          <b-form-input class="search-form-input" placeholder="Tìm kiếm" v-model="inputSearch" ></b-form-input>
+          <b-icon-search class="search-form-icon" :font-scale="1.5" @click="searchTenant"></b-icon-search>
+        </div>
+      </b-form>
+      <div class="manage-tenant-container__options__button-group">
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-b-modal.modal-delete-tenant
+          v-if="checkCanDelete"
+        >
+        </b-icon-trash>
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-else
+        >
+        </b-icon-trash>
       </div>
     </div>
     <div class="manage-tenant-container__table">
-      <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
-        <template #cell(actions)="">
-          <div class="show-detail">
-            <inline-svg
-              src="media/svg/icons/Design/Edit.svg"
-              class="edit-svg"
-            />
-             <inline-svg
-              src="media/svg/icons/General/Trash.svg"
-              class="delete-svg"
-            />
-          </div>
-        </template>
-      </b-table>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">
+              <input type="checkbox" :checked="isSelectedAll" @click="setIsSelectedAll"/>
+            </th>
+            <th scope="col">Tên công ty</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Email</th>
+            <th scope="col">Người đại diện</th>
+            <th scope="col">Địa chỉ</th>
+            <th scope="col">Tùy chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(tenant, index) in listTenant" :key="index">
+            <td>
+              <input type="checkbox" :value="tenant.id" v-model="selectedListTenant" />
+            </td>
+            <td>{{ tenant.name }}</td>
+            <td>{{ tenant.phone }}</td>
+            <td>{{ tenant.email }}</td>
+            <td>{{ tenant.rep }}</td>
+            <td>{{ tenant.address }}</td>
+            <td>
+              <div class="show-detail">
+                <b-icon-pencil-square
+                  variant="light"
+                  v-b-modal.modal-detail-tenant
+                ></b-icon-pencil-square>
+                <b-icon-trash
+                  variant="light"
+                  class="rounded-circle bg-danger p-2"
+                  v-b-modal.modal-delete-tenant
+                  @click="getSingleTenantId(tenant.id)"
+                ></b-icon-trash>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- <div>
-      <b-modal id="modal-detail-account" no-close-on-backdrop size="lg" :title="userDetail.full_name">
-        <PopupDetailAccount :userDetail="userDetail" @update="updateData"/>
-        <template #modal-footer="">
-          <b-button size="sm" variant="danger" @click="cancel">
-            Hủy bỏ
-          </b-button>
-          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
-            Thay đổi
-          </b-button>
-        </template>
-      </b-modal>
-    </div> -->
+    <div>
+      <PopupDeleteTenant
+        :titleModal="constants.TENANT_CONST.TITLE_POPUP_DELETE"
+        :idModal="constants.TENANT_CONST.ID_POPUP_DELETE"
+        :contentModal="constants.TENANT_CONST.CONTENT_POPUP_DELETE"
+        :selectedListId="selectedListTenant"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
@@ -46,13 +90,14 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageTenant/Headers/Header.vue';
 import Button from '../../components/ManageTenant/Buttons/Button.vue';
-import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
+import PopupDeleteTenant from '../../components/ManageTenant/Popups/PopupDeleteTenant.vue';
+import constants from '../../constants/index';
 
 export default {
   name: 'ManageTenant',
   components: {
     Header,
-    PopupDetailAccount,
+    PopupDeleteTenant,
     Button,
   },
   data() {
@@ -69,11 +114,27 @@ export default {
       ],
       canUpdate: false,
       search: '',
+      constants,
+      inputSearch: '',
+      selectedListTenant: [],
+      isSelectedAll: false,
+
     };
+  },
+  watch: {
+    selectedListTenant: {
+      handler() {
+        if (this.selectedListTenant.length === this.listIdTenant.length) {
+          this.isSelectedAll = true;
+        } else {
+          this.isSelectedAll = false;
+        }
+      },
+    },
   },
   computed: {
     ...mapGetters(['getListTenant']),
-    setItemsTable() {
+    listTenant() {
       const items = [];
       this.getListTenant.forEach((item) => {
         items.push({
@@ -82,39 +143,45 @@ export default {
           email: item.email ?? item.email2 ?? '-',
           rep: item.rep,
           address: item.address,
+          id: item.id,
         });
       });
       return items;
     },
-    // getToken() {
-    //   return window.sessionStorage.jwtToken;
-    // },
+    listIdTenant() {
+      // set list id account
+      const result = [];
+      this.listTenant.forEach((item) => {
+        result.push(item.id);
+      });
+      return result;
+    },
+    checkCanDelete() {
+      // check enable button delete
+      let result;
+      if (this.selectedListTenant.length > 0) result = true;
+      else result = false;
+      return result;
+    },
   },
   methods: {
-    // getDetailAccount(row) {
-    //   this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-    //   this.$store.dispatch('getTenant', this.getToken);
-    // },
-    // updateData(newData) {
-    //   const oldData = {
-    //     full_name: this.userDetail.full_name,
-    //     role: this.userDetail.role,
-    //     staff_code: this.userDetail.staff_code,
-    //     tenant: this.userDetail.tenant.id,
-    //   };
-
-    //   // check data is changed -> active button submit
-    //   if (JSON.stringify(oldData) === JSON.stringify(newData)) {
-    //     this.canUpdate = false;
-    //   } else {
-    //     this.canUpdate = true;
-    //   }
-    // },
-    setItemsTableWithSearch() {
-      this.$store.dispatch('getTenant', this.search);
+    setIsSelectedAll() {
+      this.isSelectedAll = !this.isSelectedAll;
+      if (this.isSelectedAll) {
+        this.selectedListTenant = this.listIdTenant;
+      } else {
+        this.selectedListTenant = [];
+      }
     },
-    submit() {
-      // console.log('ok');
+    getSingleTenantId(id) {
+      this.selectedListTenant = [id];
+    },
+    updateSelectedListId(value) {
+      this.selectedListTenant = value;
+    },
+    searchTenant(event) {
+      event.preventDefault();
+      this.$store.dispatch('getTenant', this.inputSearch);
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
@@ -128,13 +195,42 @@ export default {
   &__header {
     margin-bottom: 12px;
   }
-  &__search-form {
+  &__options {
     display: grid;
-    grid-template-columns: 80% 20%;
-    padding: 12px 0px;
-    &__button {
+    grid-template-columns: 50% 50%;
+    &__search-form {
+      display: flex;
+      align-items: center;
+      padding: 12px 0px;
+      position: relative;
+      .search-form-input {
+        padding-left: 35px;
+      }
+      .search-form-icon {
+        position: absolute;
+        cursor: pointer;
+        left: 10px;
+      }
+    }
+    &__button-group {
+      margin: 12px 0px;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      .btn-group-options {
+        margin: 0px 5px;
+        cursor: pointer;
+      }
+      .btn-group-options:first-child {
+        margin-left: 0px;
+      }
+      .btn-group-options:last-child {
+        margin-right: 0px;
+      }
+      .-disable {
+        opacity: 0.2;
+        cursor: default;
+      }
     }
   }
   &__table {
@@ -153,9 +249,11 @@ export default {
 }
 </style>
 <style lang='scss'>
-thead {
-  background: #28c5bd;
-  opacity: 0.7;
-  color: #ffffff;
+th {
+  background: #dcdcdc;
+}
+td {
+  vertical-align: middle !important;
+  padding: 10px !important;
 }
 </style>
