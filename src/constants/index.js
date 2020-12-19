@@ -6,6 +6,8 @@ const COMMON_CONST = {
   MESSAGE_DELETE_SUCCEED: 'Xóa thành công',
   MESSAGE_DELETE_FAILED: 'Xóa mới thất bại',
   MESSAGE_DELETE_MY_ACCOUNT: 'Không thể xóa tài khoản của chính mình',
+  MESSAGE_CHANGE_PASSWORD_SUCCEED: 'Mật khẩu đã được thay đổi',
+  MESSAGE_CHANGE_PASSWORD_FAILED: 'Không thể thay đổi mật khẩu. Xin hãy xác nhận lại!',
 };
 
 const ACCOUNT_CONST = {

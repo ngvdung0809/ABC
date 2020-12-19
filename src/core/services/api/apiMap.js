@@ -45,6 +45,7 @@ const api = (config) => ({
   getPayment: (payload) => config('get', `/payment/v1/list-payment/?can_ho=${payload.can_ho}&start_date=${payload.start_date}&end_date=${payload.end_date}`),
   sendEmailPayment: (payload) => config('post', '/payment/v1/send-mail-payment/', payload),
   payment: (payload) => config('post', '/payment/v1/payment/', payload),
+  changePassword: (payload) => config('post', '/auth/v1/change-password/', payload),
 });
 
 export default api;

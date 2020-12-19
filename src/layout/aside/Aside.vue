@@ -37,7 +37,7 @@
           </li>
         </ul>
         <div class="btn-logout" @click="logoutAction">
-          <span class=" svg-icon-xl">
+          <span class="svg-icon-xl">
             <!--begin::Svg Icon-->
             <inline-svg src="media/svg/icons/Navigation/Sign-out.svg" />
             <!--end::Svg Icon-->
@@ -220,6 +220,16 @@ export default {
             {
               nameSubNav: 'Báo cáo nợ xấu kỳ dịch vụ',
               router: '/bad-debt-service',
+            },
+          ],
+        },
+        {
+          name: 'Cài đặt riêng',
+          icon: 'media/svg/icons/Navigation/Exchange.svg',
+          child: [
+            {
+              nameSubNav: 'Thay đổi mật khẩu',
+              router: '/change-password',
             },
           ],
         },
