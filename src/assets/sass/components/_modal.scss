@@ -112,8 +112,8 @@
 }
 
 // Responsive breakpoints
-@include media-breakpoint-up(xl) {
+@include media-breakpoint-up(xll) {
     .modal-dialog.modal-xl {
-        max-width: map-get($grid-breakpoints, xl) - 100px;
+        max-width: 96vw;
     }
 }

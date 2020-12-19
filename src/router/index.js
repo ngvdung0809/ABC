@@ -87,6 +87,15 @@ const routes = [
         component: () => import('@/pages/ManageTenant/ManageTenant'),
       },
       {
+        name: 'ManageContract',
+        path: '/manage-contract',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getTenant', '');
+          next();
+        },
+        component: () => import('@/pages/Contract/ManageContract'),
+      },
+      {
         name: 'ManageService',
         path: '/manage-service',
         beforeEnter: async (to, from, next) => {
