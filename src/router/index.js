@@ -96,6 +96,15 @@ const routes = [
         component: () => import('@/pages/ManageService/ManageService'),
       },
       {
+        name: 'ChangePassword',
+        path: '/change-password',
+        beforeEnter: async (to, from, next) => {
+          // await store.dispatch('getService', '');
+          next();
+        },
+        component: () => import('@/pages/ChangePassword/ChangePassword'),
+      },
+      {
         name: 'Manage',
         path: '/manage',
         component: () => import('@/pages/Manage'),
