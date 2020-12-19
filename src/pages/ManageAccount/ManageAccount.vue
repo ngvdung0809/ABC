@@ -3,46 +3,76 @@
     <div class="manage-account-container__header">
       <Header />
     </div>
-    <div class="manage-account-container__search-form" v-show="false">
-      <b-form-input placeholder="Họ tên, username, ..."></b-form-input>
-      <div class="manage-account-container__search-form__button">
-        <Button :title="'Tìm kiếm'" :styleCss="styleCss" />
+    <div class="manage-account-container__options">
+      <b-form @submit="searchAccount" >
+        <div class="manage-account-container__options__search-form" >
+          <b-form-input class="search-form-input" placeholder="Tìm kiếm" v-model="inputSearch" ></b-form-input>
+          <b-icon-search class="search-form-icon" :font-scale="1.5" @click="searchAccount"></b-icon-search>
+        </div>
+      </b-form>
+      <div class="manage-account-container__options__button-group">
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-b-modal.modal-delete-account
+          v-if="checkCanDelete"
+        >
+        </b-icon-trash>
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-else
+        >
+        </b-icon-trash>
       </div>
     </div>
     <div class="manage-account-container__table">
-      <b-table
-        sticky-header 
-        show-empty
-        bordered
-        outlined
-        Striped 
-        hover 
-        stacked="md" 
-        :items="setItemsTable" 
-        :fields="fields" 
-      >
-        <!-- <template v-slot:cell(selected)="">
-          <b-form-group>
-            <input type="checkbox" />
-          </b-form-group>
-        </template> -->
-        <template #cell(actions)="row">
-          <div class="show-detail">
-            <inline-svg
-              src="media/svg/icons/Design/Edit.svg"
-              class="edit-svg"
-              @click="getDetailAccount(row)"
-              v-b-modal.modal-detail-account
-            />
-             <inline-svg
-              src="media/svg/icons/General/Trash.svg"
-              class="delete-svg"
-              @click="getDetailAccount(row)"
-              v-b-modal.modal-detail-account
-            />
-          </div>
-        </template>
-      </b-table>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">
+              <input type="checkbox" :checked="isSelectedAll" @click="setIsSelectedAll" />
+            </th>
+            <th scope="col">Tài khoản</th>
+            <th scope="col">Họ và tên</th>
+            <th scope="col">Vai trò</th>
+            <th scope="col">Mã nhân viên</th>
+            <th scope="col">Tên công ty</th>
+            <th scope="col">Tùy chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(account, index) in listAccount" :key="index">
+            <td>
+              <input type="checkbox" :value="account.id" v-model="selectedListAccount" />
+            </td>
+            <td>{{ account.userName }}</td>
+            <td>{{ account.fullName }}</td>
+            <td>{{ account.role }}</td>
+            <td>{{ account.staffCode }}</td>
+            <td>{{ account.company }}</td>
+            <td>
+              <div class="show-detail">
+                <b-icon-pencil-square
+                  variant="light"
+                  @click="getDetailAccount(account.id)"
+                  v-b-modal.modal-detail-account
+                ></b-icon-pencil-square>
+                <b-icon-trash
+                  variant="light"
+                  class="rounded-circle bg-danger p-2"
+                  v-b-modal.modal-delete-account
+                  @click="getSingleIdAccount(account.id)"
+                ></b-icon-trash>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div>
@@ -52,11 +82,28 @@
           <b-button size="sm" variant="danger" @click="cancel">
             Hủy bỏ
           </b-button>
-          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
+          <b-button ref="btn_update_account" size="sm" variant="success" @click="submit" :disabled="!canUpdate" :class="{ '-disable': !canUpdate }">
             Thay đổi
           </b-button>
         </template>
       </b-modal>
+    </div>
+
+    <div>
+      <PopupDeleteAccount
+        :titleModal="constants.ACCOUNT_CONST.TITLE_POPUP_DELETE_ACCOUNT"
+        :idModal="constants.ACCOUNT_CONST.ID_POPUP_DELETE_ACCOUNT"
+        :contentModal="constants.ACCOUNT_CONST.CONTENT_POPUP_DELETE_ACCOUNT"
+        :selectedListId="selectedListAccount"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
+
+    <div>
+      <PopupAddAccount
+        :titleModal="constants.ACCOUNT_CONST.TITLE_POPUP_ADD_ACCOUNT"
+        :idModal="constants.ACCOUNT_CONST.ID_POPUP_ADD_ACCOUNT"
+      />
     </div>
   </div>
 </template>
@@ -64,57 +111,93 @@
 <script>
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageAccount/Headers/Header.vue';
-import Button from '../../components/ManageAccount/Buttons/Button.vue';
 import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
+import PopupDeleteAccount from '../../components/ManageAccount/Popups/PopupDeleteAccount.vue';
+import PopupAddAccount from '../../components/ManageAccount/Popups/PopupAddAccount.vue';
+import constants from '../../constants/index';
 
 export default {
   name: 'ManageAccount',
   components: {
     Header,
     PopupDetailAccount,
-    Button,
+    PopupDeleteAccount,
+    PopupAddAccount,
   },
   data() {
     return {
-      title: 'Thêm tài khoản',
-      styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
-      fields: [
-        // { key: 'selected', label: '' },
-        { key: 'username', label: 'Tài khoản' },
-        { key: 'employeeName', label: 'Nhân viên' },
-        { key: 'role', label: 'Vai trò' },
-        { key: 'staffCode', label: 'Mã nhân viên' },
-        { key: 'company', label: 'Tên công ty' },
-        { key: 'actions', label: 'Tùy chọn' },
-      ],
       canUpdate: false,
       dataChanged: {},
+      isSelectedAll: false,
+      selectedListAccount: [],
+      constants,
+      inputSearch: '',
     };
   },
+  watch: {
+    // check status isSelectedAll
+    selectedListAccount: {
+      handler() {
+        if (this.selectedListAccount.length === this.listIdAccount.length) {
+          this.isSelectedAll = true;
+        } else {
+          this.isSelectedAll = false;
+        }
+      },
+    },
+  },
   computed: {
-    ...mapGetters(['getListAccount']),
-    setItemsTable() {
-      const items = [];
+    ...mapGetters(['getListAccount', 'getErrorCodeAccount']),
+    listAccount() {
+      // set list account
+      const result = [];
       this.getListAccount.forEach((item) => {
-        items.push({
-          username: item.username,
-          employeeName: item.full_name,
+        result.push({
+          userName: item.username,
+          fullName: item.full_name,
           role: item.role,
           company: item.tenant.name,
           staffCode: item.staff_code,
+          id: item.id,
         });
       });
-      return items;
+      return result;
     },
-    // getToken() {
-    //   return window.sessionStorage.jwtToken;
-    // },
+    listIdAccount() {
+      // set list id account
+      const result = [];
+      this.listAccount.forEach((item) => {
+        result.push(item.id);
+      });
+      return result;
+    },
+    checkCanDelete() {
+      // check enable button delete
+      let result;
+      if (this.selectedListAccount.length > 0) result = true;
+      else result = false;
+      return result;
+    },
   },
   methods: {
-    getDetailAccount(row) {
-      this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-      this.$store.dispatch('getTenant');
+    setIsSelectedAll() {
+      // change status select box all
+      this.isSelectedAll = !this.isSelectedAll;
+      if (this.isSelectedAll) {
+        this.selectedListAccount = this.listIdAccount;
+      } else {
+        this.selectedListAccount = [];
+      }
+    },
+    getDetailAccount(id) {
+      this.selectedListAccount = [id];
+      this.userDetail = this.getListAccount.find((item) => item.id === id);
+      this.$store.dispatch('getTenant', '');
+    },
+    getSingleIdAccount(id) {
+      // set id when delete single
+      this.selectedListAccount = [id];
     },
     convertRole(role) {
       // change role to number
@@ -138,10 +221,10 @@ export default {
       };
 
       // check data is changed -> active button submit
-      if (JSON.stringify(oldData) === JSON.stringify(newData.data)) {
-        this.canUpdate = false;
-      } else {
+      if (JSON.stringify(oldData) !== JSON.stringify(newData.data) && !newData.canUpdate) {
         this.canUpdate = true;
+      } else {
+        this.canUpdate = false;
       }
 
       // data to submit api
@@ -155,14 +238,46 @@ export default {
         id: newData.id,
       };
     },
+    makeToastMessage(message, status) {
+      // set toast message
+      this.$bvToast.toast(message, {
+        title: 'Thông báo',
+        variant: status,
+        autoHideDelay: 2000,
+        solid: true,
+      });
+    },
     async submit() {
       // update account
+      const submitButton = this.$refs.btn_update_account;
+      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateAccount', this.dataChanged);
-      this.$bvModal.hide('modal-detail-account');
-      await this.$store.dispatch('getAccount');
+      if (this.getErrorCodeAccount === 0) {
+        this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
+        await this.$store.dispatch('getAccount', '');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
+        this.canUpdate = false;
+      } else {
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
+      }
+      submitButton.classList.remove(
+        'spinner',
+        'spinner-light',
+        'spinner-right',
+      );
+    },
+    searchAccount(event) {
+      // call api search account
+      event.preventDefault();
+      this.$store.dispatch('getAccount', this.inputSearch);
     },
     cancel() {
-      this.$bvModal.hide('modal-detail-account');
+      // close popup detail
+      this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
+      this.canUpdate = false;
+    },
+    updateSelectedListId(value) {
+      this.selectedListAccount = value;
     },
   },
 };
@@ -173,13 +288,42 @@ export default {
   &__header {
     margin-bottom: 12px;
   }
-  &__search-form {
+  &__options {
     display: grid;
-    grid-template-columns: 80% 20%;
-    padding: 12px 0px;
-    &__button {
+    grid-template-columns: 50% 50%;
+    &__search-form {
+      display: flex;
+      align-items: center;
+      padding: 12px 0px;
+      position: relative;
+      .search-form-input {
+        padding-left: 35px;
+      }
+      .search-form-icon {
+        position: absolute;
+        cursor: pointer;
+        left: 10px;
+      }
+    }
+    &__button-group {
+      margin: 12px 0px;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      .btn-group-options {
+        margin: 0px 5px;
+        cursor: pointer;
+      }
+      .btn-group-options:first-child {
+        margin-left: 0px;
+      }
+      .btn-group-options:last-child {
+        margin-right: 0px;
+      }
+      .-disable {
+        opacity: 0.2;
+        cursor: default;
+      }
     }
   }
   &__table {
@@ -198,12 +342,14 @@ export default {
 }
 </style>
 <style lang='scss'>
-thead {
-  background: linear-gradient(to bottom left, #6600cc 0%, #ff99cc 100%);
-  opacity: 0.7;
-  color: #ffffff;
+th {
+  background: #dcdcdc;
 }
 td {
   vertical-align: middle !important;
+  padding: 10px !important;
+}
+.-disable {
+  cursor: default !important;
 }
 </style>

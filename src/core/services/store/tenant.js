@@ -4,13 +4,18 @@ export default {
   namespace: true,
   state: {
     listTenant: [],
+    errorCode: 0,
   },
   getters: {
     getListTenant: (state) => state.listTenant,
+    getErrorCodeTenant: (state) => state.errorCode,
   },
   mutations: {
     SET_LIST_TENANT(state, payload) {
       state.listTenant = payload;
+    },
+    SET_ERROR_CODE(state, payload) {
+      state.errorCode = payload;
     },
   },
   actions: {
@@ -21,6 +26,10 @@ export default {
       } else {
         // show message failed
       }
+    },
+    async deleteTenant({ commit }, payload) {
+      const response = await api('deleteTenant', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
     },
   },
 };

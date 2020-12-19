@@ -1,27 +1,28 @@
 <template>
   <div class="header-container">
-    <div class="header-container__title">QUẢN LÝ TÀI KHOẢN</div>
+    <div class="header-container__title">{{ constants.ACCOUNT_CONST.HEADER_MANAGE_ACCOUNT }}</div>
     <div>
-      <Button :title="title" :styleCss="styleCss" />
+      <b-button v-b-modal.modal-add-account @click="getTenant">{{ constants.ACCOUNT_CONST.TITLE_MANAGE_ACCOUNT }}</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Button from '../Buttons/Button.vue';
+import constants from '../../../constants/index';
 
 export default {
   name: 'Header',
-  components: {
-    Button,
-  },
+  components: {},
   data() {
     return {
-      title: 'Thêm tài khoản',
-      styleCss: 'background: #FFFFFF;color:#333333;',
+      constants,
     };
   },
-  methods: {},
+  methods: {
+    getTenant() {
+      this.$store.dispatch('getTenant', '');
+    },
+  },
 };
 </script>
 
@@ -37,6 +38,7 @@ export default {
     align-items: center;
     font-weight: 900;
     font-size: 18px;
+    color: whitesmoke;
   }
 }
 </style>

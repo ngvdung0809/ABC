@@ -1,15 +1,40 @@
 <template>
   <div class="popup-detail-account">
     <div class="form-input">
-      <label for="username">Tài khoản:</label>
-      <b-form-input placeholder="" id="username" v-model="userDetail.username" disabled></b-form-input>
+      <label for="username">
+        <span class="text-color-required">*</span> Tài khoản:
+      </label>
+      <div>
+        <b-form-input
+          placeholder=""
+          id="username"
+          v-model="userDetail.username"
+          disabled
+        >
+        </b-form-input>
+      </div>
     </div>
     <div class="form-input">
-      <label for="fullName">Nhân viên:</label>
-      <b-form-input placeholder="" id="fullName" v-model="dataSubmit.full_name"></b-form-input>
+      <label for="fullName">
+        <span class="text-color-required">*</span> Tên Nhân viên:
+      </label>
+      <div>
+        <b-form-input
+          placeholder=""
+          id="fullName"
+          v-model="$v.dataSubmit.full_name.$model"
+          :state="validateState('full_name')"
+          aria-describedby="input-fullName-feedback"
+        ></b-form-input>
+        <b-form-invalid-feedback id="input-fullName-feedback" v-if="!$v.dataSubmit.full_name.required" >
+            Xin hãy nhập họ tên
+          </b-form-invalid-feedback>
+      </div>
     </div>
     <div class="form-input">
-      <label for="role">Vai trò:</label>
+      <label for="role">
+        <span class="text-color-required">*</span> Vai trò:
+      </label>
       <select id="role" v-model="dataSubmit.role" class="b-dropdown">
         <option value="Admin">ADMIN</option>
         <option value="View">VIEW</option>
@@ -21,8 +46,10 @@
       <b-form-input placeholder="" id="staffCode" v-model="dataSubmit.staff_code"></b-form-input>
     </div>
     <div class="form-input">
-      <label for="company">Tên công ty:</label>
-      <select id="role" class="b-dropdown" v-model="dataSubmit.tenant">
+      <label for="company">
+        <span class="text-color-required">*</span> Tên công ty:
+      </label>
+      <select id="company" class="b-dropdown" v-model="dataSubmit.tenant">
         <option v-for="company in getListTenant" :key="company.id" :value="company.id">{{ company.name }}</option>
       </select>
     </div>
@@ -31,16 +58,18 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import { validationMixin } from 'vuelidate';
+import { required, minLength } from 'vuelidate/lib/validators';
 
 export default {
   name: 'PopupDetailAccount',
+  mixins: [validationMixin],
   props: {
     userDetail: {
       type: Object,
     },
   },
-  components: {
-  },
+  components: {},
   data() {
     return {
       dataSubmit: {
@@ -51,12 +80,23 @@ export default {
       },
     };
   },
+  validations: {
+    dataSubmit: {
+      full_name: {
+        required,
+      },
+      staff_code: {
+        minLength: minLength(4),
+      },
+    },
+  },
   watch: {
     dataSubmit: {
       handler(val) {
         this.$emit('update', {
           data: val,
           id: this.userDetail.id,
+          canUpdate: this.canUpdate,
         });
       },
       deep: true,
@@ -64,12 +104,19 @@ export default {
   },
   computed: {
     ...mapGetters(['getListTenant']),
+    canUpdate() {
+      let result;
+      this.$v.$touch();
+      if (this.$v.$anyError) {
+        result = true;
+      } else result = false;
+      return result;
+    },
   },
   methods: {
-    submit() {
-    },
-    cancel() {
-      this.$bvModal.hide('modal-detail-account');
+    validateState(name) {
+      const { $dirty, $error } = this.$v.dataSubmit[name];
+      return $dirty ? !$error : null;
     },
   },
 };
