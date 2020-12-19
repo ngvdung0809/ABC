@@ -87,6 +87,15 @@ const TENANT_CONST = {
   TITLE_POPUP_DELETE: 'Xóa công ty',
 };
 
+const PAYMENT_CONST = {
+  PAYMENT_COMPLETED: 1,
+  PAYMENT_UNCOMPLETED: 2,
+  ID_POPUP_PAYMENT: 'modal-payment',
+  HEADER_MANAGE: 'QUẢN LÝ THANH TOÁN HỢP ĐỒNG',
+  CONTENT_POPUP_PAYMENT: 'Bạn có chắc chắn muốn thanh toán kỳ thanh toán này ?',
+  TITLE_POPUP_PAYMENT: 'Thanh toán hợp đồng',
+};
+
 export default {
   COMMON_CONST,
   ACCOUNT_CONST,
@@ -96,4 +105,5 @@ export default {
   CHUNHA_CONST,
   GUEST_CONST,
   TENANT_CONST,
+  PAYMENT_CONST,
 };

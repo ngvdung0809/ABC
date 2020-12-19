@@ -96,6 +96,11 @@ const routes = [
         component: () => import('@/pages/ManageService/ManageService'),
       },
       {
+        name: 'ManagePayment',
+        path: '/period-payment-contract',
+        component: () => import('@/pages/Payment/Payment'),
+      },
+      {
         name: 'Manage',
         path: '/manage',
         component: () => import('@/pages/Manage'),
