@@ -3,78 +3,113 @@
     <div class="manage-canho-container__header">
       <Header />
     </div>
-    <div class="manage-canho-container__search-form" v-show="true">
-      <b-form-input placeholder="Tên căn hộ, username, ..." v-model="search"></b-form-input>
-      <div class="manage-canho-container__search-form__button">
-        <Button :title="'Tìm kiếm'" :styleCss="styleCss" @click.native="setItemsTableWithSearch"/>
+    <div class="manage-canho-container__options">
+      <b-form @submit="searchCanHo" >
+        <div class="manage-canho-container__options__search-form" >
+          <b-form-input class="search-form-input" placeholder="Tìm kiếm" v-model="inputSearch" ></b-form-input>
+          <b-icon-search class="search-form-icon" :font-scale="1.5" @click="searchCanHo"></b-icon-search>
+        </div>
+      </b-form>
+      <div class="manage-canho-container__options__button-group">
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-b-modal.modal-delete-canho
+          v-if="checkCanDelete"
+        >
+        </b-icon-trash>
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-else
+        >
+        </b-icon-trash>
       </div>
     </div>
     <div class="manage-canho-container__table">
-      <b-table show-empty small stacked="md" :items="setItemsTable" :fields="fields">
-        <template #cell(actions)="">
-          <div class="show-detail">
-            <!-- <inline-svg
-              src="media/svg/icons/Design/Edit.svg"
-              class="edit-svg"
-            />
-             <inline-svg
-              src="media/svg/icons/General/Trash.svg"
-              class="delete-svg"
-            /> -->
-            <b-icon-pencil-square></b-icon-pencil-square>
-            <b-icon-trash class="rounded-circle bg-danger p-2"></b-icon-trash>
-          </div>
-        </template>
-      </b-table>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">
+              <input type="checkbox" :checked="isSelectedAll" @click="setIsSelectedAll"/>
+            </th>
+            <th scope="col">Căn Hộ</th>
+            <th scope="col">Chủ Nhà</th>
+            <th scope="col">Tòa Nhà</th>
+            <th scope="col">Địa Chỉ</th>
+            <th scope="col">Tùy chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(can_ho, index) in listCanHo" :key="index">
+            <td>
+              <input type="checkbox" :value="can_ho.id" v-model="selectedListCanHo" />
+            </td>
+            <td>{{ can_ho.name }}</td>
+            <td>{{ can_ho.host }}</td>
+            <td>{{ can_ho.building }}</td>
+            <td>{{ can_ho.address }}</td>
+            <td>
+              <div class="show-detail">
+                <b-icon-pencil-square
+                  variant="light"
+                  v-b-modal.modal-detail-account
+                ></b-icon-pencil-square>
+                <b-icon-trash
+                  variant="light"
+                  class="rounded-circle bg-danger p-2"
+                  v-b-modal.modal-delete-canho
+                  @click="getSingleCanHoId(can_ho.id)"
+                ></b-icon-trash>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- <div>
-      <b-modal id="modal-detail-account" no-close-on-backdrop size="lg" :title="userDetail.full_name">
-        <PopupDetailAccount :userDetail="userDetail" @update="updateData"/>
-        <template #modal-footer="">
-          <b-button size="sm" variant="danger" @click="cancel">
-            Hủy bỏ
-          </b-button>
-          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
-            Thay đổi
-          </b-button>
-        </template>
-      </b-modal>
-    </div> -->
+    <div>
+      <PopupDeleteCanHo
+        :titleModal="constants.CANHO_CONST.TITLE_POPUP_DELETE"
+        :idModal="constants.CANHO_CONST.ID_POPUP_DELETE"
+        :contentModal="constants.CANHO_CONST.CONTENT_POPUP_DELETE"
+        :selectedListId="selectedListCanHo"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageCanHo/Headers/Header.vue';
-import Button from '../../components/ManageCanHo/Buttons/Button.vue';
-import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
+import PopupDeleteCanHo from '../../components/ManageCanHo/Popups/PopupDeleteCanHo.vue';
+import constants from '../../constants/index';
 
 export default {
   name: 'ManageCanHo',
   components: {
     Header,
-    PopupDetailAccount,
-    Button,
+    PopupDeleteCanHo,
   },
   data() {
     return {
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
-      fields: [
-        { key: 'name', label: 'Căn hộ' },
-        { key: 'host', label: 'Chủ nhà' },
-        { key: 'building', label: 'Tòa nhà' },
-        { key: 'address', label: 'Địa chỉ' },
-        { key: 'actions', label: 'Tùy chọn' },
-      ],
       canUpdate: false,
-      search: '',
+      inputSearch: '',
+      selectedListCanHo: [],
+      isSelectedAll: false,
+      constants,
     };
   },
   computed: {
     ...mapGetters(['getlistCanHo']),
-    setItemsTable() {
+    listCanHo() {
       const items = [];
       this.getlistCanHo.forEach((item) => {
         items.push({
@@ -82,42 +117,59 @@ export default {
           host: item.chu_nha.name,
           building: item.toa_nha.name,
           address: item.address,
+          id: item.id,
         });
       });
       return items;
     },
-    // getToken() {
-    //   return window.sessionStorage.jwtToken;
-    // },
+    listIdCanHo() {
+      // set list id account
+      const result = [];
+      this.listCanHo.forEach((item) => {
+        result.push(item.id);
+      });
+      return result;
+    },
+    checkCanDelete() {
+      // check enable button delete
+      let result;
+      if (this.selectedListCanHo.length > 0) result = true;
+      else result = false;
+      return result;
+    },
+  },
+  watch: {
+    selectedListCanHo: {
+      handler() {
+        if (this.selectedListCanHo.length === this.listIdCanHo.length) {
+          this.isSelectedAll = true;
+        } else {
+          this.isSelectedAll = false;
+        }
+      },
+    },
   },
   methods: {
-    // getDetailAccount(row) {
-    //   this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-    //   this.$store.dispatch('getTenant', this.getToken);
-    // },
-    // updateData(newData) {
-    //   const oldData = {
-    //     full_name: this.userDetail.full_name,
-    //     role: this.userDetail.role,
-    //     staff_code: this.userDetail.staff_code,
-    //     tenant: this.userDetail.tenant.id,
-    //   };
-
-    //   // check data is changed -> active button submit
-    //   if (JSON.stringify(oldData) === JSON.stringify(newData)) {
-    //     this.canUpdate = false;
-    //   } else {
-    //     this.canUpdate = true;
-    //   }
-    // },
-    setItemsTableWithSearch() {
-      this.$store.dispatch('getAppartment', this.search);
+    setIsSelectedAll() {
+      this.isSelectedAll = !this.isSelectedAll;
+      if (this.isSelectedAll) {
+        this.selectedListCanHo = this.listIdCanHo;
+      } else {
+        this.selectedListCanHo = [];
+      }
     },
-    submit() {
-      // console.log('ok');
+    getSingleCanHoId(id) {
+      this.selectedListCanHo = [id];
+    },
+    searchCanHo(event) {
+      event.preventDefault();
+      this.$store.dispatch('getAppartment', this.inputSearch);
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
+    },
+    updateSelectedListId(value) {
+      this.selectedListCanHo = value;
     },
   },
 };
@@ -128,13 +180,42 @@ export default {
   &__header {
     margin-bottom: 12px;
   }
-  &__search-form {
+  &__options {
     display: grid;
-    grid-template-columns: 80% 20%;
-    padding: 12px 0px;
-    &__button {
+    grid-template-columns: 50% 50%;
+    &__search-form {
+      display: flex;
+      align-items: center;
+      padding: 12px 0px;
+      position: relative;
+      .search-form-input {
+        padding-left: 35px;
+      }
+      .search-form-icon {
+        position: absolute;
+        cursor: pointer;
+        left: 10px;
+      }
+    }
+    &__button-group {
+      margin: 12px 0px;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      .btn-group-options {
+        margin: 0px 5px;
+        cursor: pointer;
+      }
+      .btn-group-options:first-child {
+        margin-left: 0px;
+      }
+      .btn-group-options:last-child {
+        margin-right: 0px;
+      }
+      .-disable {
+        opacity: 0.2;
+        cursor: default;
+      }
     }
   }
   &__table {
@@ -153,9 +234,11 @@ export default {
 }
 </style>
 <style lang='scss'>
-thead {
-  background: #28c5bd;
-  opacity: 0.7;
-  color: #ffffff;
+th {
+  background: #dcdcdc;
+}
+td {
+  vertical-align: middle !important;
+  padding: 10px !important;
 }
 </style>

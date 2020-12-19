@@ -15,7 +15,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import constants from '../../../constants/index';
-import utils from '../../../utils/index';
 
 export default {
   props: {
@@ -38,7 +37,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getErrorCodeAccount']),
+    ...mapGetters(['getErrorCodeTenant']),
   },
   methods: {
     makeToastMessage(message, status) {
@@ -53,19 +52,16 @@ export default {
       const payload = {
         list_id: this.selectedListId,
       };
-      if (payload.list_id.indexOf(utils.myAccount()) !== -1) {
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_MY_ACCOUNT, 'danger');
-      } else {
-        await this.$store.dispatch('deleteAccount', payload);
-        if (this.getErrorCodeAccount === 0) {
-          this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
-        } else {
-          this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
-        }
-      }
+      await this.$store.dispatch('deleteTenant', payload);
       this.$bvModal.hide(this.idModal);
-      this.$emit('updateSelectedListId', []);
-      await this.$store.dispatch('getAccount', '');
+      if (this.getErrorCodeTenant === 0) {
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
+        this.selectedListId = [];
+        this.$emit('updateSelectedListId', this.selectedListId);
+      } else {
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
+      }
+      await this.$store.dispatch('getTenant', '');
     },
     cancel() {
       this.$bvModal.hide(this.idModal);

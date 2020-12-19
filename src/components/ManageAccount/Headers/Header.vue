@@ -1,8 +1,8 @@
 <template>
   <div class="header-container">
-    <div class="header-container__title">{{ constants.HEADER_MANAGE_ACCOUNT }}</div>
+    <div class="header-container__title">{{ constants.ACCOUNT_CONST.HEADER_MANAGE_ACCOUNT }}</div>
     <div>
-      <b-button v-b-modal.modal-add-account @click="getTenant">{{ constants.TITLE_MANAGE_ACCOUNT }}</b-button>
+      <b-button v-b-modal.modal-add-account @click="getTenant">{{ constants.ACCOUNT_CONST.TITLE_MANAGE_ACCOUNT }}</b-button>
     </div>
   </div>
 </template>
@@ -38,6 +38,7 @@ export default {
     align-items: center;
     font-weight: 900;
     font-size: 18px;
+    color: whitesmoke;
   }
 }
 </style>
