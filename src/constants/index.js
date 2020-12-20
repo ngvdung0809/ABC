@@ -98,6 +98,15 @@ const PAYMENT_CONST = {
   TITLE_POPUP_PAYMENT: 'Thanh toán hợp đồng',
 };
 
+const UNPAYMENT_CONST = {
+  PAYMENT_COMPLETED: 1,
+  PAYMENT_UNCOMPLETED: 2,
+  ID_POPUP_PAYMENT: 'modal-unpayment',
+  HEADER_MANAGE: 'QUẢN LÝ NỢ XẤU THANH TOÁN HỢP ĐỒNG',
+  CONTENT_POPUP_PAYMENT: 'Bạn có chắc chắn muốn thanh toán kỳ thanh toán này ?',
+  TITLE_POPUP_PAYMENT: 'Thanh toán hợp đồng',
+};
+
 export default {
   COMMON_CONST,
   ACCOUNT_CONST,
@@ -108,4 +117,5 @@ export default {
   GUEST_CONST,
   TENANT_CONST,
   PAYMENT_CONST,
+  UNPAYMENT_CONST
 };

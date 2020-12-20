@@ -110,6 +110,11 @@ const routes = [
         component: () => import('@/pages/Payment/Payment'),
       },
       {
+        name: 'ManageUnPayment',
+        path: '/bad-debt-contract',
+        component: () => import('@/pages/UnPayment/UnPayment'),
+      },
+      {
         name: 'ChangePassword',
         path: '/change-password',
         beforeEnter: async (to, from, next) => {

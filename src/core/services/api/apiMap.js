@@ -23,6 +23,7 @@ const api = (config) => ({
   addAccount: (payload) => config('post', '/auth/v1/register/', payload),
   updateAccount: (payload) => config('patch', `/account/v1/${payload.id}/`, payload.data),
   deleteAccount: (payload) => config('post', '/account/v1/delete_account/', payload),
+  changePassword: (payload) => config('post', '/auth/v1/change-password/', payload),
   // tenant
   getTenant: (keyword) => config('get', `/tenant/v1/list-tenant/?search=${keyword}`, ''),
   deleteTenant: (payload) => config('post', '/tenant/v1/delete-tenant/', payload),
@@ -45,7 +46,11 @@ const api = (config) => ({
   getPayment: (payload) => config('get', `/payment/v1/list-payment/?can_ho=${payload.can_ho}&start_date=${payload.start_date}&end_date=${payload.end_date}`),
   sendEmailPayment: (payload) => config('post', '/payment/v1/send-mail-payment/', payload),
   payment: (payload) => config('post', '/payment/v1/payment/', payload),
-  changePassword: (payload) => config('post', '/auth/v1/change-password/', payload),
+  // unpayment
+  getUnPayment: (payload) => config('get', `/payment/v1/list-unpaid-payment/?can_ho=${payload.can_ho}`),
+  // sendEmailPayment: (payload) => config('post', '/payment/v1/send-mail-payment/', payload),
+  // payment: (payload) => config('post', '/payment/v1/payment/', payload),
+  
 });
 
 export default api;
