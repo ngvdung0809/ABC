@@ -139,72 +139,72 @@ export default {
           icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
           child: [
             {
-              nameSubNav: 'Summary',
-              router: '/summary',
+              nameSubNav: 'Tổng quát',
+              router: '/summary'
             },
           ],
         },
         {
           name: 'Admin',
-          icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
+          icon: 'media/svg/icons/Communication/Group.svg',
           child: [
             {
-              nameSubNav: 'Account',
+              nameSubNav: 'Tài khoản',
               router: '/manage-account',
             },
           ],
         },
         {
-          name: 'Manage',
+          name: 'Các bên liên quan',
           icon: 'media/svg/icons/Communication/Group.svg',
           router: '/manage',
           child: [
             {
-              nameSubNav: 'Building',
+              nameSubNav: 'Tòa nhà',
               router: '/manage-building',
             },
             {
-              nameSubNav: 'Appartment',
+              nameSubNav: 'Căn hộ',
               router: '/manage-appartment',
             },
             {
-              nameSubNav: 'Services',
+              nameSubNav: 'Dịch vụ',
               router: '/manage-service',
             },
           ],
         },
         {
-          name: 'Contract',
+          name: 'Hợp đồng',
           icon: 'media/svg/icons/Media/Equalizer.svg',
           child: [
             {
-              nameSubNav: 'Manage Contract',
+              nameSubNav: 'Quản lý bộ hợp đồng',
               router: '/manage-contract',
             },
             {
-              nameSubNav: 'Host',
+              nameSubNav: 'Chủ nhà',
               router: '/manage-host',
             },
             {
-              nameSubNav: 'Guest',
+              nameSubNav: 'Khách thuê',
               router: '/manage-guest',
             },
             {
-              nameSubNav: 'Company',
+              nameSubNav: 'Công ty môi giới',
               router: '/manage-company',
             },
           ],
         },
         {
-          name: 'Finance',
+          name: 'Thanh toán',
           icon: 'media/svg/icons/Media/Equalizer.svg',
           child: [
             {
-              nameSubNav: 'Danh sách kỳ thanh toán hợp đồng',
+              nameSubNav: 'Danh sách kỳ TT hợp đồng',
               router: '/period-payment-contract',
             },
             {
-              nameSubNav: 'Danh sách kỳ thanh toán dịch vụ',
+              nameSubNav: 'Danh sách kỳ TT dịch vụ',
               router: '/period-payment-service',
             },
           ],
@@ -224,7 +224,7 @@ export default {
           ],
         },
         {
-          name: 'Cài đặt riêng',
+          name: 'Cài đặt',
           icon: 'media/svg/icons/Navigation/Exchange.svg',
           child: [
             {

@@ -70,15 +70,28 @@
               <div class="show-detail">
                 <b-icon-mailbox
                   variant="light"
-                  @click="sendEmail(payment.id)"
                   :class="{
                     '-disable' : payment.status === constants.PAYMENT_CONST.PAYMENT_COMPLETED,
                   }"
+                  v-if="payment.status === constants.PAYMENT_CONST.PAYMENT_COMPLETED"
+                ></b-icon-mailbox>
+                <b-icon-mailbox
+                  variant="light"
+                  @click="sendEmail(payment.id)"
+                  v-else
                 ></b-icon-mailbox>
                 <b-icon-credit-card
                   variant="light"
+                  :class="{
+                    '-disable' : payment.status === constants.PAYMENT_CONST.PAYMENT_COMPLETED,
+                  }"
+                  v-if="payment.status === constants.PAYMENT_CONST.PAYMENT_COMPLETED"
+                ></b-icon-credit-card>
+                 <b-icon-credit-card
+                  variant="light"
                   @click="getIdPayment(payment.id)"
                   v-b-modal.modal-payment
+                  v-else
                 ></b-icon-credit-card>
               </div>
             </td>

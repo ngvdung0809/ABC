@@ -19,7 +19,6 @@
           <tr>
             <th scope="col">Căn hộ</th>
             <th scope="col">Đợt thanh toán</th>
-            <th scope="col">Trạng thái</th>
             <th scope="col">Số tiền</th>
             <th scope="col">Người gửi-Người nhận</th>
             <th scope="col">Ngày thanh toán dự kiến</th>
@@ -31,15 +30,6 @@
           <tr v-for="(payment, index) in listUnPayment" :key="index">
             <td>{{ payment.can_ho }}</td>
             <td>{{ payment.dot_thanh_toan }}</td>
-            <td>
-              <div :class="{
-                  '-completed' : payment.status === constants.PAYMENT_CONST.PAYMENT_COMPLETED,
-                  '-unCompleted' : payment.status === constants.PAYMENT_CONST.PAYMENT_UNCOMPLETED
-                }"
-              >
-                {{ payment.status === constants.PAYMENT_CONST.PAYMENT_COMPLETED ? 'Đã thanh toán' : 'Chưa thanh toán' }}
-              </div>
-            </td>
             <td>{{ payment.so_tien }}</td>
             <td>{{ payment.obj}}</td>
             <td>{{ payment.ngay_thanh_toan_du_kien }}</td>
@@ -204,14 +194,6 @@ export default {
         margin-right: 5px;
         cursor: pointer;
       }
-    }
-    .-completed {
-      background: #58e8af;
-      color: #ffffff;
-    }
-    .-unCompleted {
-      background: #800a37;
-      color: #ffffff;
     }
   }
 }
