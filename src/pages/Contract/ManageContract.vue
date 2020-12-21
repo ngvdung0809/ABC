@@ -1,189 +1,226 @@
 <template>
-  <div class="manage-account-container">
-        <DialogCreateContract></DialogCreateContract>
-    <b-button v-b-modal.modal-xl variant="primary">xl modal</b-button>
-    <div class="manage-account-container__header">
+  <div class="manage-contract-container">
+    <div class="manage-contract-container__header">
       <Header />
     </div>
-    <div class="manage-account-container__search-form" v-show="false">
-      <b-form-input placeholder="Họ tên, username, ..."></b-form-input>
-      <div class="manage-account-container__search-form__button">
-        <Button :title="'Tìm kiếm'" :styleCss="styleCss" />
+    <div class="manage-contract-container__options">
+      <b-form @submit="searchContract" >
+        <div class="manage-contract-container__options__search-form" >
+          <b-form-input class="search-form-input" placeholder="Tìm kiếm" v-model="inputSearch" ></b-form-input>
+          <b-icon-search class="search-form-icon" :font-scale="1.5" @click="searchContract"></b-icon-search>
+        </div>
+      </b-form>
+      <div class="manage-contract-container__options__button-group">
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-b-modal.modal-delete-contract
+          v-if="checkCanDelete"
+        >
+        </b-icon-trash>
+        <b-icon-trash
+          class="btn-group-options"
+          variant="danger"
+          font-scale="2.5"
+          :class="checkCanDelete ? '' : '-disable'"
+          v-else
+        >
+        </b-icon-trash>
       </div>
     </div>
-    <div class="manage-account-container__table">
-      <b-table
-        sticky-header
-        show-empty
-        bordered
-        outlined
-        Striped
-        hover
-        stacked="md"
-        :items="setItemsTable"
-        :fields="fields"
-      >
-        <!-- <template v-slot:cell(selected)="">
-          <b-form-group>
-            <input type="checkbox" />
-          </b-form-group>
-        </template> -->
-        <template #cell(actions)="row">
-          <div class="show-detail">
-            <inline-svg
-              src="media/svg/icons/Design/Edit.svg"
-              class="edit-svg"
-              @click="getDetailAccount(row)"
-              v-b-modal.modal-detail-account
-            />
-             <inline-svg
-              src="media/svg/icons/General/Trash.svg"
-              class="delete-svg"
-              @click="getDetailAccount(row)"
-              v-b-modal.modal-detail-account
-            />
-          </div>
-        </template>
-      </b-table>
+    <div class="manage-contract-container__table">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">
+              <input type="checkbox" :checked="isSelectedAll" @click="setIsSelectedAll"/>
+            </th>
+            <th scope="col">Bộ hợp đồng</th>
+            <th scope="col">Chủ Nhà</th>
+            <th scope="col">Căn hộ</th>
+            <th scope="col">Tùy chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(contract, index) in listContract" :key="index">
+            <td>
+              <input type="checkbox" :value="contract.id" v-model="selectedListContract" />
+            </td>
+            <td>{{ contract.name }}</td>
+            <td>{{ contract.host }}</td>
+            <td>{{ contract.can_ho }}</td>
+            <td>
+              <div class="show-detail">
+                <b-icon-pencil-square
+                  variant="light"
+                  v-b-modal.modal-detail-contract
+                ></b-icon-pencil-square>
+                <b-icon-trash
+                  variant="light"
+                  class="rounded-circle bg-danger p-2"
+                  v-b-modal.modal-delete-contract
+                  @click="getSingleContract(contract.id)"
+                ></b-icon-trash>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div>
-      <b-modal id="modal-detail-account" no-close-on-backdrop size="lg" :title="userDetail.full_name">
-        <PopupDetailAccount :userDetail="userDetail" @update="updateData"/>
-        <template #modal-footer="">
-          <b-button size="sm" variant="danger" @click="cancel">
-            Hủy bỏ
-          </b-button>
-          <b-button size="sm" variant="success" @click="submit" :disabled="!canUpdate">
-            Thay đổi
-          </b-button>
-        </template>
-      </b-modal>
+      <PopupDeleteContract
+        :titleModal="constants.CONTRACT_CONST.TITLE_POPUP_DELETE"
+        :idModal="constants.CONTRACT_CONST.ID_POPUP_DELETE"
+        :contentModal="constants.CONTRACT_CONST.CONTENT_POPUP_DELETE"
+        :selectedListId="selectedListContract"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
+
+    <div>
+      <PopupAddContract
+        :idModal="constants.CONTRACT_CONST.ID_POPUP_ADD"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import DialogCreateContract from '../../components/Dialog/DialogCreateContract.vue';
-import Header from '../../components/ManageAccount/Headers/Header.vue';
-import Button from '../../components/ManageAccount/Buttons/Button.vue';
-import PopupDetailAccount from '../../components/ManageAccount/Popups/PopupDetailAccount.vue';
+import Header from '../../components/ManageContract/Headers/Header.vue';
+import PopupDeleteContract from '../../components/ManageContract/Popups/PopupDeleteContract.vue';
+import PopupAddContract from '../../components/ManageContract/Popups/DialogCreateContract.vue';
+import constants from '../../constants/index';
 
 export default {
   name: 'ManageContract',
   components: {
     Header,
-    PopupDetailAccount,
-    Button,
-    DialogCreateContract,
+    PopupDeleteContract,
+    PopupAddContract,
   },
   data() {
     return {
-      title: 'Thêm tài khoản',
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
-      fields: [
-        // { key: 'selected', label: '' },
-        { key: 'username', label: 'Tài khoản' },
-        { key: 'employeeName', label: 'Nhân viên' },
-        { key: 'role', label: 'Vai trò' },
-        { key: 'staffCode', label: 'Mã nhân viên' },
-        { key: 'company', label: 'Tên công ty' },
-        { key: 'actions', label: 'Tùy chọn' },
-      ],
       canUpdate: false,
-      dataChanged: {},
+      inputSearch: '',
+      selectedListContract: [],
+      isSelectedAll: false,
+      constants,
     };
   },
   computed: {
-    ...mapGetters(['getListAccount']),
-    setItemsTable() {
+    ...mapGetters(['getListContract']),
+    listContract() {
       const items = [];
-      this.getListAccount.forEach((item) => {
+      this.getListContract.forEach((item) => {
         items.push({
-          username: item.username,
-          employeeName: item.full_name,
-          role: item.role,
-          company: item.tenant.name,
-          staffCode: item.staff_code,
+          name: item.name,
+          host: item.can_ho.chu_nha.name,
+          can_ho: item.can_ho.name,
+          id: item.id,
         });
       });
       return items;
     },
-    // getToken() {
-    //   return window.sessionStorage.jwtToken;
-    // },
-  },
-  methods: {
-    getDetailAccount(row) {
-      this.userDetail = this.getListAccount.find((item) => item.username === row.item.username);
-      this.$store.dispatch('getTenant');
-    },
-    convertRole(role) {
-      // change role to number
-      let result;
-      if (role === 'Admin') {
-        result = 1;
-      } else if (role === 'View') {
-        result = 2;
-      } else {
-        result = 3;
-      }
+    listIdContract() {
+      // set list id account
+      const result = [];
+      this.listContract.forEach((item) => {
+        result.push(item.id);
+      });
       return result;
     },
-    updateData(newData) {
-      // data before is changed
-      const oldData = {
-        full_name: this.userDetail.full_name,
-        role: this.userDetail.role,
-        staff_code: this.userDetail.staff_code,
-        tenant: this.userDetail.tenant.id,
-      };
-
-      // check data is changed -> active button submit
-      if (JSON.stringify(oldData) === JSON.stringify(newData.data)) {
-        this.canUpdate = false;
-      } else {
-        this.canUpdate = true;
-      }
-
-      // data to submit api
-      this.dataChanged = {
-        data: {
-          full_name: newData.data.full_name,
-          role: this.convertRole(newData.data.role),
-          staff_code: newData.data.staff_code,
-          tenant: newData.data.tenant,
-        },
-        id: newData.id,
-      };
+    checkCanDelete() {
+      // check enable button delete
+      let result;
+      if (this.selectedListContract.length > 0) result = true;
+      else result = false;
+      return result;
     },
-    async submit() {
-      // update account
-      await this.$store.dispatch('updateAccount', this.dataChanged);
-      this.$bvModal.hide('modal-detail-account');
-      await this.$store.dispatch('getAccount');
+  },
+  watch: {
+    selectedListContract: {
+      handler() {
+        if (this.selectedListContract.length === this.listIdContract.length) {
+          this.isSelectedAll = true;
+        } else {
+          this.isSelectedAll = false;
+        }
+      },
+    },
+  },
+  methods: {
+    setIsSelectedAll() {
+      this.isSelectedAll = !this.isSelectedAll;
+      if (this.isSelectedAll) {
+        this.selectedListContract = this.listIdContract;
+      } else {
+        this.selectedListContract = [];
+      }
+    },
+    getSingleContract(id) {
+      this.selectedListContract = [id];
+    },
+    searchContract(event) {
+      event.preventDefault();
+      this.$store.dispatch('getContract', this.inputSearch);
     },
     cancel() {
-      this.$bvModal.hide('modal-detail-account');
+      this.$bvModal.hide('modal-detail-contract');
+    },
+    updateSelectedListId(value) {
+      this.selectedListContract = value;
     },
   },
 };
 </script>
 
 <style lang='scss' scoped>
-.manage-account-container {
+.manage-contract-container {
   &__header {
     margin-bottom: 12px;
   }
-  &__search-form {
+  &__options {
     display: grid;
-    grid-template-columns: 80% 20%;
-    padding: 12px 0px;
-    &__button {
+    grid-template-columns: 50% 50%;
+    &__search-form {
+      display: flex;
+      align-items: center;
+      padding: 12px 0px;
+      position: relative;
+      .search-form-input {
+        padding-left: 35px;
+      }
+      .search-form-icon {
+        position: absolute;
+        cursor: pointer;
+        left: 10px;
+      }
+    }
+    &__button-group {
+      margin: 12px 0px;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
+      .btn-group-options {
+        margin: 0px 5px;
+        cursor: pointer;
+      }
+      .btn-group-options:first-child {
+        margin-left: 0px;
+      }
+      .btn-group-options:last-child {
+        margin-right: 0px;
+      }
+      .-disable {
+        opacity: 0.2;
+        cursor: default;
+      }
     }
   }
   &__table {
@@ -202,12 +239,11 @@ export default {
 }
 </style>
 <style lang='scss'>
-thead {
-  background: linear-gradient(to bottom left, #6600cc 0%, #ff99cc 100%);
-  opacity: 0.7;
-  color: #ffffff;
+th {
+  background: #dcdcdc;
 }
 td {
   vertical-align: middle !important;
+  padding: 10px !important;
 }
 </style>

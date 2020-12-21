@@ -1,5 +1,6 @@
 /* eslint-disable arrow-body-style */
 /* eslint-disable consistent-return */
+import VueApexCharts from 'vue-apexcharts'
 import Vue from 'vue';
 import store from '@/core/services/store/index';
 import App from './App.vue';
@@ -9,6 +10,8 @@ import '@/core/plugins/bootstrap-vue';
 import '@/core/plugins/inline-svg';
 
 Vue.config.productionTip = false;
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
 // window.PerfectScrollbar = PerfectScrollbar;
 // window.ClipboardJS = ClipboardJS;
 

@@ -1,47 +1,54 @@
 <template>
-  <div class="manage-unpayment-container">
-    <div class="manage-payment-container__header">
+  <div class="manage-servicepayment-container">
+    <div class="manage-servicepayment-container__header">
       <Header />
     </div>
-    <div class="manage-unpayment-container__filter">
-      <select id="can_ho" class="b-dropdown" v-model="can_ho">
-        <option value="">Tất cả</option>
-        <option v-for="can_ho in listCanHo" :key="can_ho.id" :value="can_ho.id" >{{ can_ho.name }}</option>  
-      </select>
-
+    <div class="manage-servicepayment-container__filter">
+      <div class="d-flex">
+        <select id="can_ho" class="b-dropdown mr-5" v-model="can_ho">
+          <option value="">Tất cả căn hộ</option>
+          <option v-for="can_ho in listCanHo" :key="can_ho.id" :value="can_ho.id" >{{ can_ho.name }}</option>  
+        </select>
+        <select id="service" class="b-dropdown mr-5" v-model="service">
+          <option value="">Tất cả dịch vụ</option>
+          <option v-for="service in listService" :key="service.id" :value="service.id" >{{ service.name }}</option>  
+        </select>
+      </div>
       <div class="d-flex justify-content-end">
-        <b-button class="btn-search" @click="searchUnPayment">Tìm kiếm</b-button>
+        <b-button class="btn-search" @click="searchServicePayment">Tìm kiếm</b-button>
       </div>
     </div>
-    <div class="manage-unpayment-container__table">
+    <div class="manage-servicepayment-container__table">
       <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col">Căn hộ</th>
+            <th scope="col">Dịch vụ</th>
             <th scope="col">Đợt thanh toán</th>
-            <th scope="col">Số tiền</th>
-            <th scope="col">Người gửi-Người nhận</th>
-            <th scope="col">Ngày thanh toán dự kiến</th>
+            <th scope="col">Ngày TT dự kiến</th>
             <th scope="col">Tùy chọn</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(payment, index) in listUnPayment" :key="index">
+          <tr v-for="(payment, index) in listServicePayment" :key="index">
             <td>{{ payment.can_ho }}</td>
+            <td>{{ payment.dich_vu }}</td>
             <td>{{ payment.dot_thanh_toan }}</td>
-            <td>{{ payment.so_tien }}</td>
-            <td>{{ payment.obj}}</td>
             <td>{{ payment.ngay_thanh_toan_du_kien }}</td>
             <td>
               <div class="show-detail">
-                <b-icon-mailbox
-                  variant="light"
-                  @click="sendEmail(payment.id)"
-                ></b-icon-mailbox>
                 <b-icon-credit-card
                   variant="light"
+                  :class="{
+                    '-disable' : payment.status === constants.PAYMENT_SERVICE_CONST.PAYMENT_COMPLETED,
+                  }"
+                  v-if="payment.status === constants.PAYMENT_SERVICE_CONST.PAYMENT_COMPLETED"
+                ></b-icon-credit-card>
+                 <b-icon-credit-card
+                  variant="light"
                   @click="getIdPayment(payment.id)"
-                  v-b-modal.modal-unpayment
+                  v-b-modal.modal-payment-service
+                  v-else
                 ></b-icon-credit-card>
               </div>
             </td>
@@ -50,12 +57,12 @@
       </table>
     </div>
     <div>
-      <PopupPayment
-        :titleModal="constants.UNPAYMENT_CONST.TITLE_POPUP_PAYMENT"
-        :idModal="constants.UNPAYMENT_CONST.ID_POPUP_PAYMENT"
-        :contentModal="constants.UNPAYMENT_CONST.CONTENT_POPUP_PAYMENT"
-        :paymentId="paymentId"
-        :getListUnPayment="getListUnPayment"
+      <PopupServicePayment
+        :titleModal="constants.UNPAYMENT_SERVICE_CONST.TITLE_POPUP_PAYMENT"
+        :idModal="constants.UNPAYMENT_SERVICE_CONST.ID_POPUP_PAYMENT"
+        :contentModal="constants.UNPAYMENT_SERVICE_CONST.CONTENT_POPUP_PAYMENT"
+        :paymentServiceId="paymentServiceId"
+        :getListPayment="getListServicePayment"
       />
     </div>
   </div>
@@ -63,29 +70,32 @@
 
 <script>
 import moment from 'moment';
-import Header from '../../components/UnPayment/Headers/Header.vue';
+import Header from '../../components/UnPaymentService/Headers/Header.vue';
 import api from '../../core/services/api/api';
 import constants from '../../constants/index';
-import PopupPayment from '../../components/UnPayment/Popups/PopupUnPayment.vue';
+import PopupServicePayment from '../../components/UnPaymentService/Popups/PopupPayment.vue'
 
 export default {
-  name: 'UnPayment',
+  name: 'ServicePayment',
   components: {
     Header,
-    PopupPayment,
+    PopupServicePayment,
   },
   data() {
     return {
       responseData: [],
       constants,
       listCanHo: [],
+      listService: [],
       can_ho: '',
-      paymentId: 0,
+      service: '',
+      paymentServiceId: 0,
     };
   },
   created() {
-    this.getListUnPayment();
+    this.getListServicePayment();
     this.getListCanHo();
+    this.getListService()
   },
   methods: {
     makeToastMessage(message, status) {
@@ -96,11 +106,12 @@ export default {
         solid: true,
       });
     },
-    async getListUnPayment() {
+    async getListServicePayment() {
       const payload = {
         can_ho: '',
+        service: '',
       };
-      const response = await api('getUnPayment', payload);
+      const response = await api('getUnPaymentService', payload);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
       } else {
@@ -115,42 +126,39 @@ export default {
         this.makeToastMessage(response.data.message, 'danger');
       }
     },
-    async searchUnPayment() {
+    async getListService() {
+      const response = await api('getService', '');
+      if (response.data.error_code === 0) {
+        this.listService = response.data.data;
+      } else {  
+        this.makeToastMessage(response.data.message, 'danger');
+      }
+    },
+    async searchServicePayment() {
       const payload = {
         can_ho: this.can_ho,
+        service: this.service,
       };
-      const response = await api('getUnPayment', payload);
+      const response = await api('getUnPaymentService', payload);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
     },
-    async sendEmail(id) {
-      const payload = {
-        id,
-        type_email: 1
-      }
-      const response = await api('sendEmailPayment', payload);
-      if (response.data.error_code === 0) {
-        this.makeToastMessage('Gửi email thành công', 'success');
-      }
-    },
     getIdPayment(id) {
-      this.paymentId = id
+      this.paymentServiceId = id
     }
   },
   computed: {
-    listUnPayment() {
+    listServicePayment() {
       const result = [];
       this.responseData.forEach((item) => {
         result.push({
           can_ho: item.can_ho,
           ngay_thanh_toan_du_kien: item.ngay_thanh_toan_du_kien,
           dot_thanh_toan: item.dot_thanh_toan,
-          status: item.status,
-          so_tien: item.so_tien,
-          obj: `${item.nguoi_gui} - ${item.nguoi_nhan}`,
+          dich_vu: item.dich_vu,
           id: item.id,
         });
       });
@@ -161,7 +169,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.manage-unpayment-container {
+.manage-servicepayment-container {
   &__header {
     margin-bottom: 12px;
   }
@@ -175,6 +183,7 @@ export default {
     }
     .btn-search {
       width: 160px;
+
     }
   }
   &__table {
@@ -190,6 +199,10 @@ export default {
         height: 32px;
         margin-right: 5px;
         cursor: pointer;
+      }
+      .-disable {
+        opacity: 0.4;
+        cursor: default;
       }
     }
   }

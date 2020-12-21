@@ -90,7 +90,7 @@ const routes = [
         name: 'ManageContract',
         path: '/manage-contract',
         beforeEnter: async (to, from, next) => {
-          await store.dispatch('getTenant', '');
+          await store.dispatch('getContract', '');
           next();
         },
         component: () => import('@/pages/Contract/ManageContract'),
@@ -115,6 +115,16 @@ const routes = [
         component: () => import('@/pages/UnPayment/UnPayment'),
       },
       {
+        name: 'ManageServicePayment',
+        path: '/period-payment-service',
+        component: () => import('@/pages/PaymentService/PaymentService'),
+      },
+      {
+        name: 'ManageServiceUnPayment',
+        path: '/bad-debt-service',
+        component: () => import('@/pages/UnPaymentService/UnPaymentService'),
+      },
+      {
         name: 'ChangePassword',
         path: '/change-password',
         beforeEnter: async (to, from, next) => {
@@ -122,6 +132,11 @@ const routes = [
           next();
         },
         component: () => import('@/pages/ChangePassword/ChangePassword'),
+      },
+      {
+        name: 'Summary',
+        path: '/summary',
+        component: () => import('@/pages/Summary/Summary'),
       },
       {
         name: 'Manage',

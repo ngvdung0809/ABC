@@ -89,6 +89,17 @@ const TENANT_CONST = {
   TITLE_POPUP_DELETE: 'Xóa công ty',
 };
 
+const CONTRACT_CONST = {
+  HEADER_MANAGE: 'QUẢN LÝ BỘ HỢP ĐỒNG',
+  TITLE_MANAGE: 'Thêm bộ hợp đồng',
+  ID_POPUP_ADD: 'modal-add-contract',
+  ID_POPUP_DETAIL: 'modal-detail-contract',
+  ID_POPUP_DELETE: 'modal-delete-contract',
+  CONTENT_POPUP_DELETE: 'Bạn có chắc chắn muốn xóa bộ hợp đồng này ?',
+  TITLE_POPUP_ADD: 'Thêm bộ hợp đồng',
+  TITLE_POPUP_DELETE: 'Xóa bộ hợp đồng',
+};
+
 const PAYMENT_CONST = {
   PAYMENT_COMPLETED: 1,
   PAYMENT_UNCOMPLETED: 2,
@@ -107,6 +118,24 @@ const UNPAYMENT_CONST = {
   TITLE_POPUP_PAYMENT: 'Thanh toán hợp đồng',
 };
 
+const PAYMENT_SERVICE_CONST = {
+  PAYMENT_COMPLETED: 1,
+  PAYMENT_UNCOMPLETED: 2,
+  ID_POPUP_PAYMENT: 'modal-payment-service',
+  HEADER_MANAGE: 'QUẢN LÝ THANH TOÁN PHÍ DỊCH VỤ',
+  CONTENT_POPUP_PAYMENT: 'Bạn có chắc chắn muốn thanh toán dịch vụ này ?',
+  TITLE_POPUP_PAYMENT: 'Thanh toán phí dịch vụ',
+};
+
+const UNPAYMENT_SERVICE_CONST = {
+  PAYMENT_COMPLETED: 1,
+  PAYMENT_UNCOMPLETED: 2,
+  ID_POPUP_PAYMENT: 'modal-payment-service',
+  HEADER_MANAGE: 'QUẢN LÝ NỢ XẤU THANH TOÁN PHÍ DỊCH VỤ',
+  CONTENT_POPUP_PAYMENT: 'Bạn có chắc chắn muốn thanh toán dịch vụ này ?',
+  TITLE_POPUP_PAYMENT: 'Thanh toán phí dịch vụ',
+};
+
 export default {
   COMMON_CONST,
   ACCOUNT_CONST,
@@ -117,5 +146,8 @@ export default {
   GUEST_CONST,
   TENANT_CONST,
   PAYMENT_CONST,
-  UNPAYMENT_CONST
+  UNPAYMENT_CONST,
+  CONTRACT_CONST,
+  PAYMENT_SERVICE_CONST,
+  UNPAYMENT_SERVICE_CONST
 };

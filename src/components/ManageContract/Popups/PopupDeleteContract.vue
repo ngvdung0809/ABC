@@ -14,7 +14,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import constants from '../../constants/index';
+import constants from '../../../constants/index';
+import utils from '../../../utils/index';
 
 export default {
   props: {
@@ -30,12 +31,6 @@ export default {
     selectedListId: {
       type: Array,
     },
-    action: {
-      type: String
-    },
-    listAction: {
-      type: String
-    }
   },
   data() {
     return {
@@ -43,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getErrorCode']),
+    ...mapGetters(['getErrorCodeContract']),
   },
   methods: {
     makeToastMessage(message, status) {
@@ -58,16 +53,15 @@ export default {
       const payload = {
         list_id: this.selectedListId,
       };
-      await this.$store.dispatch(this.action, payload);
-      this.$bvModal.hide(this.idModal);
-      if (this.getErrorCode === 0) {
+      await this.$store.dispatch('deleteContract', payload);
+      if (this.getErrorCodeContract === 0) {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
-        this.selectedListId = [];
-        this.$emit('updateSelectedListId', this.selectedListId);
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
       }
-      await this.$store.dispatch(this.listAction, '');
+      this.$bvModal.hide(this.idModal);
+      this.$emit('updateSelectedListId', []);
+      await this.$store.dispatch('getContract', '');
     },
     cancel() {
       this.$bvModal.hide(this.idModal);

@@ -48,8 +48,15 @@ const api = (config) => ({
   payment: (payload) => config('post', '/payment/v1/payment/', payload),
   // unpayment
   getUnPayment: (payload) => config('get', `/payment/v1/list-unpaid-payment/?can_ho=${payload.can_ho}`),
-  // sendEmailPayment: (payload) => config('post', '/payment/v1/send-mail-payment/', payload),
-  // payment: (payload) => config('post', '/payment/v1/payment/', payload),
+  getUnPaymentService: (payload) => config('get', `/payment/v1/service-payment/list-unpaid-service-payment/?can_ho=${payload.can_ho}&dich_vu=${payload.service}`),
+  // service payment
+  getServicePayment: (payload) => config('get', `/payment/v1/service-payment/list-service-payment/?can_ho=${payload.can_ho}&dich_vu=${payload.service}&start_date=${payload.start_date}&end_date=${payload.end_date}`),
+  paymentService: (payload) => config('post', '/payment/v1/service-payment/service-payment/', payload),
+  // contract
+  getContract: (keyword) => config('get', `/hd-groups/v1/list-hd-group/?search=${keyword}`, ''),
+  deleteContract: (payload) => config('post', '/hd-groups/v1/delete_hdgroup/', payload),
+  // overview
+  overview: () => config('get', '/account/v1/overview/'),
   
 });
 

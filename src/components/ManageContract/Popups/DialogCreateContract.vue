@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="modal-xl" size="xl" title="Tạo bộ hợp đồng" v-model="show">
+  <b-modal :id="idModal" size="xl" title="Tạo bộ hợp đồng">
     <div class="card card-custom">
       <div class="card-body p-0">
         <!--begin: Wizard-->
@@ -378,12 +378,17 @@ import { validationMixin } from 'vuelidate';
 import {
   minLength, required, maxLength,
 } from 'vuelidate/lib/validators';
-import api from '../../core/services/api/api';
+import api from '../../../core/services/api/api';
 
 export default {
   name: 'DialogCreateContract',
   mixins: [validationMixin],
   components: {},
+  props: {
+    idModal: {
+      type: String,
+    },
+  },
   data() {
     return {
       show: true,

@@ -214,11 +214,11 @@ export default {
           icon: 'media/svg/icons/Media/Equalizer.svg',
           child: [
             {
-              nameSubNav: 'Báo cáo nợ xấu kỳ hợp đồng',
+              nameSubNav: 'Nợ xấu kỳ TT hợp đồng',
               router: '/bad-debt-contract',
             },
             {
-              nameSubNav: 'Báo cáo nợ xấu kỳ dịch vụ',
+              nameSubNav: 'Nợ xấu kỳ TT dịch vụ',
               router: '/bad-debt-service',
             },
           ],
