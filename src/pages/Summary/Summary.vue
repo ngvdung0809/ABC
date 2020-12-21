@@ -84,7 +84,7 @@ export default {
               },
               total: {
                 show: true,
-                label: 'Bộ Hợp Đồng',
+                label: 'Tổng Hợp Đồng',
                 formatter: () => 249,
               }
             }
