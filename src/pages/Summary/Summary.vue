@@ -126,7 +126,6 @@ export default {
           floating: true,
           fontSize: '16px',
           position: 'left',
-          offsetX: 160,
           offsetY: 15,
           labels: {
             useSeriesColors: true,

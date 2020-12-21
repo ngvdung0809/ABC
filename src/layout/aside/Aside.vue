@@ -140,7 +140,8 @@ export default {
           child: [
             {
               nameSubNav: 'Tổng quát',
-              router: '/summary'
+              router: '/summary',
+              icon: 'media/svg/icons/Code/Compiling.svg'
             },
           ],
         },
@@ -156,7 +157,7 @@ export default {
         },
         {
           name: 'Các bên liên quan',
-          icon: 'media/svg/icons/Communication/Group.svg',
+          icon: 'media/svg/icons/Home/Home.svg',
           router: '/manage',
           child: [
             {
@@ -175,7 +176,7 @@ export default {
         },
         {
           name: 'Hợp đồng',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          icon: 'media/svg/icons/Home/Commode1.svg',
           child: [
             {
               nameSubNav: 'Quản lý bộ hợp đồng',
@@ -197,7 +198,7 @@ export default {
         },
         {
           name: 'Thanh toán',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          icon: 'media/svg/icons/Design/PenAndRuller.svg',
           child: [
             {
               nameSubNav: 'Danh sách kỳ TT hợp đồng',
@@ -211,7 +212,7 @@ export default {
         },
         {
           name: 'Báo cáo chung',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          icon: 'media/svg/icons/Files/Selected-file.svg',
           child: [
             {
               nameSubNav: 'Nợ xấu kỳ TT hợp đồng',
@@ -230,6 +231,7 @@ export default {
             {
               nameSubNav: 'Thay đổi mật khẩu',
               router: '/change-password',
+              icon: 'media/svg/icons/Code/Puzzle.svg'
             },
           ],
         },
