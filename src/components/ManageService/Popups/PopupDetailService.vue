@@ -9,11 +9,11 @@
           <b-form-input
             placeholder=""
             id="name"
-            v-model="$v.name.$model"
+            v-model="$v.data.name.$model"
             :state="validateState('name')"
             aria-describedby="input-name-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.name.required" >
+          <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.data.name.required" >
             Vui lòng nhập tên dịch vụ
           </b-form-invalid-feedback>
         </div>
@@ -26,11 +26,13 @@
           <b-form-input
             placeholder=""
             id="don_vi"
-            v-model="don_vi"
+            v-model="$v.data.don_vi.$model"
+            :state="validateState('don_vi')"
+            aria-describedby="input-don_vi-feedback"
           ></b-form-input>
-          <!-- <b-form-invalid-feedback id="input-don_vi-feedback" v-if="!$v.dataSubmit.don_vi.maxLength" >
-            Đơn vị không quá 10 ký tự
-          </b-form-invalid-feedback> -->
+          <b-form-invalid-feedback id="input-don_vi-feedback" v-if="!$v.data.don_vi.required" >
+            Vui lòng nhập tên đơn vị
+          </b-form-invalid-feedback>
         </div>
       </div>
       <div class="form-input">
@@ -41,7 +43,7 @@
           <b-form-input
             placeholder=""
             id="code"
-            v-model="code"
+            v-model="data.code"
           ></b-form-input>
         </div>
       </div>
@@ -50,7 +52,7 @@
         <div>
           <b-form-checkbox
             id="dinh_ky"
-            v-model="dinh_ky"
+            v-model="data.dinh_ky"
             size="lg"
           ></b-form-checkbox>
         </div>
@@ -60,7 +62,7 @@
       <b-button size="sm" variant="danger" @click="cancel" >
         Hủy bỏ
       </b-button>
-      <b-button ref="btn_add_service" size="sm" variant="success" @click="submit" >
+      <b-button ref="btn_update_service" size="sm" variant="success" @click="submit" >
         Thay đổi
       </b-button>
     </template>
@@ -72,8 +74,6 @@ import { mapGetters } from 'vuex';
 import { validationMixin } from 'vuelidate';
 import { required, maxLength } from 'vuelidate/lib/validators';
 import constants from '../../../constants/index';
-
-// const alphaNumAndDotValidator = constants.ACCOUNT_CONST.REGEX_PASSWORD;
 
 export default {
   props: {
@@ -88,17 +88,16 @@ export default {
   data() {
     return {
       constants,
-      name: '0',
-      don_vi: '',
-      code: '',
-      dinh_ky: '',
+      data: {
+        name: this.detail.name,
+        don_vi: this.detail.don_vi,
+        code: this.detail.code,
+        dinh_ky: this.detail.dinh_ky,
+      },
     };
   },
   validations: {
-    name: {
-      required,
-    },
-    dataSubmit: {
+    data: {
       name: {
         required,
       },
@@ -107,27 +106,33 @@ export default {
       }
     },
   },
+  watch: {
+    dataSubmit: {
+      handler(val) {
+        this.data = val;
+      }
+    },
+  },
   computed: {
     ...mapGetters(['getErrorCodeService']),
-    // dataSubmit() {
-    //   const result = {
-    //     name: this.detail.name,
-    //     don_vi: this.detail.don_vi,
-    //     code: this.detail.code,
-    //     dinh_ky: this.detail.dinh_ky,
-    //   };
-
-    //   return result;
-    // },
+    dataSubmit() {
+      const result = {
+        name: this.detail.name,
+        don_vi: this.detail.don_vi,
+        code: this.detail.code,
+        dinh_ky: this.detail.dinh_ky,
+      };
+      return result;
+    },
   },
   methods: {
     validateState(name) {
-      const { $dirty, $error } = this.$v[name];
+      const { $dirty, $error } = this.$v.data[name];
       return $dirty ? !$error : null;
     },
     clearErrorValidate() {
       this.$nextTick(() => {
-        this.$v.$reset();
+        this.$v.data.$reset();
       });
     },
     cancel() {
@@ -143,24 +148,25 @@ export default {
     },
     async submit() {
       this.$v.$touch();
-      if (this.$v.dataSubmit.$anyError) {
+      if (this.$v.data.$anyError) {
         return;
       }
       const payload = {
         id: this.detail.id,
-        data: this.dataSubmit
+        data: this.data
       };
       
-      // if staff_code null => delete staff_code
-      // if (payload.staff_code === '') {
-      //   delete payload.staff_code;
-      // }
-      const submitButton = this.$refs.btn_add_service;
+      // if don_vi null => delete don_vi
+      if (payload.data.don_vi === '') {
+        delete payload.data.don_vi;
+      }
+      const submitButton = this.$refs.btn_update_service;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateService', payload);
       if (this.getErrorCodeService === 0) {
         this.clearErrorValidate();
-        this.cancel()
+        this.cancel();
+        this.$emit('updateSelectedListId', []);
         await this.$store.dispatch('getService', '');
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
       } else {

@@ -100,6 +100,7 @@
       <PopupDetailService
         :idModal="constants.SERVICE_CONST.ID_POPUP_DETAIL"
         :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
       />
     </div>
   </div>
@@ -182,7 +183,6 @@ export default {
       this.selectedListService = [id];
     },
     setIsSelectedAll() {
-      console.log('vao day');
       this.isSelectedAll = !this.isSelectedAll;
       if (this.isSelectedAll) {
         this.selectedListService = this.listIdServce;
@@ -191,7 +191,7 @@ export default {
       }
     },
     updateSelectedListId(value) {
-      this.selectedListBuilding = value;
+      this.selectedListService = value;
     },
     searchService(event) {
       event.preventDefault();
@@ -200,9 +200,6 @@ export default {
     getDetailService(id) {
       this.selectedListService = [id];
       this.detail = this.getlistService.find((item) => item.id === id);
-    },
-    submit() {
-      // console.log('ok');
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
