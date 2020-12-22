@@ -30,8 +30,8 @@
             :state="validateState('don_vi')"
             aria-describedby="input-don_vi-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-don_vi-feedback" v-if="!$v.data.don_vi.required" >
-            Vui lòng nhập tên đơn vị
+          <b-form-invalid-feedback id="input-don_vi-feedback" v-if="!$v.data.don_vi.maxLength" >
+            Đơn vị không vượt quá 10 kí tự
           </b-form-invalid-feedback>
         </div>
       </div>
@@ -43,8 +43,13 @@
           <b-form-input
             placeholder=""
             id="code"
-            v-model="data.code"
+            v-model="$v.data.code.$model"
+            :state="validateState('code')"
+            aria-describedby="input-code-feedback"
           ></b-form-input>
+          <b-form-invalid-feedback id="input-code-feedback" v-if="!$v.data.code.maxLength" >
+            Mã dịch vụ không vượt quá 10 kí tự
+          </b-form-invalid-feedback>
         </div>
       </div>
       <div class="form-input">
@@ -102,6 +107,9 @@ export default {
         required,
       },
       don_vi: {
+        maxLength: maxLength(10)
+      },
+      code: {
         maxLength: maxLength(10)
       }
     },
