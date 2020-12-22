@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { ROUTER } from '../config/const';
 import store from '../core/services/store/index';
+import api from '../core/services/api/api';
 
 Vue.use(VueRouter);
 
@@ -136,6 +137,10 @@ const routes = [
       {
         name: 'Summary',
         path: '/summary',
+        beforeEnter: async (to, from, next) => {
+          // await api('overview');
+          next();
+        },
         component: () => import('@/pages/Summary/Summary'),
       },
       {

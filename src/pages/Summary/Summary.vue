@@ -2,35 +2,10 @@
   <div class="overview-container">
     <h1 class="text-center">TỔNG QUAN</h1>
     <div class="row sparkboxes mt-4">
-      <div class="col-md-3">
+      <div class="col-md-3" v-for="(tabMenu, key) in constants.COMMON_CONST.MENU_TAB_SUMMARY" :key="key">
         <div class="box box1">
-          <div class="details">
-            <h3>{{ responseData.chu_nha }}</h3>
-            <h4>CHỦ NHÀ</h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="box box2">
-          <div class="details">
-            <h3>{{ responseData.khach_thue }}</h3>
-            <h4>KHÁCH THUÊ</h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="box box3">
-          <div class="details">
-            <h3>{{ responseData.toa_nha }}</h3>
-            <h4>TÒA NHÀ</h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="box box4">
-          <div class="details">
-            <h3>{{ responseData.can_ho }}</h3>
-            <h4>CĂN HỘ</h4>
+          <div>
+            <h3 class="mb-0 d-flex justify-content-center">{{ tabMenu }}</h3>
           </div>
         </div>
       </div>
@@ -40,7 +15,7 @@
         <label>Các bên liên quan:</label>
         <div class="box shadow mt-4">
           <div id="chart">
-            <apexchart type="radialBar" height="390" :options="chartOptions1" :series="series1"></apexchart>
+            <apexchart type="radialBar" height="380" :options="chartOptions1" :series="series1"></apexchart>
           </div>
         </div>
       </div>
@@ -48,7 +23,7 @@
         <label>Bộ hợp đồng:</label>
         <div class="box shadow mt-4">
           <div id="chart">
-            <apexchart type="radialBar" height="390" :options="chartOptions" :series="series"></apexchart>
+            <apexchart type="pie" height="390" :options="chartOptions" :series="seriesContract"></apexchart>
           </div>
         </div>
       </div>
@@ -58,39 +33,16 @@
 
 <script>
 import api from '../../core/services/api/api';
+import constants from '../../constants/index';
 
 export default {
   name: 'Summary',
   data() {
     return {
-      responseData: {},
+      responseData: [],
       radialBar: {},
       radialBarMulti: {},
-      series: [44, 55, 67],
-      chartOptions: {
-        chart: {
-          height: 350,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            dataLabels: {
-              name: {
-                fontSize: '22px',
-              },
-              value: {
-                fontSize: '16px',
-              },
-              total: {
-                show: true,
-                label: 'Tổng Hợp Đồng',
-                formatter: () => 249,
-              },
-            },
-          },
-        },
-        labels: ['HĐ Thuê', 'HĐ Môi Giới', 'HĐ Dịch Vụ'],
-      },
+      chartOptions: constants.COMMON_CONST.CHART_OPTIONS,
       series1: [76, 67, 61, 90],
       chartOptions1: {
         chart: {
@@ -146,12 +98,44 @@ export default {
           },
         }],
       },
+      constants,
     };
   },
-  created() {
-    this.overview();
+  async beforeMount() {
+    await this.overview();
+    this.setLabelsContract();
+  },
+  computed: {
+    getContract() {
+      const result = [];
+      if (this.responseData.length > 0) {
+        this.responseData.forEach((item) => {
+          if (constants.COMMON_CONST.CONTRACT.indexOf(item.name) !== -1) {
+            result.push(item);
+          }
+        });
+      }
+      return result;
+    },
+    seriesContract() {
+      const result = [];
+      if (this.getContract.length > 0) {
+        this.getContract.forEach((item) => {
+          result.push(item.value);
+        });
+      }
+      return result;
+    },
   },
   methods: {
+    setLabelsContract() {
+      if (this.getContract.length > 0) {
+        this.getContract.forEach((item) => {
+          this.chartOptions.labels.push(item.name);
+        });
+      }
+      this.chartOptions.title.text = constants.COMMON_CONST.TITLE_CONTRACT_CHART;
+    },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {
         title: 'Thông báo',
@@ -164,8 +148,6 @@ export default {
       const response = await api('overview');
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
-        // this.series1 = [this.responseData.chu_nha, this.responseData.khach_thue, this.responseData.toa_nha, this.responseData.can_ho];
-        // this.series = [this.responseData.hd_thue, this.responseData.hd_moi_gioi, this.responseData.hd_dich_vu];
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
@@ -215,7 +197,5 @@ export default {
 </style>
 
 <style lang='scss' scoped>
-  .details {
-    margin-left: 15px;
-  }
+
 </style>
