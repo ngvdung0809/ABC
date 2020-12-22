@@ -8,6 +8,31 @@ const COMMON_CONST = {
   MESSAGE_DELETE_MY_ACCOUNT: 'Không thể xóa tài khoản của chính mình',
   MESSAGE_CHANGE_PASSWORD_SUCCEED: 'Mật khẩu đã được thay đổi',
   MESSAGE_CHANGE_PASSWORD_FAILED: 'Không thể thay đổi mật khẩu. Xin hãy xác nhận lại!',
+  CHART_OPTIONS: {
+    chart: {
+      type: 'pie',
+    },
+    labels: ['Team A', 'Team B', 'Team C'],
+    legend: {
+      show: true,
+      position: 'bottom',
+      offsetY: -3,
+    },
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          width: 200
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+    }],
+  },
+  RESPONSE_DATA_HD_DICH_VU: 'hd_dich_vu',
+  RESPONSE_DATA_HD_MOI_GIOI: 'hd_moi_gioi',
+  RESPONSE_DATA_HD_THUE: 'hd_thue',
 };
 
 const ACCOUNT_CONST = {

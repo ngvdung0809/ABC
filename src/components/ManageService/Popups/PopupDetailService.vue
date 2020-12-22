@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="form-input">
-        <label for="dinh_ky">Định kỳ:</label>
+        <label>Định kỳ:</label>
         <div>
           <b-form-checkbox
             id="dinh_ky"
