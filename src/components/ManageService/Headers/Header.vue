@@ -1,24 +1,20 @@
 <template>
   <div class="header-container">
-    <div class="header-container__title">QUẢN LÝ DỊCH VỤ</div>
+    <div class="header-container__title">{{ constants.SERVICE_CONST.HEADER_MANAGE }}</div>
     <div>
-      <Button :title="title" :styleCss="styleCss" />
+      <b-button v-b-modal.modal-add-service>{{ constants.SERVICE_CONST.TITLE_MANAGE }}</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Button from '../Buttons/Button.vue';
+import constants from '../../../constants/index';
 
 export default {
   name: 'Header',
-  components: {
-    Button,
-  },
   data() {
     return {
-      title: 'Thêm dịch vụ',
-      styleCss: 'background: #FFFFFF;color:#333333;',
+      constants
     };
   },
   methods: {},
@@ -37,6 +33,7 @@ export default {
     align-items: center;
     font-weight: 900;
     font-size: 18px;
+    color: whitesmoke;
   }
 }
 </style>

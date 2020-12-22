@@ -42,6 +42,8 @@ const api = (config) => ({
   // dich vu
   getService: (keyword) => config('get', `/dich-vu/v1/list-dich-vu/?search=${keyword}`, ''),
   deleteService: (payload) => config('post', '/dich-vu/v1/delete_dichvu/', payload),
+  addService: (payload) => config('post', '/dich-vu/v1/', payload),
+  updateService: (payload) => config('patch', `/dich-vu/v1/${payload.id}/`, payload.data),
   // payment
   getPayment: (payload) => config('get', `/payment/v1/list-payment/?can_ho=${payload.can_ho}&start_date=${payload.start_date}&end_date=${payload.end_date}`),
   sendEmailPayment: (payload) => config('post', '/payment/v1/send-mail-payment/', payload),
