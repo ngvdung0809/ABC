@@ -143,6 +143,14 @@ export default {
         solid: true,
       });
     },
+    // deleteNull(payload) {
+    //   const a = payload
+    //   Object.keys(a).forEach((key) => {
+    //     if (a[key] === '') {
+    //       delete a[key]
+    //     }
+    //   });
+    // },
     async submit() {
       this.$v.$touch();
       if (this.$v.$anyError) {
@@ -155,10 +163,8 @@ export default {
         dinh_ky: this.dinh_ky
       };
       
-      // if staff_code null => delete staff_code
-      // if (payload.staff_code === '') {
-      //   delete payload.staff_code;
-      // }
+      // this.deleteNull(payload)
+  
       const submitButton = this.$refs.btn_add_service;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('addService', payload);
