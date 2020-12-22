@@ -58,7 +58,6 @@
 
 <script>
 import api from '../../core/services/api/api';
-import constants from '../../constants/index';
 
 export default {
   name: 'Summary',
@@ -86,9 +85,9 @@ export default {
                 show: true,
                 label: 'Tổng Hợp Đồng',
                 formatter: () => 249,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         labels: ['HĐ Thuê', 'HĐ Môi Giới', 'HĐ Dịch Vụ'],
       },
@@ -115,9 +114,9 @@ export default {
               },
               value: {
                 show: false,
-              }
-            }
-          }
+              },
+            },
+          },
         },
         colors: ['#0396FF', '#2AFADF', '#FD6585', '#5961F9'],
         labels: ['Chủ nhà', 'Khách thuê', 'Tòa nhà', 'Căn hộ'],
@@ -131,21 +130,21 @@ export default {
             useSeriesColors: true,
           },
           markers: {
-            size: 0
+            size: 0,
           },
           formatter: (seriesName, opts) => `${seriesName}:  ${opts.w.globals.series[opts.seriesIndex]}`,
           itemMargin: {
-            vertical: 3
-          }
+            vertical: 3,
+          },
         },
         responsive: [{
           breakpoint: 480,
           options: {
             legend: {
-              show: false
-            }
-          }
-        }]
+              show: false,
+            },
+          },
+        }],
       },
     };
   },
@@ -197,7 +196,6 @@ export default {
     color: #fff;
   }
 
-
   .sparkboxes .box1 {
     background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);
   }
@@ -221,4 +219,3 @@ export default {
     margin-left: 15px;
   }
 </style>
-

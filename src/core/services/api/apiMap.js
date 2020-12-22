@@ -59,7 +59,6 @@ const api = (config) => ({
   deleteContract: (payload) => config('post', '/hd-groups/v1/delete_hdgroup/', payload),
   // overview
   overview: () => config('get', '/account/v1/overview/'),
-  
 });
 
 export default api;

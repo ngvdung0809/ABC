@@ -141,7 +141,7 @@ export default {
             {
               nameSubNav: 'Tổng quát',
               router: '/summary',
-              icon: 'media/svg/icons/Design/Select.svg'
+              icon: 'media/svg/icons/Design/Select.svg',
             },
           ],
         },
@@ -164,17 +164,17 @@ export default {
             {
               nameSubNav: 'Tòa nhà',
               router: '/manage-building',
-              icon: 'media/svg/icons/Map/Marker1.svg'
+              icon: 'media/svg/icons/Map/Marker1.svg',
             },
             {
               nameSubNav: 'Căn hộ',
               router: '/manage-appartment',
-              icon: 'media/svg/icons/Map/Marker1.svg'
+              icon: 'media/svg/icons/Map/Marker1.svg',
             },
             {
               nameSubNav: 'Dịch vụ',
               router: '/manage-service',
-              icon: 'media/svg/icons/Map/Marker1.svg'
+              icon: 'media/svg/icons/Map/Marker1.svg',
             },
           ],
         },
@@ -185,12 +185,12 @@ export default {
             {
               nameSubNav: 'Quản lý bộ hợp đồng',
               router: '/manage-contract',
-              icon: 'media/svg/icons/Communication/Clipboard-list.svg'
+              icon: 'media/svg/icons/Communication/Clipboard-list.svg',
             },
             {
               nameSubNav: 'Chủ nhà',
               router: '/manage-host',
-              icon: 'media/svg/icons/General/User.svg'
+              icon: 'media/svg/icons/General/User.svg',
             },
             {
               nameSubNav: 'Khách thuê',
@@ -200,7 +200,7 @@ export default {
             {
               nameSubNav: 'Công ty môi giới',
               router: '/manage-company',
-              icon: 'media/svg/icons/Home/Building.svg'
+              icon: 'media/svg/icons/Home/Building.svg',
             },
           ],
         },
@@ -211,12 +211,12 @@ export default {
             {
               nameSubNav: 'Danh sách kỳ TT hợp đồng',
               router: '/period-payment-contract',
-              icon: 'media/svg/icons/Code/Compiling.svg'
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
             {
               nameSubNav: 'Danh sách kỳ TT dịch vụ',
               router: '/period-payment-service',
-              icon: 'media/svg/icons/Code/Compiling.svg'
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
           ],
         },
@@ -227,12 +227,12 @@ export default {
             {
               nameSubNav: 'Nợ xấu kỳ TT hợp đồng',
               router: '/bad-debt-contract',
-              icon: 'media/svg/icons/Code/Compiling.svg'
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
             {
               nameSubNav: 'Nợ xấu kỳ TT dịch vụ',
               router: '/bad-debt-service',
-              icon: 'media/svg/icons/Code/Compiling.svg'
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
           ],
         },
@@ -243,7 +243,7 @@ export default {
             {
               nameSubNav: 'Thay đổi mật khẩu',
               router: '/change-password',
-              icon: 'media/svg/icons/General/Settings-2.svg'
+              icon: 'media/svg/icons/General/Settings-2.svg',
             },
           ],
         },

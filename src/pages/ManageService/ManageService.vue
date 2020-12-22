@@ -119,7 +119,7 @@ export default {
     Header,
     PopupDeleteService,
     PopupAddService,
-    PopupDetailService
+    PopupDetailService,
   },
   data() {
     return {
