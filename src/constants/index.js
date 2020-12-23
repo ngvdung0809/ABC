@@ -8,39 +8,55 @@ const COMMON_CONST = {
   MESSAGE_DELETE_MY_ACCOUNT: 'Không thể xóa tài khoản của chính mình',
   MESSAGE_CHANGE_PASSWORD_SUCCEED: 'Mật khẩu đã được thay đổi',
   MESSAGE_CHANGE_PASSWORD_FAILED: 'Không thể thay đổi mật khẩu. Xin hãy xác nhận lại!',
-  CHART_OPTIONS: {
-    title: {
-      text: undefined,
-      align: 'left',
-      margin: 10,
-      offsetX: 0,
-      offsetY: 0,
-      floating: false,
-      style: {
-        fontSize: '12px',
-        fontWeight: 'normal',
-        fontFamily: undefined,
-        color: '#9699a2',
+  PIE_CHART_OPTIONS: {
+    chart: {
+      width: 380,
+      type: 'pie',
+    },
+    labels: ['HĐ Thuê', 'HĐ MÔI GIỚI', 'HĐ DỊCH VỤ'],
+    responsive: [{
+      breakpoint: 480,
+      options: {
+        chart: {
+          height: 345,
+        },
+        legend: {
+          position: 'bottom',
+        },
+      },
+    }],
+  },
+  BAR_CHART_OPTION: {
+    colors: ['#FD6585'],
+    chart: {
+      type: 'bar',
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
       },
     },
-    labels: [],
-    legend: {
-      show: true,
-      position: 'bottom',
-      offsetY: -3,
+    dataLabels: {
+      enabled: false,
     },
-    noData: {
-      text: 'Không có dữ liệu',
-      align: 'center',
-      verticalAlign: 'middle',
-      offsetX: 0,
-      offsetY: 0,
-      style: {
-        color: undefined,
-        fontSize: '14px',
-        fontFamily: undefined
-      }
-    }
+    xaxis: {
+      categories: ['Tài khoản', 'Chủ nhà', 'Khách thuê', 'Tòa nhà', 'Căn hộ'],
+    },
+    responsive: [
+      {
+        breakpoint: 1000,
+        options: {
+          plotOptions: {
+            bar: {
+              horizontal: false,
+            },
+          },
+          legend: {
+            position: 'bottom',
+          },
+        },
+      },
+    ],
   },
   MENU_TAB_SUMMARY: ['Chủ nhà', 'Khách thuê', 'Toàn nhà', 'Căn hộ'],
   CONTRACT: ['hd_dich_vu', 'hd_moi_gioi', 'hd_thue'],
@@ -186,5 +202,5 @@ export default {
   UNPAYMENT_CONST,
   CONTRACT_CONST,
   PAYMENT_SERVICE_CONST,
-  UNPAYMENT_SERVICE_CONST
+  UNPAYMENT_SERVICE_CONST,
 };

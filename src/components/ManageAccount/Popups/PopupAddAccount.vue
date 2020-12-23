@@ -227,10 +227,6 @@ export default {
         tenant: this.company,
       };
       
-      // if staff_code null => delete staff_code
-      if (payload.staff_code === '') {
-        delete payload.staff_code;
-      }
       const submitButton = this.$refs.btn_add_account;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('addAccount', payload);

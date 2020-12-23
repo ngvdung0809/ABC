@@ -107,18 +107,18 @@ export default {
         required,
       },
       don_vi: {
-        maxLength: maxLength(10)
+        maxLength: maxLength(10),
       },
       code: {
-        maxLength: maxLength(10)
-      }
+        maxLength: maxLength(10),
+      },
     },
   },
   watch: {
     dataSubmit: {
       handler(val) {
         this.data = val;
-      }
+      },
     },
   },
   computed: {
@@ -161,13 +161,8 @@ export default {
       }
       const payload = {
         id: this.detail.id,
-        data: this.data
+        data: this.data,
       };
-      
-      // if don_vi null => delete don_vi
-      if (payload.data.don_vi === '') {
-        delete payload.data.don_vi;
-      }
       const submitButton = this.$refs.btn_update_service;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateService', payload);

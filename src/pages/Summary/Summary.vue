@@ -1,29 +1,58 @@
 <template>
   <div class="overview-container">
     <h1 class="text-center">TỔNG QUAN</h1>
-    <div class="row sparkboxes mt-4">
-      <div class="col-md-3" v-for="(tabMenu, key) in constants.COMMON_CONST.MENU_TAB_SUMMARY" :key="key">
+    <div class="row sparkboxes mt-15">
+      <div class="col-md-3">
         <div class="box box1">
-          <div>
-            <h3 class="mb-0 d-flex justify-content-center">{{ tabMenu }}</h3>
+          <div class="details">
+            <h3>{{ responseData.chu_nha }}</h3>
+            <h4>CHỦ NHÀ</h4>
           </div>
+          <div id="spark1"></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="box box2">
+          <div class="details">
+            <h3>{{ responseData.khach_thue }}</h3>
+            <h4>KHÁCH THUÊ</h4>
+          </div>
+          <div id="spark2"></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="box box3">
+          <div class="details">
+            <h3>{{ responseData.toa_nha }}</h3>
+            <h4>TÒA NHÀ</h4>
+          </div>
+          <div id="spark3"></div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="box box4">
+          <div class="details">
+            <h3>{{ responseData.can_ho }}</h3>
+            <h4>CĂN HỘ</h4>
+          </div>
+          <div id="spark4"></div>
         </div>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <label>Các bên liên quan:</label>
+    <div class="row mt-25">
+      <div class="col-md-7">
+        <label class="sub-text">Thông tin cơ bản:</label>
         <div class="box shadow mt-4">
           <div id="chart">
-            <apexchart type="radialBar" height="380" :options="chartOptions1" :series="series1"></apexchart>
+            <apexchart height=345 :options="barChartOption" :series="seriesBarChart" v-if="flag"></apexchart>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <label>Bộ hợp đồng:</label>
+      <div class="col-md-5">
+        <label class="sub-text">Số hợp đồng:</label>
         <div class="box shadow mt-4">
           <div id="chart">
-            <apexchart type="pie" height="390" :options="chartOptions" :series="seriesContract"></apexchart>
+            <apexchart :options="chartOptionsPie" :series="seriesPieChart" v-if="flag"></apexchart>
           </div>
         </div>
       </div>
@@ -40,102 +69,18 @@ export default {
   data() {
     return {
       responseData: [],
-      radialBar: {},
-      radialBarMulti: {},
-      chartOptions: constants.COMMON_CONST.CHART_OPTIONS,
-      series1: [76, 67, 61, 90],
-      chartOptions1: {
-        chart: {
-          height: 390,
-          type: 'radialBar',
-        },
-        plotOptions: {
-          radialBar: {
-            offsetY: 0,
-            startAngle: 0,
-            endAngle: 270,
-            hollow: {
-              margin: 5,
-              size: '30%',
-              background: 'transparent',
-              image: undefined,
-            },
-            dataLabels: {
-              name: {
-                show: false,
-              },
-              value: {
-                show: false,
-              },
-            },
-          },
-        },
-        colors: ['#0396FF', '#2AFADF', '#FD6585', '#5961F9'],
-        labels: ['Chủ nhà', 'Khách thuê', 'Tòa nhà', 'Căn hộ'],
-        legend: {
-          show: true,
-          floating: true,
-          fontSize: '16px',
-          position: 'left',
-          offsetY: 15,
-          labels: {
-            useSeriesColors: true,
-          },
-          markers: {
-            size: 0,
-          },
-          formatter: (seriesName, opts) => `${seriesName}:  ${opts.w.globals.series[opts.seriesIndex]}`,
-          itemMargin: {
-            vertical: 3,
-          },
-        },
-        responsive: [{
-          breakpoint: 480,
-          options: {
-            legend: {
-              show: false,
-            },
-          },
-        }],
-      },
+      seriesPieChart: [0, 0, 0],
+      chartOptionsPie: constants.COMMON_CONST.PIE_CHART_OPTIONS,
+      seriesBarChart: [],
+      barChartOption: constants.COMMON_CONST.BAR_CHART_OPTION,
       constants,
+      flag: false,
     };
   },
-  async beforeMount() {
+  async created() {
     await this.overview();
-    this.setLabelsContract();
-  },
-  computed: {
-    getContract() {
-      const result = [];
-      if (this.responseData.length > 0) {
-        this.responseData.forEach((item) => {
-          if (constants.COMMON_CONST.CONTRACT.indexOf(item.name) !== -1) {
-            result.push(item);
-          }
-        });
-      }
-      return result;
-    },
-    seriesContract() {
-      const result = [];
-      if (this.getContract.length > 0) {
-        this.getContract.forEach((item) => {
-          result.push(item.value);
-        });
-      }
-      return result;
-    },
   },
   methods: {
-    setLabelsContract() {
-      if (this.getContract.length > 0) {
-        this.getContract.forEach((item) => {
-          this.chartOptions.labels.push(item.name);
-        });
-      }
-      this.chartOptions.title.text = constants.COMMON_CONST.TITLE_CONTRACT_CHART;
-    },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {
         title: 'Thông báo',
@@ -146,8 +91,17 @@ export default {
     },
     async overview() {
       const response = await api('overview');
+      console.log(response);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
+        this.seriesPieChart = this.responseData.chart_series2;
+        const series = {
+          name: '',
+          data: this.responseData.chart_series1,
+        };
+        this.seriesBarChart.push(series);
+        this.flag = true;
+        console.log(this.seriesPieChart);
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
@@ -197,5 +151,11 @@ export default {
 </style>
 
 <style lang='scss' scoped>
-
+  .details {
+    margin-left: 15px;
+  }
+  .sub-text {
+    font-weight: 600;
+    font-size: 15px;
+  }
 </style>
