@@ -1,65 +1,66 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal">
-    <div class="popup-add-service">
+  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name">
+    <div class="popup-add-toanha">
       <div class="form-input">
         <label for="name">
-          <span class="text-color-required">*</span> Tên dịch vụ:
+          <span class="text-color-required">*</span> Tên tòa nhà:
         </label>
         <div>
           <b-form-input
             placeholder=""
             id="name"
-            v-model="$v.name.$model"
+            v-model="$v.data.name.$model"
             :state="validateState('name')"
             aria-describedby="input-name-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.name.required" >
-            Vui lòng nhập tên dịch vụ
+          <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.data.name.required" >
+            Vui lòng nhập tên tòa nhà
           </b-form-invalid-feedback>
         </div>
       </div>
       <div class="form-input">
-        <label for="don_vi">
-          Đơn vị:
+        <label for="address">
+          Địa chỉ:
         </label>
         <div>
           <b-form-input
             placeholder=""
-            id="don_vi"
-            v-model="$v.don_vi.$model"
-            :state="validateState('don_vi')"
-            aria-describedby="input-don_vi-feedback"
+            id="address"
+            v-model="data.address"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-don_vi-feedback" v-if="!$v.don_vi.maxLength" >
-            Đơn vị không quá 10 kí tư
-          </b-form-invalid-feedback>
         </div>
       </div>
       <div class="form-input">
-        <label for="code">
-          Mã dịch vụ:
+        <label for="phuong">
+          Phường:
         </label>
         <div>
           <b-form-input
             placeholder=""
-            id="code"
-            v-model="$v.code.$model"
-            :state="validateState('code')"
-            aria-describedby="input-code-feedback"
+            id="phuong"
+            v-model="data.phuong"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-code-feedback" v-if="!$v.code.maxLength" >
-            Mã dịch vụ không quá 10 kí tự
-          </b-form-invalid-feedback>
         </div>
       </div>
       <div class="form-input">
-        <label for="dinh_ky">Định kỳ:</label>
+        <label for="district">
+          <span class="text-color-required">*</span> Quận:
+        </label>
+        <select id="district" class="b-dropdown" v-model="data.district" >
+          <option v-for="district in ListDistrict" :key="district.id" :value="district.id">
+            {{ district.name }}</option>
+        </select>
+      </div>
+      <div class="form-input">
+        <label for="city">
+          Thành phố:
+        </label>
         <div>
-          <b-form-checkbox
-            id="dinh_ky"
-            v-model="dinh_ky"
-            size="lg"
-          ></b-form-checkbox>
+          <b-form-input
+            placeholder=""
+            id="city"
+            v-model="data.city"
+          ></b-form-input>
         </div>
       </div>
     </div>
@@ -68,7 +69,7 @@
         Hủy bỏ
       </b-button>
       <b-button ref="btn_add_service" size="sm" variant="success" @click="submit" >
-        Tạo
+        Sửa
       </b-button>
     </template>
   </b-modal>
@@ -77,8 +78,9 @@
 <script>
 import { mapGetters } from 'vuex';
 import { validationMixin } from 'vuelidate';
-import { required, maxLength } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import constants from '../../../constants/index';
+import api from '../../../core/services/api/api';
 
 // const alphaNumAndDotValidator = constants.ACCOUNT_CONST.REGEX_PASSWORD;
 
@@ -87,44 +89,66 @@ export default {
     idModal: {
       type: String,
     },
-    titleModal: {
-      type: String,
+    detail: {
+      type: Object,
     },
   },
   mixins: [validationMixin],
   data() {
     return {
-      name: '',
-      don_vi: '',
-      code: '',
-      dinh_ky: true,
+      data: {
+        name: this.detail?.name,
+        address: this.detail?.address,
+        phuong: this.detail?.phuong,
+        district: this.detail?.district?.id,
+        city: this.detail?.city,
+      },
+      ListDistrict: [],
       constants,
     };
   },
   validations: {
-    name: {
-      required,
+    data: {
+      name: {
+        required,
+      },
     },
-    don_vi: {
-      maxLength: maxLength(10),
-    },
-    code: {
-      maxLength: maxLength(10),
+  },
+  created() {
+    this.getListDistrict();
+  },
+  watch: {
+    dataSubmit: {
+      handler(val) {
+        this.data = val;
+      },
     },
   },
   computed: {
-    ...mapGetters(['getErrorCodeToaNha'])
+    ...mapGetters(['getErrorCodeToaNha']),
+    dataSubmit() {
+      const result = {
+        name: this.detail?.name,
+        address: this.detail?.address,
+        phuong: this.detail?.phuong,
+        district: this.detail?.district?.id,
+        city: this.detail?.city,
+      };
+      return result;
+    },
   },
   methods: {
     validateState(name) {
-      const { $dirty, $error } = this.$v[name];
+      const { $dirty, $error } = this.$v.data[name];
       return $dirty ? !$error : null;
     },
-    clearData() {
-      this.name = '';
-      this.code = '';
-      this.don_vi = '';
-      this.dinh_ky = true;
+    async getListDistrict() {
+      const response = await api('listDistrict');
+      if (response.data.error_code === 0) {
+        this.ListDistrict = response.data.data;
+      } else {
+        this.makeToastMessage(response.data.message, 'danger');
+      }
     },
     clearErrorValidate() {
       this.$nextTick(() => {
@@ -133,7 +157,6 @@ export default {
     },
     cancel() {
       this.$bvModal.hide(this.idModal);
-      this.clearData();
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {
@@ -149,18 +172,17 @@ export default {
         return;
       }
       const payload = {
-        name: this.name,
-        don_vi: this.don_vi,
-        code: this.code,
-        dinh_ky: this.dinh_ky
+        id: this.detail.id,
+        data: this.data
       };
       const submitButton = this.$refs.btn_add_service;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
-      await this.$store.dispatch('addBuilding', payload);
+      await this.$store.dispatch('updateBuilding', payload);
       if (this.getErrorCodeToaNha === 0) {
         this.clearErrorValidate();
-        this.cancel()
-        await this.$store.dispatch('getService', '');
+        this.cancel();
+        this.$emit('updateSelectedListId', []);
+        await this.$store.dispatch('getBuilding', '');
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_SUCCEED, 'success');
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
@@ -176,7 +198,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-.popup-add-service {
+.popup-add-toanha {
   .form-input {
     display: grid;
     grid-template-columns: 20% 80%;

@@ -39,6 +39,8 @@ const api = (config) => ({
   // toa nha
   getToaNha: (keyword) => config('get', `/toa-nha/v1/list-toa-nha/?search=${keyword}`, ''),
   deleteToaNha: (payload) => config('post', '/toa-nha/v1/delete_toanha/', payload),
+  addBuilding: (payload) => config('post', '/toa-nha/v1/', payload),
+  updateBuilding: (payload) => config('patch', `/toa-nha/v1/${payload.id}/`, payload.data),
   // dich vu
   getService: (keyword) => config('get', `/dich-vu/v1/list-dich-vu/?search=${keyword}`, ''),
   deleteService: (payload) => config('post', '/dich-vu/v1/delete_dichvu/', payload),
@@ -59,6 +61,8 @@ const api = (config) => ({
   deleteContract: (payload) => config('post', '/hd-groups/v1/delete_hdgroup/', payload),
   // overview
   overview: () => config('get', '/account/v1/overview/'),
+  // district
+  listDistrict: () => config('get', '/account/v1/list-district/'),
 });
 
 export default api;

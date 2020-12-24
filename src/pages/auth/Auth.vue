@@ -21,11 +21,10 @@
             class="flex-column-fluid d-flex flex-column justify-content-center"
           >
             <h3 class="font-size-h1 mt-10 mb-5 text-white">
-              Welcome to Metronic!
+              Welcome to Sakura Housing!
             </h3>
             <p class="font-weight-lighter text-white opacity-80">
-              The ultimate Bootstrap, Angular 8, React &amp; VueJS admin theme
-              framework for next generation web apps.
+              Chào mừng đến với phần mềm quản lý môi giới bất động sản.
             </p>
           </div>
           <!--end: Aside content -->

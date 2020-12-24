@@ -59,8 +59,8 @@
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
-                  @click="getDetailAccount(account.id)"
-                  v-b-modal.modal-detail-account
+                  @click="getDetailBuilding(building.id)"
+                  v-b-modal.modal-detail-toanha
                 ></b-icon-pencil-square>
                 <b-icon-trash
                   variant="light"
@@ -83,6 +83,19 @@
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
+    <div>
+      <PopupAddToaNha
+        :titleModal="constants.TOANHA_CONST.TITLE_POPUP_ADD"
+        :idModal="constants.TOANHA_CONST.ID_POPUP_ADD"
+      />
+    </div>
+    <div>
+      <PopupDetailToanha
+        :idModal="constants.TOANHA_CONST.ID_POPUP_DETAIL"
+        :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
@@ -90,6 +103,8 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageToaNha/Headers/Header.vue';
 import PopupDeleteToaNha from '../../components/ManageToaNha/Popups/PopupDeleteToaNha.vue';
+import PopupAddToaNha from '../../components/ManageToaNha/Popups/PopupAddToaNha.vue';
+import PopupDetailToanha from '../../components/ManageToaNha/Popups/PopupDetailToaNha.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -97,6 +112,8 @@ export default {
   components: {
     Header,
     PopupDeleteToaNha,
+    PopupAddToaNha,
+    PopupDetailToanha,
   },
   data() {
     return {
@@ -105,6 +122,7 @@ export default {
       isSelectedAll: false,
       inputSearch: '',
       selectedListBuilding: [],
+      detail: {},
       constants,
     };
   },
@@ -166,6 +184,10 @@ export default {
     },
     updateSelectedListId(value) {
       this.selectedListBuilding = value;
+    },
+    getDetailBuilding(id) {
+      this.selectedListBuilding = [id];
+      this.detail = this.getlistToaNha.find((item) => item.id === id);
     },
     getSingleIdBuilding(id) {
       this.selectedListBuilding = [id];

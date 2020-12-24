@@ -2,20 +2,16 @@
   <div class="header-container">
     <div class="header-container__title">{{ constants.TOANHA_CONST.HEADER_MANAGE}}</div>
     <div>
-      <b-button>{{ constants.TOANHA_CONST.TITLE_MANAGE}}</b-button>
+      <b-button v-b-modal.modal-add-toanha>{{ constants.TOANHA_CONST.TITLE_MANAGE }}</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Button from '../Buttons/Button.vue';
 import constants from '../../../constants/index'
 
 export default {
   name: 'Header',
-  components: {
-    Button,
-  },
   data() {
     return {
       constants

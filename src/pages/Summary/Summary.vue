@@ -91,7 +91,6 @@ export default {
     },
     async overview() {
       const response = await api('overview');
-      console.log(response);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
         this.seriesPieChart = this.responseData.chart_series2;
@@ -101,7 +100,6 @@ export default {
         };
         this.seriesBarChart.push(series);
         this.flag = true;
-        console.log(this.seriesPieChart);
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
