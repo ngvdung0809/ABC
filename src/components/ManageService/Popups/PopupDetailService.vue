@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name">
-    <div class="popup-add-service">
+    <div class="popup-add-service ml-3 mr-3">
       <div class="form-input">
         <label for="name">
           <span class="text-color-required">*</span> Tên dịch vụ:
@@ -143,8 +143,20 @@ export default {
         this.$v.data.$reset();
       });
     },
+    resetData() {
+      this.data = {
+        name: this.detail.name,
+        don_vi: this.detail.don_vi,
+        code: this.detail.code,
+        dinh_ky: this.detail.dinh_ky,
+      }
+      this.$nextTick(() => {
+        this.$v.$reset();
+      });
+    },
     cancel() {
       this.$bvModal.hide(this.idModal);
+      this.resetData();
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {

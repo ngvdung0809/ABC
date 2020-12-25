@@ -116,7 +116,7 @@ const CHUNHA_CONST = {
   ID_POPUP_DETAIL: 'modal-detail-chunha',
   ID_POPUP_DELETE: 'modal-delete-chunha',
   CONTENT_POPUP_DELETE: 'Bạn có chắc chắn muốn xóa chủ nhà này ?',
-  TITLE_POPUP_ADD: 'Thêm chủ nha',
+  TITLE_POPUP_ADD: 'Thêm chủ nhà',
   TITLE_POPUP_DELETE: 'Xóa chủ nhà',
 };
 

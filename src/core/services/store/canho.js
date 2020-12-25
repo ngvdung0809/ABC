@@ -31,13 +31,13 @@ export default {
       const response = await api('deleteCanHo', payload);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
-    // async updateAccount(payload) {
-    //   const response = await api('updateAccount', payload);
-    //   if (response.data.error_code === 0) {
-    //     // commit('SET_LIST_ACCOUNT', response.data.data);
-    //   } else {
-    //     // show message failed
-    //   }
-    // },
+    async addCanHo({ commit }, payload) {
+      const response = await api('addCanHo', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
+    async updateCanHo({ commit }, payload) {
+      const response = await api('updateCanHo', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal">
-    <div class="popup-add-account">
+    <div class="popup-add-account ml-3 mr-3">
       <div class="form-input">
         <label for="username">
           <span class="text-color-required">*</span> Tài khoản:
@@ -204,6 +204,8 @@ export default {
     },
     cancel() {
       this.$bvModal.hide(this.idModal);
+      this.clearData();
+      this.clearErrorValidate()
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {

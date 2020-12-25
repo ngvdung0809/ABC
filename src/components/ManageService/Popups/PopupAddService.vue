@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal">
-    <div class="popup-add-service">
+    <div class="popup-add-service ml-3 mr-3">
       <div class="form-input">
         <label for="name">
           <span class="text-color-required">*</span> Tên dịch vụ:
@@ -134,6 +134,7 @@ export default {
     cancel() {
       this.$bvModal.hide(this.idModal);
       this.clearData();
+      this.clearErrorValidate();
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {

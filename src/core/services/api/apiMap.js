@@ -36,6 +36,8 @@ const api = (config) => ({
   // can ho
   getCanHo: (keyword) => config('get', `/can-ho/v1/list-can-ho/?search=${keyword}`, ''),
   deleteCanHo: (payload) => config('post', '/can-ho/v1/delete_canho/', payload),
+  addCanHo: (payload) => config('post', '/can-ho/v1/', payload),
+  updateCanHo: (payload) => config('patch', `/can-ho/v1/${payload.id}/`, payload.data),
   // toa nha
   getToaNha: (keyword) => config('get', `/toa-nha/v1/list-toa-nha/?search=${keyword}`, ''),
   deleteToaNha: (payload) => config('post', '/toa-nha/v1/delete_toanha/', payload),

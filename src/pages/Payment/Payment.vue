@@ -257,11 +257,11 @@ export default {
       }
     }
     .-completed {
-      background: #58e8af;
+      background: #e0bc45;
       color: #ffffff;
     }
     .-unCompleted {
-      background: #800a37;
+      background: #b30b3d;
       color: #ffffff;
     }
   }

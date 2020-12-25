@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal">
-    <div class="popup-add-toanha">
+    <div class="popup-add-toanha ml-3 mr-3">
       <div class="form-input">
         <label for="name">
           <span class="text-color-required">*</span> Tên tòa nhà:
@@ -144,6 +144,17 @@ export default {
       this.district = this.ListDistrict[0]?.id;
       this.city = '';
     },
+    resetData() {
+      this.data = {
+        name: this.detail.name,
+        don_vi: this.detail.don_vi,
+        code: this.detail.code,
+        dinh_ky: this.detail.dinh_ky,
+      }
+      this.$nextTick(() => {
+        this.$v.$reset();
+      });
+    },
     clearErrorValidate() {
       this.$nextTick(() => {
         this.$v.$reset();
@@ -152,6 +163,7 @@ export default {
     cancel() {
       this.$bvModal.hide(this.idModal);
       this.clearData();
+      this.clearErrorValidate();
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {

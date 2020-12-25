@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name">
-    <div class="popup-add-toanha">
+    <div class="popup-add-toanha ml-3 mr-3">
       <div class="form-input">
         <label for="name">
           <span class="text-color-required">*</span> Tên tòa nhà:
@@ -155,8 +155,21 @@ export default {
         this.$v.$reset();
       });
     },
+    resetData() {
+      this.data = {
+        name: this.detail?.name,
+        address: this.detail?.address,
+        phuong: this.detail?.phuong,
+        district: this.detail?.district?.id,
+        city: this.detail?.city,
+      }
+      this.$nextTick(() => {
+        this.$v.$reset();
+      });
+    },
     cancel() {
       this.$bvModal.hide(this.idModal);
+      this.resetData();
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {
@@ -183,9 +196,9 @@ export default {
         this.cancel();
         this.$emit('updateSelectedListId', []);
         await this.$store.dispatch('getBuilding', '');
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_SUCCEED, 'success');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
       } else {
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'danger');
       }
       submitButton.classList.remove(
         'spinner',

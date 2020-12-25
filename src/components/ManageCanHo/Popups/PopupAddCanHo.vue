@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name">
+  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal">
     <div class="popup-add-canho ml-3 mr-3">
       <div class="form-input">
         <label for="name">
@@ -9,11 +9,11 @@
           <b-form-input
             placeholder=""
             id="name"
-            v-model="$v.data.name.$model"
+            v-model="$v.name.$model"
             :state="validateState('name')"
             aria-describedby="input-name-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.data.name.required" >
+          <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.name.required" >
             Vui lòng nhập tên căn hộ!
           </b-form-invalid-feedback>
         </div>
@@ -26,11 +26,11 @@
           <b-form-input
             placeholder=""
             id="address"
-            v-model="$v.data.address.$model"
+            v-model="$v.address.$model"
             :state="validateState('address')"
             aria-describedby="input-don_vi-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-address-feedback" v-if="!$v.data.address.required" >
+          <b-form-invalid-feedback id="input-address-feedback" v-if="!$v.address.required" >
             Vui lòng nhập địa chỉ hoặc số nhà!
           </b-form-invalid-feedback>
         </div>
@@ -39,7 +39,7 @@
         <label for="district">
           <span class="text-color-required">*</span> Chủ nhà:
         </label>
-        <select id="district" class="b-dropdown" v-model="data.chu_nha" >
+        <select id="district" class="b-dropdown" v-model="chu_nha" >
           <option v-for="chu_nha in getlistChuNha" :key="chu_nha.id" :value="chu_nha.id">{{
             chu_nha.name
           }}</option>
@@ -49,7 +49,7 @@
         <label for="toa_nha">
           Tòa nhà:
         </label>
-        <select id="toa_nha" class="b-dropdown" v-model="data.toa_nha" >
+        <select id="toa_nha" class="b-dropdown" v-model="toa_nha" >
           <option value="">Không</option>
           <option v-for="toa_nha in getlistToaNha" :key="toa_nha.id" :value="toa_nha.id">{{
             toa_nha.name
@@ -64,11 +64,11 @@
           <b-form-input
             placeholder=""
             id="gcn"
-            v-model="$v.data.gcn.$model"
+            v-model="$v.gcn.$model"
             :state="validateState('gcn')"
             aria-describedby="input-gcn-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-gcn-feedback" v-if="!$v.data.gcn.required" >
+          <b-form-invalid-feedback id="input-gcn-feedback" v-if="!$v.gcn.required" >
             Vui lòng nhập số giấy chứng nhận
           </b-form-invalid-feedback>
         </div>
@@ -81,11 +81,11 @@
           <b-form-input
             placeholder=""
             id="gcn_NoiCap"
-            v-model="$v.data.gcn_NoiCap.$model"
+            v-model="$v.gcn_NoiCap.$model"
             :state="validateState('gcn_NoiCap')"
             aria-describedby="input-gcn_NoiCap-feedback"
           ></b-form-input>
-          <b-form-invalid-feedback id="input-gcn_NoiCap-feedback" v-if="!$v.data.gcn_NoiCap.required" >
+          <b-form-invalid-feedback id="input-gcn_NoiCap-feedback" v-if="!$v.gcn_NoiCap.required" >
             Vui lòng nhập nơi cấp giấy chứng nhận
           </b-form-invalid-feedback>
         </div>
@@ -102,11 +102,11 @@
             close-button
             :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
             locale="vi"
-            v-model="$v.data.gcn_NgayCap.$model"
+            v-model="$v.gcn_NgayCap.$model"
             :state="validateState('gcn_NgayCap')"
             aria-describedby="input-gcn_NgayCap-feedback"
           ></b-form-datepicker>
-          <b-form-invalid-feedback id="input-gcn_NgayCap-feedback" v-if="!$v.data.gcn_NgayCap.required" >
+          <b-form-invalid-feedback id="input-gcn_NgayCap-feedback" v-if="!$v.gcn_NgayCap.required" >
             Vui lòng nhập ngày cấp giấy chứng nhận
           </b-form-invalid-feedback>
         </div>
@@ -119,7 +119,7 @@
           rows="3"
           no-resize
           max-rows="6"
-          v-model="data.description"
+          v-model="description"
         />
       </div>
       <div class="form-input">
@@ -130,7 +130,7 @@
           rows="3"
           no-resize
           max-rows="6"
-          v-model="data.note"
+          v-model="note"
         />
       </div>
     </div>
@@ -139,7 +139,7 @@
         Hủy bỏ
       </b-button>
       <b-button ref="btn_add_service" size="sm" variant="success" @click="submit" >
-        Sửa
+        Tạo
       </b-button>
     </template>
   </b-modal>
@@ -161,87 +161,64 @@ export default {
     titleModal: {
       type: String,
     },
-    detail: {
-      type: Object
-    },
   },
   mixins: [validationMixin],
   data() {
     return {
-      data: {
-        name: this.detail?.name,
-        chu_nha: this.detail?.chu_nha?.id,
-        toa_nha: this.detail?.toa_nha?.id,
-        address: this.detail?.address,
-        gcn: this.detail?.gcn,
-        gcn_NoiCap: this.detail?.gcn_NoiCap,
-        gcn_NgayCap: this.detail?.gcn_NgayCap,
-        description: this.detail?.description,
-        note: this.detail?.note,
-      },
+      name: '',
+      chu_nha: '',
+      toa_nha: '',
+      address: '',
+      gcn: '',
+      gcn_NoiCap: '',
+      gcn_NgayCap: '',
+      description: '',
+      note: '',
       constants,
     };
   },
   validations: {
-    data: {
-      name: {
-        required,
-      },
-      address: {
-        required
-      },
-      gcn: {
-        required
-      },
-      gcn_NoiCap: {
-        required
-      },
-      gcn_NgayCap: {
-        required
-      },
+    name: {
+      required,
+    },
+    address: {
+      required
+    },
+    gcn: {
+      required
+    },
+    gcn_NoiCap: {
+      required
+    },
+    gcn_NgayCap: {
+      required
     },
   },
-  watch: {
-    dataSubmit: {
-      handler(val) {
-        this.data = val;
-      }
-    }
-  },
   computed: {
-    ...mapGetters(['getlistChuNha', 'getlistToaNha', 'getErrorCodeCanHo']),
-    dataSubmit() {
-      const result = {
-        name: this.detail?.name,
-        chu_nha: this.detail?.chu_nha?.id,
-        toa_nha: this.detail?.toa_nha?.id,
-        address: this.detail?.address,
-        gcn: this.detail?.gcn,
-        gcn_NoiCap: this.detail?.gcn_NoiCap,
-        gcn_NgayCap: this.detail?.gcn_NgayCap,
-        description: this.detail?.description,
-        note: this.detail?.note,
-      };
-      return result;
-    }
+    ...mapGetters(['getlistChuNha', 'getlistToaNha', 'getErrorCodeCanHo'])
+  },
+  watch: {
+    getlistChuNha: {
+      handler(val) {
+        this.chu_nha = val[0]?.id;
+      },
+    },
   },
   methods: {
     validateState(name) {
-      const { $dirty, $error } = this.$v.data[name];
+      const { $dirty, $error } = this.$v[name];
       return $dirty ? !$error : null;
     },
-    resetData() {
-      this.data = {
-        name: this.detail?.name,
-        chu_nha: this.detail?.chu_nha?.id,
-        toa_nha: this.detail?.toa_nha?.id,
-        address: this.detail?.address,
-        gcn: this.detail?.gcn,
-        gcn_NoiCap: this.detail?.gcn_NoiCap,
-        gcn_NgayCap: this.detail?.gcn_NgayCap,
-        description: this.detail?.description,
-        note: this.detail?.note,
-      }
+    clearData() {
+      this.name = '';
+      this.chu_nha = '';
+      this.toa_nha = '';
+      this.address = '';
+      this.gcn = '';
+      this.gcn_NoiCap = '';
+      this.gcn_NgayCap = '';
+      this.description = '';
+      this.note = '';
     },
     clearErrorValidate() {
       this.$nextTick(() => {
@@ -250,7 +227,7 @@ export default {
     },
     cancel() {
       this.$bvModal.hide(this.idModal);
-      this.resetData();
+      this.clearData();
       this.clearErrorValidate();
     },
     makeToastMessage(message, status) {
@@ -267,19 +244,26 @@ export default {
         return;
       }
       const payload = {
-        id: this.detail.id,
-        data: this.data
+        name: this.name,
+        chu_nha: this.chu_nha,
+        toa_nha: this.toa_nha,
+        address: this.address,
+        gcn: this.gcn,
+        gcn_NoiCap: this.gcn_NoiCap,
+        gcn_NgayCap: this.gcn_NgayCap,
+        description: this.description,
+        note: this.note,
       };
+      console.log(payload);
       const submitButton = this.$refs.btn_add_service;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
-      await this.$store.dispatch('updateCanHo', payload);
+      await this.$store.dispatch('addCanHo', payload);
       if (this.getErrorCodeCanHo === 0) {
         this.cancel()
-        this.$emit('updateSelectedListId', [])
         await this.$store.dispatch('getAppartment', '');
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_SUCCEED, 'success');
       } else {
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'danger');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
       }
       submitButton.classList.remove(
         'spinner',

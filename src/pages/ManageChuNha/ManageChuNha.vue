@@ -80,6 +80,12 @@
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
+    <div>
+      <PopupAddChuNha
+        :titleModal="constants.CHUNHA_CONST.TITLE_POPUP_ADD"
+        :idModal="constants.CHUNHA_CONST.ID_POPUP_ADD"
+      />
+    </div>
   </div>
 </template>
 
@@ -87,6 +93,7 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageChuNha/Headers/Header.vue';
 import PopupDeleteChuNha from '../../components/ManageChuNha/Popups/PopupDeleteChuNha.vue';
+import PopupAddChuNha from '../../components/ManageChuNha/Popups/PopupAddChuNha.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -94,6 +101,7 @@ export default {
   components: {
     Header,
     PopupDeleteChuNha,
+    PopupAddChuNha
   },
   data() {
     return {
