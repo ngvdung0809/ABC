@@ -96,6 +96,7 @@
         </label>
         <div>
           <b-form-datepicker
+            class="pr-0"
             id="gcn_NgayCap"
             today-button
             reset-button
