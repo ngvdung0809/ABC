@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop size="xl" :title="titleModal">
+  <b-modal :id="idModal" no-close-on-backdrop :title="titleModal" size="xl">
     <div class="popup-add-chunha">
       <div class="justify-content-between">
         <div class="form-input d-flex width-33">
@@ -199,5 +199,8 @@ export default {
 }
 textarea {
   overflow: auto;
+}
+.modal-xl {
+  max-width: 70vw !important;
 }
 </style>
