@@ -37,7 +37,10 @@
           </li>
         </ul>
         <div class="btn-logout" @click="logoutAction">
-          <span class="svg-icon-xl">
+          <span 
+            class="svg-icon-xl"
+            v-b-tooltip.hover="'Sign Out'"
+          >
             <!--begin::Svg Icon-->
             <inline-svg src="media/svg/icons/Navigation/Sign-out.svg" />
             <!--end::Svg Icon-->
@@ -58,7 +61,7 @@
           data-placement="right"
           data-container="body"
           data-boundary="window"
-          v-b-tooltip.hover.right="'Toggle Aside'"
+          v-b-tooltip.hover.right="''"
           @click="minimizedAside"
         >
           <inline-svg

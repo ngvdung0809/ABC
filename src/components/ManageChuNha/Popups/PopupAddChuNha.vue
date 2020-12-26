@@ -293,6 +293,6 @@ textarea {
   overflow: auto;
 }
 .modal-xl {
-  max-width: 70vw !important;
+  // max-width: 70vw !important;
 }
 </style>
