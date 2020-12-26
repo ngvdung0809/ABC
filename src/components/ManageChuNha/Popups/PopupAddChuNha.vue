@@ -20,6 +20,8 @@
             <b-form-datepicker
               class="pr-0"
               id="birthday"
+              reset-button
+              close-button
               :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
               locale="vi"
               v-model="data.birthday"
@@ -234,7 +236,7 @@
         <h2 class="header mt-5 mb-5">THÔNG TIN TÀI KHOẢN NGÂN HÀNG</h2>
         <b-row>
           <b-col cols="3" class="d-flex">
-            <label for="accountBank" class="align-items-center w-50">Số Tk:</label>
+            <label for="accountBank" class="align-items-center w-50"><span class="text-color-red">*</span>Số Tk:</label>
             <b-form-input 
               placeholder="" id="accountBank"
               v-model="$v.data.so_TK.$model"
@@ -246,7 +248,7 @@
             </b-form-invalid-feedback>
           </b-col>
           <b-col cols="3" class="d-flex">
-            <label for="bank" class="align-items-center w-50">Ngân hàng:</label>
+            <label for="bank" class="align-items-center w-50"><span class="text-color-red">*</span>Ngân hàng:</label>
             <b-form-input 
               placeholder="" id="bank"
               v-model="$v.data.ngan_hang.$model"
@@ -258,7 +260,7 @@
             </b-form-invalid-feedback>
           </b-col>
           <b-col cols="3" class="d-flex">
-            <label for="branch" class="align-items-center w-50">Chi nhánh:</label>
+            <label for="branch" class="align-items-center w-50"><span class="text-color-red">*</span>Chi nhánh:</label>
             <b-form-input 
               placeholder="" id="branch"
               v-model="$v.data.chi_nhanh.$model"

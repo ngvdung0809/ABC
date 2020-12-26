@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name">
+  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name" @hidden="cancel">
     <div class="popup-add-toanha ml-3 mr-3">
       <div class="form-input">
         <label for="name">

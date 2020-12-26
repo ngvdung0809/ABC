@@ -57,7 +57,8 @@
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
-                  v-b-modal.modal-detail-account
+                  @click="getDetailChuNha(chu_nha.id)"
+                  v-b-modal.modal-detail-chunha
                 ></b-icon-pencil-square>
                 <b-icon-trash
                   variant="light"
@@ -86,6 +87,14 @@
         :idModal="constants.CHUNHA_CONST.ID_POPUP_ADD"
       />
     </div>
+
+    <div>
+      <PopupDetailChuNha
+        :idModal="constants.CHUNHA_CONST.ID_POPUP_DETAIL"
+        :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
@@ -94,6 +103,7 @@ import { mapGetters } from 'vuex';
 import Header from '../../components/ManageChuNha/Headers/Header.vue';
 import PopupDeleteChuNha from '../../components/ManageChuNha/Popups/PopupDeleteChuNha.vue';
 import PopupAddChuNha from '../../components/ManageChuNha/Popups/PopupAddChuNha.vue';
+import PopupDetailChuNha from '../../components/ManageChuNha/Popups/PopupDetailChuNha.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -101,7 +111,8 @@ export default {
   components: {
     Header,
     PopupDeleteChuNha,
-    PopupAddChuNha
+    PopupAddChuNha,
+    PopupDetailChuNha
   },
   data() {
     return {
@@ -111,6 +122,7 @@ export default {
       inputSearch: '',
       selectedListChuNha: [],
       isSelectedAll: false,
+      detail: {},
       constants,
     };
   },
@@ -159,6 +171,10 @@ export default {
     searchChuNha(event) {
       event.preventDefault();
       this.$store.dispatch('getHost', this.inputSearch);
+    },
+    getDetailChuNha(id) {
+      this.selectedListChuNha = [id];
+      this.detail = this.getlistChuNha.find((item) => item.id === id);
     },
     setIsSelectedAll() {
       this.isSelectedAll = !this.isSelectedAll;

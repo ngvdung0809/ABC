@@ -1,5 +1,5 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name">
+  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="detail.name" @hidden="cancel">
     <div class="popup-add-service ml-3 mr-3">
       <div class="form-input">
         <label for="name">
@@ -67,7 +67,12 @@
       <b-button size="sm" variant="danger" @click="cancel" >
         Hủy bỏ
       </b-button>
-      <b-button ref="btn_update_service" size="sm" variant="success" @click="submit" >
+      <b-button 
+        ref="btn_update_service"
+         size="sm" 
+         variant="success" 
+         @click="submit"
+      >
         Thay đổi
       </b-button>
     </template>
@@ -229,3 +234,10 @@ export default {
   color: red;
 }
 </style>
+
+// <style lang="scss">
+//   .-disable {
+//     opacity: 0.3;
+//     cursor: default !important;
+//   }
+// </style>
