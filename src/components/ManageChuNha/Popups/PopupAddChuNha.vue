@@ -74,23 +74,25 @@
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxCMT" class="d-flex">
-              <label for="cmnd" class="align-items-center w-50">Số CMND:</label>
-              <b-form-input placeholder="" id="cmnd"></b-form-input>
+            <div class="d-flex">
+              <label for="cmnd" class="align-items-center w-50" v-show="checkboxCMT">Số CMND:</label>
+              <b-form-input placeholder="" id="cmnd" v-show="checkboxCMT"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div  v-show="checkboxCMT" class="d-flex">
-              <label for="noicap-cmnd" class="align-items-center w-50">Nơi cấp:</label>
-              <b-form-input placeholder="" id="noicap-cmnd"></b-form-input>
+            <div class="d-flex">
+              <label for="noicap-cmnd" class="align-items-center w-50" v-show="checkboxCMT">Nơi cấp:</label>
+              <b-form-input placeholder="" id="noicap-cmnd" v-show="checkboxCMT"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
-            <div v-show="checkboxCMT" class="d-flex col">
-              <label for="ngaycap-cmnd" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker id="ngaycap-cmnd"></b-form-datepicker>
+            <div class="d-flex col">
+              <label for="ngaycap-cmnd" class="align-items-center w-25" v-show="checkboxCMT">Ngày cấp:</label>
+              <div v-show="checkboxCMT" class="w-75">
+                <b-form-datepicker id="ngaycap-cmnd"></b-form-datepicker>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -108,23 +110,25 @@
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxCCCD" class="d-flex">
-              <label for="cccd" class="align-items-center w-50">Số CCCD:</label>
-              <b-form-input placeholder="" id="cccd"></b-form-input>
+            <div class="d-flex">
+              <label for="cccd" class="align-items-center w-50" v-show="checkboxCCCD">Số CCCD:</label>
+              <b-form-input placeholder="" id="cccd" v-show="checkboxCCCD"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxCCCD" class="d-flex">
-              <label for="noicap-cccd" class="align-items-center w-50">Nơi cấp:</label>
-              <b-form-input placeholder="" id="noicap-cccd"></b-form-input>
+            <div class="d-flex">
+              <label for="noicap-cccd" class="align-items-center w-50" v-show="checkboxCCCD">Nơi cấp:</label>
+              <b-form-input placeholder="" id="noicap-cccd" v-show="checkboxCCCD"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
-            <div v-show="checkboxCCCD" class="d-flex col">
-              <label for="ngaycap-cccd" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker id="ngaycap-cccd"></b-form-datepicker>
+            <div class="d-flex col">
+              <label for="ngaycap-cccd" class="align-items-center w-25" v-show="checkboxCCCD">Ngày cấp:</label>
+              <div class="w-75" v-show="checkboxCCCD">
+                <b-form-datepicker id="ngaycap-cccd"></b-form-datepicker>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -142,23 +146,27 @@
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxHC" class="d-flex">
-              <label for="hc" class="align-items-center w-50">Số hộ chiếu:</label>
-              <b-form-input placeholder="" id="hc"></b-form-input>
+            <div class="d-flex">
+              <label for="hc" class="align-items-center w-50" v-show="checkboxHC">Số hộ chiếu:</label>
+              <b-form-input placeholder="" id="hc" v-show="checkboxHC"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxHC" class="d-flex col p-0">
-              <label for="ngaycap-hc" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker id="ngaycap-hc"></b-form-datepicker>
+            <div class="d-flex col p-0">
+              <label for="ngaycap-hc" class="align-items-center w-32" v-show="checkboxHC">Ngày cấp:</label>
+              <div v-show="checkboxHC" class="w-68">
+                <b-form-datepicker id="ngaycap-hc"></b-form-datepicker>
+              </div>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
-            <div v-show="checkboxHC" class="d-flex col">
-              <label for="ngayhethan-hc" class="align-items-center w-50">Ngày hết hạn:</label>
-              <b-form-datepicker id="ngayhethan-hc"></b-form-datepicker>
+            <div class="d-flex col">
+              <label for="ngayhethan-hc" class="align-items-center w-25" v-show="checkboxHC">Ngày hết hạn:</label>
+              <div v-show="checkboxHC" class="w-75">
+                <b-form-datepicker id="ngayhethan-hc"></b-form-datepicker>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -195,21 +203,21 @@
 
         <b-row class="mt-5">
           <b-col cols="3" class="d-flex">
-            <div v-show="bankAccountSub" class="d-flex">
-              <label for="accountBank-sub" class="align-items-center w-50">Số Tk:</label>
-              <b-form-input placeholder="" id="accountBank-sub"></b-form-input>
+            <div class="d-flex">
+              <label for="accountBank-sub" class="align-items-center w-50" v-show="bankAccountSub">Số Tk:</label>
+              <b-form-input placeholder="" id="accountBank-sub" v-show="bankAccountSub"></b-form-input>
             </div>
           </b-col>
           <b-col cols="3" class="d-flex">
-            <div v-show="bankAccountSub" class="d-flex">
-              <label for="bank-sub" class="align-items-center w-50">Ngân hàng:</label>
-              <b-form-input placeholder="" id="bank-sub"></b-form-input>
+            <div class="d-flex">
+              <label for="bank-sub" class="align-items-center w-50" v-show="bankAccountSub">Ngân hàng:</label>
+              <b-form-input placeholder="" id="bank-sub" v-show="bankAccountSub"></b-form-input>
             </div>
           </b-col>
           <b-col cols="3" class="d-flex">
-            <div v-show="bankAccountSub" class="d-flex">
-              <label for="branch-sub" class="align-items-center w-50">Chi nhánh:</label>
-              <b-form-input placeholder="" id="branch-sub"></b-form-input>
+            <div class="d-flex">
+              <label for="branch-sub" class="align-items-center w-50" v-show="bankAccountSub">Chi nhánh:</label>
+              <b-form-input placeholder="" id="branch-sub" v-show="bankAccountSub"></b-form-input>
             </div>
           </b-col>
         </b-row>
@@ -275,6 +283,12 @@ export default {
     font-weight: 900;
   }
 }
+.w-32 {
+  width: 32%;
+}
+.w-68 {
+  width: 68%;
+}
 </style>
 
 <style lang="scss">
@@ -293,6 +307,6 @@ textarea {
   overflow: auto;
 }
 .modal-xl {
-  // max-width: 70vw !important;
+  max-width: 70vw !important;
 }
 </style>
