@@ -112,28 +112,30 @@
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxCMT" class="d-flex">
-              <label for="cmnd" class="align-items-center w-50">Số CMND:</label>
-              <b-form-input placeholder="" id="cmnd" v-model="data.cmt"></b-form-input>
+            <div class="d-flex">
+              <label for="cmnd" class="align-items-center w-50" v-show="checkboxCMT">Số CMND:</label>
+              <b-form-input placeholder="" id="cmnd" v-model="data.cmt" v-show="checkboxCMT"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div  v-show="checkboxCMT" class="d-flex">
-              <label for="noicap-cmnd" class="align-items-center w-50">Nơi cấp:</label>
-              <b-form-input placeholder="" id="noicap-cmnd" v-model="data.cmt_NoiCap"></b-form-input>
+            <div class="d-flex">
+              <label for="noicap-cmnd" class="align-items-center w-50" v-show="checkboxCMT">Nơi cấp:</label>
+              <b-form-input placeholder="" id="noicap-cmnd" v-model="data.cmt_NoiCap" v-show="checkboxCMT"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
-            <div v-show="checkboxCMT" class="d-flex col">
-              <label for="ngaycap-cmnd" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker 
-                id="ngaycap-cmnd"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                locale="vi"
-                v-model="data.cmt_NgayCap"
-              ></b-form-datepicker>
+            <div class="d-flex col">
+              <label for="ngaycap-cmnd" class="align-items-center w-25" v-show="checkboxCMT">Ngày cấp:</label>
+              <div v-show="checkboxCMT" class="w-75">
+                <b-form-datepicker
+                  id="ngaycap-cmnd"
+                  :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                  locale="vi"
+                  v-model="data.cmt_NgayCap"
+                ></b-form-datepicker>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -151,29 +153,30 @@
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxCCCD" class="d-flex">
-              <label for="cccd" class="align-items-center w-50">Số CCCD:</label>
-              <b-form-input placeholder="" id="cccd" v-model="data.cccd"></b-form-input>
+            <div class="d-flex">
+              <label for="cccd" class="align-items-center w-50" v-show="checkboxCCCD">Số CCCD:</label>
+              <b-form-input placeholder="" id="cccd" v-show="checkboxCCCD" v-model="data.cccd"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxCCCD" class="d-flex">
-              <label for="noicap-cccd" class="align-items-center w-50">Nơi cấp:</label>
-              <b-form-input placeholder="" id="noicap-cccd" v-model="data.cccd_NoiCap"></b-form-input>
+            <div class="d-flex">
+              <label for="noicap-cccd" class="align-items-center w-50" v-show="checkboxCCCD">Nơi cấp:</label>
+              <b-form-input placeholder="" id="noicap-cccd" v-show="checkboxCCCD" v-model="data.cccd_NoiCap"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
-            <div v-show="checkboxCCCD" class="d-flex col">
-              <label for="ngaycap-cccd" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker 
-                id="ngaycap-cccd"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                locale="vi"
-                v-model="data.cccd_NgayCap"
-              >
-              </b-form-datepicker>
+            <div class="d-flex col">
+              <label for="ngaycap-cccd" class="align-items-center w-25" v-show="checkboxCCCD">Ngày cấp:</label>
+              <div class="w-75" v-show="checkboxCCCD">
+                <b-form-datepicker
+                  id="ngaycap-cccd"
+                  :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                  locale="vi"
+                  v-model="data.cccd_NgayCap"
+                ></b-form-datepicker>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -191,33 +194,37 @@
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxHC" class="d-flex">
-              <label for="hc" class="align-items-center w-50">Số hộ chiếu:</label>
-              <b-form-input placeholder="" id="hc" v-model="data.passport_no"></b-form-input>
+            <div class="d-flex">
+              <label for="hc" class="align-items-center w-50" v-show="checkboxHC">Số hộ chiếu:</label>
+              <b-form-input placeholder="" id="hc" v-show="checkboxHC" v-model="data.passport_no"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
-            <div v-show="checkboxHC" class="d-flex col p-0">
-              <label for="ngaycap-hc" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker 
-                id="ngaycap-hc"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                locale="vi"
-                v-model="data.passport_NgayCap"
-              ></b-form-datepicker>
+            <div class="d-flex col p-0">
+              <label for="ngaycap-hc" class="align-items-center w-32" v-show="checkboxHC">Ngày cấp:</label>
+              <div v-show="checkboxHC" class="w-68">
+                <b-form-datepicker
+                  id="ngaycap-hc"
+                  :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                  locale="vi"
+                  v-model="data.passport_NgayCap"
+                ></b-form-datepicker>
+              </div>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
-            <div v-show="checkboxHC" class="d-flex col">
-              <label for="ngayhethan-hc" class="align-items-center w-50">Ngày hết hạn:</label>
-              <b-form-datepicker 
-                id="ngayhethan-hc"
-                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                locale="vi"
-                v-model="data.passport_NgayHan"
-              ></b-form-datepicker>
+            <div class="d-flex col">
+              <label for="ngayhethan-hc" class="align-items-center w-25" v-show="checkboxHC">Ngày hết hạn:</label>
+              <div v-show="checkboxHC" class="w-75">
+                <b-form-datepicker 
+                  id="ngayhethan-hc"
+                  :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                  locale="vi"
+                  v-model="data.passport_NgayHan"
+                ></b-form-datepicker>
+              </div>
             </div>
           </b-col>
         </b-row>
@@ -278,21 +285,21 @@
 
         <b-row class="mt-5">
           <b-col cols="3" class="d-flex">
-            <div v-show="bankAccountSub" class="d-flex">
-              <label for="accountBank-sub" class="align-items-center w-50">Số Tk:</label>
-              <b-form-input placeholder="" id="accountBank-sub" v-model="data.so_TK2"></b-form-input>
+            <div class="d-flex">
+              <label for="accountBank-sub" class="align-items-center w-50" v-show="bankAccountSub">Số Tk:</label>
+              <b-form-input placeholder="" id="accountBank-sub" v-show="bankAccountSub" v-model="data.so_TK2"></b-form-input>
             </div>
           </b-col>
           <b-col cols="3" class="d-flex">
-            <div v-show="bankAccountSub" class="d-flex">
-              <label for="bank-sub" class="align-items-center w-50">Ngân hàng:</label>
-              <b-form-input placeholder="" id="bank-sub" v-model="data.ngan_hang2"></b-form-input>
+            <div class="d-flex">
+              <label for="bank-sub" class="align-items-center w-50" v-show="bankAccountSub">Ngân hàng:</label>
+              <b-form-input placeholder="" id="bank-sub" v-show="bankAccountSub" v-model="data.ngan_hang2"></b-form-input>
             </div>
           </b-col>
           <b-col cols="3" class="d-flex">
-            <div v-show="bankAccountSub" class="d-flex">
-              <label for="branch-sub" class="align-items-center w-50">Chi nhánh:</label>
-              <b-form-input placeholder="" id="branch-sub" v-model="data.chi_nhanh2"></b-form-input>
+            <div class="d-flex">
+              <label for="branch-sub" class="align-items-center w-50" v-show="bankAccountSub">Chi nhánh:</label>
+              <b-form-input placeholder="" id="branch-sub" v-show="bankAccountSub" v-model="data.chi_nhanh2"></b-form-input>
             </div>
           </b-col>
         </b-row>
@@ -399,9 +406,6 @@ export default {
       ngan_hang: {
         required,
       },
-      birthday: {
-        required,
-      }
     },
   },
   computed: {
@@ -468,7 +472,6 @@ export default {
       const payload = this.data;
       const key = ['birthday', 'cccd_NgayCap', 'cmt_NgayCap', 'passport_NgayCap', 'passport_NgayHan']
       this.deleteNullValue(payload, key)
-      console.log(payload);
       const submitButton = this.$refs.btn_add_chunha;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('addHost', payload);
@@ -502,6 +505,12 @@ export default {
     font-weight: 900;
   }
 }
+.w-32 {
+  width: 32%;
+}
+.w-68 {
+  width: 68%;
+}
 </style>
 
 <style lang="scss">
@@ -518,5 +527,8 @@ export default {
 }
 textarea {
   overflow: auto;
+}
+.modal-xl {
+  max-width: 70vw !important;
 }
 </style>
