@@ -27,12 +27,18 @@ const api = (config) => ({
   // tenant
   getTenant: (keyword) => config('get', `/tenant/v1/list-tenant/?search=${keyword}`, ''),
   deleteTenant: (payload) => config('post', '/tenant/v1/delete-tenant/', payload),
+  addTenant: (payload) => config('post', '/tenant/v1/', payload),
+  updateTenant: (payload) => config('patch', `/tenant/v1/${payload.id}/`, payload.data),
   // chu nha
   getChuNha: (keyword) => config('get', `/chu-nha/v1/list-chu-nha/?search=${keyword}`, ''),
   deleteHost: (payload) => config('post', '/chu-nha/v1/delete_chunha/', payload),
+  addHost: (payload) => config('post', '/chu-nha/v1/', payload),
+  updateHost: (payload) => config('patch', `/chu-nha/v1/${payload.id}/`, payload.data),
   // khach thue
   getKhachThue: (keyword) => config('get', `/khach-thue/v1/list-khach_thue/?search=${keyword}`, ''),
   deleteGuest: (payload) => config('post', '/khach-thue/v1/delete_khachthue/', payload),
+  addGuest: (payload) => config('post', '/khach-thue/v1/', payload),
+  updateGuest: (payload) => config('patch', `/khach-thue/v1/${payload.id}/`, payload.data),
   // can ho
   getCanHo: (keyword) => config('get', `/can-ho/v1/list-can-ho/?search=${keyword}`, ''),
   deleteCanHo: (payload) => config('post', '/can-ho/v1/delete_canho/', payload),

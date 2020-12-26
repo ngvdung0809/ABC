@@ -31,13 +31,13 @@ export default {
       const response = await api('deleteHost', payload);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
-    // async updateAccount(payload) {
-    //   const response = await api('updateAccount', payload);
-    //   if (response.data.error_code === 0) {
-    //     // commit('SET_LIST_ACCOUNT', response.data.data);
-    //   } else {
-    //     // show message failed
-    //   }
-    // },
+    async addHost({ commit }, payload) {
+      const response = await api('addHost', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
+    async updateHost({ commit }, payload) {
+      const response = await api('updateHost', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
   },
 };

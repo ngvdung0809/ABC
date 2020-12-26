@@ -31,5 +31,13 @@ export default {
       const response = await api('deleteTenant', payload);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
+    async addTenant({ commit }, payload) {
+      const response = await api('addTenant', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
+    async updateTenant({ commit }, payload) {
+      const response = await api('updateTenant', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
   },
 };
