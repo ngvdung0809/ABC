@@ -1,19 +1,41 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop :title="titleModal" size="xl">
+  <b-modal :id="idModal" no-close-on-backdrop :title="titleModal" size="xl" @hidden="cancel">
     <div class="popup-add-chunha">
       <div class="justify-content-between">
         <b-row>
           <b-col cols="4" class="d-flex">
             <label for="fullName" class="align-items-center w-50"><span class="text-color-red">*</span> Tên chủ nhà:</label>
-            <b-form-input placeholder="" id="fullName" ></b-form-input>
+            <b-form-input 
+              placeholder="" id="fullName"
+              v-model="$v.data.name.$model"
+              :state="validateState('name')"
+              aria-describedby="input-name-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.data.name.required" >
+              Vui lòng nhập tên chủ nhà
+            </b-form-invalid-feedback>
           </b-col>
           <b-col cols="4" class="d-flex">
-            <label for="dob" class="align-items-center w-50">Ngày sinh:</label>
-            <b-form-input placeholder="" id="dob" ></b-form-input>
+            <label for="birthday" class="align-items-center w-50">Ngày sinh:</label>
+            <b-form-datepicker
+              class="pr-0"
+              id="birthday"
+              :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+              locale="vi"
+              v-model="data.birthday"
+            ></b-form-datepicker>
           </b-col>
           <b-col cols="4" class="d-flex">
-            <label for="address" class="align-items-center w-50">Địa chỉ:</label>
-            <b-form-input placeholder="" id="address" ></b-form-input>
+            <label for="address" class="align-items-center w-50"><span class="text-color-red">*</span>Địa chỉ:</label>
+            <b-form-input 
+              placeholder="" id="address"
+              v-model="$v.data.address.$model"
+              :state="validateState('address')"
+              aria-describedby="input-address-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-address-feedback" v-if="!$v.data.address.required" >
+              Vui lòng nhập địa chỉ chủ nhà
+            </b-form-invalid-feedback>
           </b-col>
         </b-row>
       </div>
@@ -23,7 +45,15 @@
         <b-row>
           <b-col class="d-flex" cols="4">
             <label for="phoneNumber" class="align-items-center w-50"><span class="text-color-red">*</span> Số điện thoại:</label>
-            <b-form-input placeholder="" id="phoneNumber"></b-form-input>
+            <b-form-input 
+              placeholder="" id="phoneNumber"
+              v-model="$v.data.phone.$model"
+              :state="validateState('phone')"
+              aria-describedby="input-phone-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-phone-feedback" v-if="!$v.data.phone.numeric | !$v.data.phone.required" >
+              Vui lòng nhập số  điện thoại
+            </b-form-invalid-feedback>
           </b-col>
 
           <b-col class="d-flex" cols="4">
@@ -35,14 +65,22 @@
             >
               SDT dự phòng
             </b-form-checkbox>
-            <b-form-input placeholder="" id="phoneNumber-sub" v-show="phoneNumberSub"></b-form-input>
+            <b-form-input placeholder="" id="phoneNumber-sub" v-show="phoneNumberSub" v-model="data.phone2"></b-form-input>
           </b-col>
         </b-row>
 
         <b-row class="mt-5">
           <b-col class="d-flex" cols="4">
             <label for="email" class="align-items-center w-50"><span class="text-color-red">*</span> Email:</label>
-            <b-form-input placeholder="" id="email" ></b-form-input>
+            <b-form-input 
+              placeholder="" id="email"
+              v-model="$v.data.email.$model"
+              :state="validateState('email')"
+              aria-describedby="input-email-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-email-feedback" v-if="!$v.data.email.email | !$v.data.email.required" >
+              Vui lòng nhập địa chỉ email
+            </b-form-invalid-feedback>
           </b-col>
 
           <b-col class="d-flex" cols="4">
@@ -54,7 +92,7 @@
             >
               Email dự phòng
             </b-form-checkbox>
-            <b-form-input placeholder="" id="email-sub" v-show="emailSub"></b-form-input>
+            <b-form-input placeholder="" id="email-sub" v-show="emailSub" v-model="data.email2"></b-form-input>
           </b-col>
         </b-row>
       </div>
@@ -76,21 +114,26 @@
           <b-col cols="3" class="d-flex">
             <div v-show="checkboxCMT" class="d-flex">
               <label for="cmnd" class="align-items-center w-50">Số CMND:</label>
-              <b-form-input placeholder="" id="cmnd"></b-form-input>
+              <b-form-input placeholder="" id="cmnd" v-model="data.cmt"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
             <div  v-show="checkboxCMT" class="d-flex">
               <label for="noicap-cmnd" class="align-items-center w-50">Nơi cấp:</label>
-              <b-form-input placeholder="" id="noicap-cmnd"></b-form-input>
+              <b-form-input placeholder="" id="noicap-cmnd" v-model="data.cmt_NoiCap"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
             <div v-show="checkboxCMT" class="d-flex col">
               <label for="ngaycap-cmnd" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker id="ngaycap-cmnd"></b-form-datepicker>
+              <b-form-datepicker 
+                id="ngaycap-cmnd"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                locale="vi"
+                v-model="data.cmt_NgayCap"
+              ></b-form-datepicker>
             </div>
           </b-col>
         </b-row>
@@ -110,21 +153,27 @@
           <b-col cols="3" class="d-flex">
             <div v-show="checkboxCCCD" class="d-flex">
               <label for="cccd" class="align-items-center w-50">Số CCCD:</label>
-              <b-form-input placeholder="" id="cccd"></b-form-input>
+              <b-form-input placeholder="" id="cccd" v-model="data.cccd"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
             <div v-show="checkboxCCCD" class="d-flex">
               <label for="noicap-cccd" class="align-items-center w-50">Nơi cấp:</label>
-              <b-form-input placeholder="" id="noicap-cccd"></b-form-input>
+              <b-form-input placeholder="" id="noicap-cccd" v-model="data.cccd_NoiCap"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
             <div v-show="checkboxCCCD" class="d-flex col">
               <label for="ngaycap-cccd" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker id="ngaycap-cccd"></b-form-datepicker>
+              <b-form-datepicker 
+                id="ngaycap-cccd"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                locale="vi"
+                v-model="data.cccd_NgayCap"
+              >
+              </b-form-datepicker>
             </div>
           </b-col>
         </b-row>
@@ -144,21 +193,31 @@
           <b-col cols="3" class="d-flex">
             <div v-show="checkboxHC" class="d-flex">
               <label for="hc" class="align-items-center w-50">Số hộ chiếu:</label>
-              <b-form-input placeholder="" id="hc"></b-form-input>
+              <b-form-input placeholder="" id="hc" v-model="data.passport_no"></b-form-input>
             </div>
           </b-col>
 
           <b-col cols="3" class="d-flex">
             <div v-show="checkboxHC" class="d-flex col p-0">
               <label for="ngaycap-hc" class="align-items-center w-50">Ngày cấp:</label>
-              <b-form-datepicker id="ngaycap-hc"></b-form-datepicker>
+              <b-form-datepicker 
+                id="ngaycap-hc"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                locale="vi"
+                v-model="data.passport_NgayCap"
+              ></b-form-datepicker>
             </div>
           </b-col>
 
           <b-col cols="4" class="d-flex">
             <div v-show="checkboxHC" class="d-flex col">
               <label for="ngayhethan-hc" class="align-items-center w-50">Ngày hết hạn:</label>
-              <b-form-datepicker id="ngayhethan-hc"></b-form-datepicker>
+              <b-form-datepicker 
+                id="ngayhethan-hc"
+                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                locale="vi"
+                v-model="data.passport_NgayHan"
+              ></b-form-datepicker>
             </div>
           </b-col>
         </b-row>
@@ -169,15 +228,39 @@
         <b-row>
           <b-col cols="3" class="d-flex">
             <label for="accountBank" class="align-items-center w-50">Số Tk:</label>
-            <b-form-input placeholder="" id="accountBank"></b-form-input>
+            <b-form-input 
+              placeholder="" id="accountBank"
+              v-model="$v.data.so_TK.$model"
+              :state="validateState('so_TK')"
+              aria-describedby="input-so_TK-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-so_TK-feedback" v-if="!$v.data.so_TK.required" >
+              Vui lòng nhập số  tài khoản ngân hàng
+            </b-form-invalid-feedback>
           </b-col>
           <b-col cols="3" class="d-flex">
             <label for="bank" class="align-items-center w-50">Ngân hàng:</label>
-            <b-form-input placeholder="" id="bank"></b-form-input>
+            <b-form-input 
+              placeholder="" id="bank"
+              v-model="$v.data.ngan_hang.$model"
+              :state="validateState('ngan_hang')"
+              aria-describedby="input-ngan_hang-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-ngan_hang-feedback" v-if="!$v.data.ngan_hang.required" >
+              Vui lòng nhập tên ngân hàng
+            </b-form-invalid-feedback>
           </b-col>
           <b-col cols="3" class="d-flex">
             <label for="branch" class="align-items-center w-50">Chi nhánh:</label>
-            <b-form-input placeholder="" id="branch"></b-form-input>
+            <b-form-input 
+              placeholder="" id="branch"
+              v-model="$v.data.chi_nhanh.$model"
+              :state="validateState('chi_nhanh')"
+              aria-describedby="input-chi_nhanh-feedback"
+            ></b-form-input>
+            <b-form-invalid-feedback id="input-chi_nhanh-feedback" v-if="!$v.data.chi_nhanh.required" >
+              Vui lòng nhập tên chi nhánh của ngân hàng
+            </b-form-invalid-feedback>
           </b-col>
         </b-row>
 
@@ -197,19 +280,19 @@
           <b-col cols="3" class="d-flex">
             <div v-show="bankAccountSub" class="d-flex">
               <label for="accountBank-sub" class="align-items-center w-50">Số Tk:</label>
-              <b-form-input placeholder="" id="accountBank-sub"></b-form-input>
+              <b-form-input placeholder="" id="accountBank-sub" v-model="data.so_TK2"></b-form-input>
             </div>
           </b-col>
           <b-col cols="3" class="d-flex">
             <div v-show="bankAccountSub" class="d-flex">
               <label for="bank-sub" class="align-items-center w-50">Ngân hàng:</label>
-              <b-form-input placeholder="" id="bank-sub"></b-form-input>
+              <b-form-input placeholder="" id="bank-sub" v-model="data.ngan_hang2"></b-form-input>
             </div>
           </b-col>
           <b-col cols="3" class="d-flex">
             <div v-show="bankAccountSub" class="d-flex">
               <label for="branch-sub" class="align-items-center w-50">Chi nhánh:</label>
-              <b-form-input placeholder="" id="branch-sub"></b-form-input>
+              <b-form-input placeholder="" id="branch-sub" v-model="data.chi_nhanh2"></b-form-input>
             </div>
           </b-col>
         </b-row>
@@ -222,6 +305,7 @@
               placeholder="Nhập ghi chú"
               rows="3"
               max-rows="6"
+              v-model="data.note"
             ></b-form-textarea>
           </b-col>
         </b-row>
@@ -231,7 +315,7 @@
       <b-button size="sm" variant="danger" @click="cancel" >
         Hủy bỏ
       </b-button>
-      <b-button size="sm" variant="success" @click="submit" >
+      <b-button ref="btn_add_chunha" size="sm" variant="success" @click="submit" >
         Tạo
       </b-button>
     </template>
@@ -239,6 +323,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import { validationMixin } from 'vuelidate';
+import { required, email, numeric } from 'vuelidate/lib/validators';
+import constants from '../../../constants/index';
+
 export default {
   props: {
     titleModal: {
@@ -248,6 +337,7 @@ export default {
       type: String,
     },
   },
+  mixins: [validationMixin],
   data() {
     return {
       phoneNumberSub: false,
@@ -256,13 +346,150 @@ export default {
       checkboxCCCD: false,
       checkboxHC: false,
       bankAccountSub: false,
+      data: {
+        name: '',
+        cmt: '',
+        cmt_NgayCap: '',
+        cmt_NoiCap: '',
+        cccd: '',
+        cccd_NgayCap: '',
+        cccd_NoiCap: '',
+        passport_no: '',
+        passport_NgayCap: '',
+        passport_NgayHan: '',
+        birthday: '',
+        address: '',
+        phone: '',
+        phone2: '',
+        email: '',
+        email2: '',
+        so_TK: '',
+        chi_nhanh: '',
+        ngan_hang: '',
+        so_TK2: '',
+        chi_nhanh2: '',
+        ngan_hang2: '',
+        note: '',
+      },
+      constants,
     };
   },
+  validations: {
+    data: {
+      name: {
+        required,
+      },
+      address: {
+        required,
+      },
+      phone: {
+        required,
+        numeric,
+      },
+      email: {
+        email,
+        required,
+      },
+      so_TK: {
+        required,
+      },
+      chi_nhanh: {
+        required,
+      },
+      ngan_hang: {
+        required,
+      },
+      birthday: {
+        required,
+      }
+    },
+  },
+  computed: {
+    ...mapGetters(['getErrorChuNha'])
+  },
   methods: {
+    validateState(name) {
+      const { $dirty, $error } = this.$v.data[name];
+      return $dirty ? !$error : null;
+    },
+    deleteNullValue(payload, key) {
+      const payloadNew = payload;
+      key.forEach((item) => {
+        if (!payloadNew[item]) {
+          delete payloadNew[item];
+        }
+      });
+    },
+    clearData() {
+      this.data = {
+        name: '',
+        cmt: '',
+        cmt_NgayCap: '',
+        cmt_NoiCap: '',
+        cccd: '',
+        cccd_NgayCap: '',
+        cccd_NoiCap: '',
+        passport_no: '',
+        passport_NgayCap: '',
+        passport_NgayHan: '',
+        birthday: '',
+        address: '',
+        phone: '',
+        phone2: '',
+        email: '',
+        email2: '',
+        so_TK: '',
+        chi_nhanh: '',
+        ngan_hang: '',
+        so_TK2: '',
+        chi_nhanh2: '',
+        ngan_hang2: '',
+        note: '',
+      };
+    },
     cancel() {
       this.$bvModal.hide(this.idModal);
+      this.clearData();
+      this.clearErrorValidate()
     },
-    submit() {},
+    makeToastMessage(message, status) {
+      this.$bvToast.toast(message, {
+        title: 'Thông báo',
+        variant: status,
+        autoHideDelay: 2000,
+        solid: true,
+      });
+    },
+    async submit() {
+      this.$v.$touch();
+      if (this.$v.$anyError) {
+        return;
+      }
+      const payload = this.data;
+      const key = ['birthday', 'cccd_NgayCap', 'cmt_NgayCap', 'passport_NgayCap', 'passport_NgayHan']
+      this.deleteNullValue(payload, key)
+      console.log(payload);
+      const submitButton = this.$refs.btn_add_chunha;
+      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      await this.$store.dispatch('addHost', payload);
+      if (this.getErrorChuNha === 0) {
+        this.cancel()
+        await this.$store.dispatch('getHost', '');
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_SUCCEED, 'success');
+      } else {
+        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
+      }
+      submitButton.classList.remove(
+        'spinner',
+        'spinner-light',
+        'spinner-right',
+      );
+    },
+    clearErrorValidate() {
+      this.$nextTick(() => {
+        this.$v.$reset();
+      });
+    },
   },
 }
 </script>
@@ -291,8 +518,5 @@ export default {
 }
 textarea {
   overflow: auto;
-}
-.modal-xl {
-  // max-width: 70vw !important;
 }
 </style>
