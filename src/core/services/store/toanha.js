@@ -31,5 +31,13 @@ export default {
       const response = await api('deleteToaNha', payload);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
+    async addBuilding({ commit }, payload) {
+      const response = await api('addBuilding', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
+    async updateBuilding({ commit }, payload) {
+      const response = await api('updateBuilding', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
   },
 };

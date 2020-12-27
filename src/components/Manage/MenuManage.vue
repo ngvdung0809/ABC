@@ -157,7 +157,8 @@
 <script>
 export default {
   name: 'MenuManage',
-  components: {},
+  components: {
+  },
   methods: {
     hasActiveChildren(match) {
       return this.$route.path.indexOf(match) !== -1;

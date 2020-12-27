@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { ROUTER } from '../config/const';
 import store from '../core/services/store/index';
+import api from '../core/services/api/api';
 
 Vue.use(VueRouter);
 
@@ -87,6 +88,15 @@ const routes = [
         component: () => import('@/pages/ManageTenant/ManageTenant'),
       },
       {
+        name: 'ManageContract',
+        path: '/manage-contract',
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch('getContract', '');
+          next();
+        },
+        component: () => import('@/pages/Contract/ManageContract'),
+      },
+      {
         name: 'ManageService',
         path: '/manage-service',
         beforeEnter: async (to, from, next) => {
@@ -94,6 +104,44 @@ const routes = [
           next();
         },
         component: () => import('@/pages/ManageService/ManageService'),
+      },
+      {
+        name: 'ManagePayment',
+        path: '/period-payment-contract',
+        component: () => import('@/pages/Payment/Payment'),
+      },
+      {
+        name: 'ManageUnPayment',
+        path: '/bad-debt-contract',
+        component: () => import('@/pages/UnPayment/UnPayment'),
+      },
+      {
+        name: 'ManageServicePayment',
+        path: '/period-payment-service',
+        component: () => import('@/pages/PaymentService/PaymentService'),
+      },
+      {
+        name: 'ManageServiceUnPayment',
+        path: '/bad-debt-service',
+        component: () => import('@/pages/UnPaymentService/UnPaymentService'),
+      },
+      {
+        name: 'ChangePassword',
+        path: '/change-password',
+        beforeEnter: async (to, from, next) => {
+          // await store.dispatch('getService', '');
+          next();
+        },
+        component: () => import('@/pages/ChangePassword/ChangePassword'),
+      },
+      {
+        name: 'Summary',
+        path: '/summary',
+        beforeEnter: async (to, from, next) => {
+          // await api('overview');
+          next();
+        },
+        component: () => import('@/pages/Summary/Summary'),
       },
       {
         name: 'Manage',

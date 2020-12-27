@@ -1,7 +1,7 @@
 const ROUTER = {
   dashboard: {
     name: 'Dashboard',
-    path: '/dashboard',
+    path: '/summary',
   },
   manage: {
     name: 'Manage',
