@@ -8,14 +8,10 @@
 </template>
 
 <script>
-import Button from '../Buttons/Button.vue';
 import constants from '../../../constants/index'
 
 export default {
   name: 'Header',
-  components: {
-    Button,
-  },
   data() {
     return {
       constants

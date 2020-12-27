@@ -57,7 +57,8 @@
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
-                  v-b-modal.modal-detail-account
+                  @click="getDetailGuest(guest.id)"
+                  v-b-modal.modal-detail-guest
                 ></b-icon-pencil-square>
                 <b-icon-trash
                   variant="light"
@@ -81,6 +82,19 @@
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
+    <div>
+      <PopupAddGuest
+        :titleModal="constants.GUEST_CONST.TITLE_POPUP_ADD"
+        :idModal="constants.GUEST_CONST.ID_POPUP_ADD"
+      />
+    </div>
+    <div>
+      <PopupDetailGuest
+        :idModal="constants.GUEST_CONST.ID_POPUP_DETAIL"
+        :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
@@ -88,6 +102,8 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageKhachThue/Headers/Header.vue';
 import PopupDeleteGuest from '../../components/ManageKhachThue/Popups/PopupDeleteGuest.vue';
+import PopupAddGuest from '../../components/ManageKhachThue/Popups/PopupAddKhachThue.vue';
+import PopupDetailGuest from '../../components/ManageKhachThue/Popups/PopupDetailKhachThue.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -95,6 +111,8 @@ export default {
   components: {
     Header,
     PopupDeleteGuest,
+    PopupAddGuest,
+    PopupDetailGuest,
   },
   data() {
     return {
@@ -104,6 +122,7 @@ export default {
       inputSearch: '',
       selectedListGuest: [],
       isSelectedAll: false,
+      detail: {},
       constants,
     };
   },
@@ -157,6 +176,10 @@ export default {
       } else {
         this.selectedListGuest = [];
       }
+    },
+    getDetailGuest(id) {
+      this.selectedListGuest = [id];
+      this.detail = this.getlistKhachThue.find((item) => item.id === id);
     },
     getSingleGuestId(id) {
       this.selectedListGuest = [id];

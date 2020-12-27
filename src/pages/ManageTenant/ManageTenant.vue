@@ -59,6 +59,7 @@
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
+                  @click="getDetailTenant(tenant.id)"
                   v-b-modal.modal-detail-tenant
                 ></b-icon-pencil-square>
                 <b-icon-trash
@@ -83,6 +84,19 @@
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
+    <div>
+      <PopupAddTenant
+        :titleModal="constants.TENANT_CONST.TITLE_POPUP_ADD"
+        :idModal="constants.TENANT_CONST.ID_POPUP_ADD"
+      />
+    </div>
+    <div>
+      <PopupDetailTenant
+        :idModal="constants.TENANT_CONST.ID_POPUP_DETAIL"
+        :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
@@ -91,6 +105,8 @@ import { mapGetters } from 'vuex';
 import Header from '../../components/ManageTenant/Headers/Header.vue';
 import Button from '../../components/ManageTenant/Buttons/Button.vue';
 import PopupDeleteTenant from '../../components/ManageTenant/Popups/PopupDeleteTenant.vue';
+import PopupAddTenant from '../../components/ManageTenant/Popups/PopupAddTenant.vue';
+import PopupDetailTenant from '../../components/ManageTenant/Popups/PopupDetailTenant.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -99,19 +115,14 @@ export default {
     Header,
     PopupDeleteTenant,
     Button,
+    PopupAddTenant,
+    PopupDetailTenant,
   },
   data() {
     return {
       styleCss: 'background: #FFFFFF;color:#333333;',
       userDetail: {},
-      fields: [
-        { key: 'name', label: 'Tên công ty' },
-        { key: 'phone', label: 'Số điện thoại' },
-        { key: 'email', label: 'Email' },
-        { key: 'rep', label: 'Người đại diện' },
-        { key: 'address', label: 'Địa chỉ' },
-        { key: 'actions', label: 'Tùy chọn' },
-      ],
+      detail: {},
       canUpdate: false,
       search: '',
       constants,
@@ -172,6 +183,11 @@ export default {
       } else {
         this.selectedListTenant = [];
       }
+    },
+    getDetailTenant(id) {
+      console.log('aaaa');
+      this.selectedListTenant = [id];
+      this.detail = this.getListTenant.find((item) => item.id === id);
     },
     getSingleTenantId(id) {
       this.selectedListTenant = [id];
