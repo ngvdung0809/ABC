@@ -24,6 +24,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'linebreak-style': 0,
-    'vue/no-unused-vars': 'warn'
+    'vue/no-unused-vars': 'warn',
+    'no-unused-expressions': 'off',
   },
 };

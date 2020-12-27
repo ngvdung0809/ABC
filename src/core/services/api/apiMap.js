@@ -53,7 +53,9 @@ const api = (config) => ({
   getService: (keyword) => config('get', `/dich-vu/v1/list-dich-vu/?search=${keyword}`, ''),
   deleteService: (payload) => config('post', '/dich-vu/v1/delete_dichvu/', payload),
   // contract
-  createContract: (payload) => config('post', '/hd-groups/v1/', payload),
+  createContract: (payload) => config('post', '/hd-groups/v1/', payload.data),
+  updateContract: (payload) => config('patch', `/hd-groups/v1/${payload.id}/`, payload.data),
+
   addService: (payload) => config('post', '/dich-vu/v1/', payload),
   updateService: (payload) => config('patch', `/dich-vu/v1/${payload.id}/`, payload.data),
   // payment
