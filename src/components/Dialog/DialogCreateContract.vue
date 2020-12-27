@@ -15,7 +15,6 @@
               <div
                 class="wizard-step"
                 v-for="step in filterStateStep"
-                @click="currentStep = step.id"
                 :key="step.id"
                 :data-wizard-state="currentStep === step.id ? 'current' : 'none'"
                 :style="{
@@ -44,41 +43,80 @@
             <div class="row">
               <div class="offset-xxl-2 col-xxl-8">
                 <div v-if="currentStep === 1">
-                  <div class="form-group">
-                    <label>Tên bộ hợp đồng</label>
-                    <input
+                  <b-form-group label="Tên bộ hợp đồng">
+                    <b-form-input
                       type="text"
+                      v-model="$v.basicForm.name.$model"
+                      :state="validateState('basicForm', 'name')"
                       class="form-control form-control-solid form-control-lg"
                       name="fname"
+                      aria-describedby="input-1-live-feedback"
                       placeholder="Nhập tên bộ hợp đồng"
                     />
-                  </div>
-                  <div class="form-group">
-                    <label>Nhân viên:</label>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.basicForm.name.required"
+                    >
+                      Xin hãy nhập tên đăng nhập
+                    </b-form-invalid-feedback>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-else-if="!$v.basicForm.name.minLength"
+                    >
+                      Độ dài tối thiểu của tên đăng nhập là 4
+                    </b-form-invalid-feedback>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-else-if="!$v.basicForm.name.maxLength"
+                    >
+                      Độ dài tối đa của tên đăng nhập là 32
+                    </b-form-invalid-feedback>
+                    <!-- <div id="input-1-live-feedback" v-else style="height: 1.4rem" /> -->
+                  </b-form-group>
+                  <b-form-group label="Nhân viên:">
                     <b-form-select
+                      v-model="$v.basicForm.employee.$model"
+                      :state="validateState('basicForm', 'employee')"
                       class="form-control form-control-solid form-control-lg"
                       :options="listEmployee"
                     ></b-form-select>
-                  </div>
-                  <div class="form-group">
-                    <label>Người thuê nhà:</label>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.basicForm.employee.required"
+                      >Xin hãy chọn nhân viên</b-form-invalid-feedback
+                    >
+                  </b-form-group>
+                  <b-form-group label="Người thuê nhà:">
                     <b-form-select
+                      v-model="$v.basicForm.endUser.$model"
+                      :state="validateState('basicForm', 'endUser')"
+                      class="form-control form-control-solid form-control-lg"
                       :options="listEndUser"
-                      class="form-control form-control-solid form-control-lg"
                     ></b-form-select>
-                  </div>
-                  <div class="form-group">
-                    <label>Căn hộ:</label>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.basicForm.endUser.required"
+                      >Xin hãy chọn khách thuê</b-form-invalid-feedback
+                    >
+                  </b-form-group>
+                  <b-form-group label="Căn hộ:">
                     <b-form-select
-                      :options="listApartment"
+                      v-model="$v.basicForm.apartment.$model"
+                      :state="validateState('basicForm', 'apartment')"
                       class="form-control form-control-solid form-control-lg"
+                      :options="listApartment"
                     ></b-form-select>
-                  </div>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.basicForm.apartment.required"
+                      >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                    >
+                  </b-form-group>
                   <div class="form-group">
                     <label>Loại tiền tệ</label>
                     <b-form-select
                       :options="listTypeCurrency"
-                      v-model="typeCurrency"
+                      v-model="basicForm.typeCurrency"
                       class="form-control form-control-solid form-control-lg"
                     ></b-form-select>
                   </div>
@@ -86,7 +124,7 @@
                     <label
                       class="checkbox checkbox-lg checkbox-lg checkbox-single flex-shrink-0 mr-4"
                     >
-                      <input type="checkbox" v-model="isBrokerageContract"/>
+                      <input type="checkbox" v-model="isBrokerageContract" />
                       <span class="mr-2"></span>
                       Hợp đồng môi giới
                     </label>
@@ -108,79 +146,155 @@
                   </div> -->
                   <div class="row">
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Ngày bắt đầu hợp đồng:</label>
+                      <b-form-group label="Ngày bắt đầu hợp đồng:">
                         <b-form-datepicker
+                          v-model="$v.loanForm.dayStartContract.$model"
+                          :max="loanForm.dayEndContract"
+                          :date-format-options="{
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric'
+                          }"
+                          :state="validateState('loanForm', 'dayStartContract')"
                           class="form-control form-control-solid form-control-lg"
                         ></b-form-datepicker>
-                      </div>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.dayStartContract.required"
+                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Ngày kết thúc hợp đồng:</label>
+                      <b-form-group label="Ngày kết thúc hợp đồng:">
                         <b-form-datepicker
+                          v-model="$v.loanForm.dayEndContract.$model"
+                          :state="validateState('loanForm', 'dayEndContract')"
+                          :date-format-options="{
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric'
+                          }"
                           class="form-control form-control-solid form-control-lg"
+                          :min="loanForm.dayStartContract"
                         ></b-form-datepicker>
-                      </div>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.dayEndContract.required"
+                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Ngày nhận nhà:</label>
+                      <b-form-group label="Ngày nhận nhà:">
                         <b-form-datepicker
+                          v-model="$v.loanForm.dayReceive.$model"
+                          :state="validateState('loanForm', 'dayReceive')"
+                          :date-format-options="{
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric'
+                          }"
                           class="form-control form-control-solid form-control-lg"
+                          :max="loanForm.dayReturn"
                         ></b-form-datepicker>
-                      </div>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.dayReceive.required"
+                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Ngày trả nhà:</label>
+                      <b-form-group label="Ngày trả nhà:">
                         <b-form-datepicker
+                          v-model="$v.loanForm.dayReturn.$model"
+                          :state="validateState('loanForm', 'dayReturn')"
+                          :date-format-options="{
+                            year: 'numeric',
+                            month: 'numeric',
+                            day: 'numeric'
+                          }"
                           class="form-control form-control-solid form-control-lg"
+                          :min="loanForm.dayReceive"
                         ></b-form-datepicker>
-                      </div>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.dayReturn.required"
+                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label>Kỳ thanh toán</label>
-                    <input
+                  <b-form-group label="Kỳ thanh toán:">
+                    <b-form-input
                       type="text"
+                      v-model="$v.loanForm.periodPayment.$model"
+                      :state="validateState('loanForm', 'periodPayment')"
                       class="form-control form-control-solid form-control-lg"
                       name="fname"
-                      placeholder="Nhập tên bộ hợp đồng"
+                      aria-describedby="input-1-live-feedback"
+                      placeholder="Nhập kỳ thanh toán"
                     />
-                  </div>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.loanForm.periodPayment.required"
+                      >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                    >
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.loanForm.periodPayment.numeric"
+                      >Xin hãy nhập dạng số</b-form-invalid-feedback
+                    >
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.loanForm.periodPayment.between"
+                      >Bạn đã nhập vượt quá kỳ thanh toán</b-form-invalid-feedback
+                    >
+                  </b-form-group>
                   <div class="row">
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Giá thuê:</label>
-                        <div class="d-flex align-items-center">
-                          <input
-                            type="text"
-                            class="form-control form-control-solid form-control-lg"
-                            name="fname"
-                            placeholder="Nhập tên bộ hợp đồng"
-                          /><span class="h1 ml-2 mb-0 text-primary"
-                            >/<span class="h3">tháng</span></span
-                          >
-                        </div>
-                      </div>
+                      <b-form-group label="Gía thuê:">
+                        <b-form-input
+                          type="text"
+                          v-model="$v.loanForm.priceContract.$model"
+                          :state="validateState('loanForm', 'priceContract')"
+                          class="form-control form-control-solid form-control-lg"
+                          name="fname"
+                          aria-describedby="input-1-live-feedback"
+                          placeholder="Nhập kỳ thanh toán"
+                        />
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.priceContract.required"
+                          >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                        >
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.priceContract.numeric"
+                          >Xin hãy nhập dạng số</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Tiền cọc trước:</label>
-                        <div class="d-flex align-items-center">
-                          <input
-                            type="text"
-                            class="form-control form-control-solid form-control-lg"
-                            name="fname"
-                            placeholder="Nhập tên bộ hợp đồng"
-                          /><span class="h1 ml-2 mb-0 text-primary"
-                            >/<span class="h3">tháng</span></span
-                          >
-                        </div>
-                      </div>
+                      <b-form-group label="Tiền cọc trước:">
+                        <b-form-input
+                          type="text"
+                          v-model="$v.loanForm.deposits.$model"
+                          :state="validateState('loanForm', 'deposits')"
+                          class="form-control form-control-solid form-control-lg"
+                          name="fname"
+                          aria-describedby="input-1-live-feedback"
+                          placeholder="Nhập kỳ thanh toán"
+                        />
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.loanForm.deposits.numeric"
+                          >Xin hãy nhập dạng số</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                   </div>
                   <div class="row">
@@ -191,6 +305,7 @@
                           class="form-control-solid"
                           placeholder="Enter something..."
                           rows="3"
+                          v-model="loanForm.conditionRenewal"
                           no-resize
                           max-rows="6"
                         />
@@ -202,6 +317,7 @@
                         <b-form-textarea
                           class="form-control-solid"
                           placeholder="Enter something..."
+                          v-model="loanForm.note"
                           rows="3"
                           no-resize
                           max-rows="6"
@@ -211,20 +327,32 @@
                   </div>
                 </div>
                 <div v-if="currentStep === 3 && isBrokerageContract">
-                  <div class="form-group">
-                    <label>Tiền môi giới:</label>
-                    <input
+                  <b-form-group label="Tiền môi giới:">
+                    <b-form-input
                       type="text"
+                      v-model="$v.brokerageContractForm.brokerageMoney.$model"
+                      :state="validateState('brokerageContractForm', 'brokerageMoney')"
                       class="form-control form-control-solid form-control-lg"
                       name="fname"
-                      placeholder="Nhập tên bộ hợp đồng"
+                      aria-describedby="input-1-live-feedback"
+                      placeholder="Nhập kỳ thanh toán"
                     />
-                  </div>
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.brokerageContractForm.brokerageMoney.required"
+                      >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                    >
+                    <b-form-invalid-feedback
+                      id="input-1-live-feedback"
+                      v-if="!$v.brokerageContractForm.brokerageMoney.numeric"
+                      >Xin hãy nhập dạng số</b-form-invalid-feedback
+                    >
+                  </b-form-group>
                   <div class="form-group">
                     <label>Ghi chú:</label>
                     <b-form-textarea
                       class="form-control-solid"
-                      v-model="text"
+                      v-model="brokerageContractForm.note"
                       placeholder="Enter something..."
                       rows="6"
                       max-rows="6"
@@ -232,37 +360,66 @@
                     />
                   </div>
                 </div>
-                <div v-if="currentStep === 4 && isServiceContract">
+                <div v-if="currentStep === filterStateStep.length && isServiceContract">
                   <div class="row">
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Tiền thực lĩnh:</label>
-                        <input
+                      <b-form-group label="Tiền thực lĩnh:">
+                        <b-form-input
                           type="text"
+                          v-model="$v.serviceForm.moneyReceive.$model"
+                          :state="validateState('serviceForm', 'moneyReceive')"
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
+                          aria-describedby="input-1-live-feedback"
+                          placeholder="Nhập kỳ thanh toán"
                         />
-                      </div>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.serviceForm.moneyReceive.required"
+                          >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                        >
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.serviceForm.moneyReceive.numeric"
+                          >Xin hãy nhập dạng số</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                     <div class="col-xl-6">
-                      <div class="form-group">
-                        <label>Tiền dịch vụ:</label>
-                        <input
+                      <b-form-group label="Tiền dịch vụ:">
+                        <b-form-input
                           type="text"
+                          v-model="$v.serviceForm.moneyService.$model"
+                          :state="validateState('serviceForm', 'moneyService')"
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
+                          aria-describedby="input-1-live-feedback"
+                          placeholder="Nhập kỳ thanh toán"
                         />
-                      </div>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.serviceForm.moneyService.required"
+                          >Xin hãy nhập kì thanh toán</b-form-invalid-feedback>
+                        <b-form-invalid-feedback
+                          id="input-1-live-feedback"
+                          v-if="!$v.serviceForm.moneyService.numeric"
+                          >Xin hãy nhập dạng số</b-form-invalid-feedback
+                        >
+                      </b-form-group>
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label>Thời gian thanh toán:</label>
+                  <b-form-group label="Thời gian thanh toán:">
                     <b-form-datepicker
+                      v-model="serviceForm.datePayment"
+                      :state="validateState('loanForm', 'dayEndContract')"
+                      :date-format-options="{
+                        year: 'numeric',
+                        month: 'numeric',
+                        day: 'numeric'
+                      }"
                       class="form-control form-control-solid form-control-lg"
                     ></b-form-datepicker>
-                  </div>
+                  </b-form-group>
                   <div class="row">
                     <div class="col-4">
                       <label>Dịch vụ:</label>
@@ -273,15 +430,31 @@
                     <div class="col-4">
                       <label>Kỳ thanh toán</label>
                     </div>
-                    <div class="w-100 d-flex mb-4">
+                    <div
+                      class="w-100 d-flex mb-4"
+                      v-for="(item, index) in $v.serviceForm.listService.$each.$iter"
+                      :key="index"
+                    >
                       <div class="col-4">
-                        <b-form-select
-                          :options="listService"
-                          class="form-control form-control-solid form-control-lg"
-                        ></b-form-select>
+                        <b-form-group>
+                          <b-form-select
+                            v-model="item.nameService.$model"
+                            :state="
+                              validateState('serviceForm', 'listService', index, 'nameService')
+                            "
+                            class="form-control form-control-solid form-control-lg"
+                            :options="listService"
+                          ></b-form-select>
+                          <b-form-invalid-feedback
+                            id="input-1-live-feedback"
+                            v-if="!item.nameService.required"
+                            >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                          >
+                        </b-form-group>
                       </div>
                       <div class="col-4">
                         <input
+                          v-model="serviceForm.listService[index].quota"
                           type="text"
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
@@ -289,46 +462,43 @@
                         />
                       </div>
                       <div class="col-4">
-                        <input
-                          type="text"
-                          class="form-control form-control-solid form-control-lg"
-                          name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
-                        />
+                        <b-form-group>
+                          <b-form-input
+                            type="text"
+                            v-model="item.periodPayment.$model"
+                            :state="
+                              validateState('serviceForm', 'listService', index, 'periodPayment')
+                            "
+                            class="form-control form-control-solid form-control-lg"
+                            name="fname"
+                            aria-describedby="input-1-live-feedback"
+                            placeholder="Nhập kỳ thanh toán"
+                          />
+                          <b-form-invalid-feedback
+                            id="input-1-live-feedback"
+                            v-if="!item.periodPayment.required"
+                            >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                          >
+                          <b-form-invalid-feedback
+                            id="input-1-live-feedback"
+                            v-if="!item.periodPayment.numeric"
+                            >Xin hãy nhập dạng số</b-form-invalid-feedback
+                          >
+                          <b-form-invalid-feedback
+                            id="input-1-live-feedback"
+                            v-if="!item.periodPayment.between"
+                            >Bạn đã nhập vượt quá kỳ thanh toán</b-form-invalid-feedback
+                          >
+                        </b-form-group>
                       </div>
-                      <b-button
-                        ><span class="svg-icon svg-icon-2x d-flex align-items-center mr-0">
-                          <inline-svg src="media/svg/icons/Home/Trash.svg" /> </span
-                      ></b-button>
+                      <b-button style="height: 67%" @click="deleteService(index)">
+                        <span class="svg-icon svg-icon-2x d-flex align-items-center mr-0">
+                          <inline-svg src="media/svg/icons/Home/Trash.svg" />
+                        </span>
+                      </b-button>
                     </div>
-                    <!-- <div class="w-100 d-flex mb-4">
-                      <div class="col-4">
-                        <input
-                          type="text"
-                          class="form-control form-control-solid form-control-lg"
-                          name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
-                        />
-                      </div>
-                      <div class="col-4">
-                        <input
-                          type="text"
-                          class="form-control form-control-solid form-control-lg"
-                          name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
-                        />
-                      </div>
-                      <div class="col-4">
-                        <input
-                          type="text"
-                          class="form-control form-control-solid form-control-lg"
-                          name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
-                        />
-                      </div>
-                    </div> -->
                     <div class="w-100 d-flex justify-content-end pr-4">
-                      <b-button size="sm" variant="outline-primary">
+                      <b-button size="sm" variant="outline-primary" @click="addMoreService">
                         Thêm dịch vụ
                       </b-button>
                     </div>
@@ -347,6 +517,7 @@
       <div class="d-flex">
         <div class="mr-2">
           <button
+            @click="backStep"
             class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
             data-wizard-type="action-prev"
           >
@@ -362,6 +533,8 @@
                       Submit
                     </button> -->
           <button
+            type="submit"
+            @click.stop.prevent="onSubmit"
             class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
             data-wizard-type="action-next"
           >
@@ -376,7 +549,7 @@
 <script>
 import { validationMixin } from 'vuelidate';
 import {
-  minLength, required, maxLength,
+  minLength, required, maxLength, numeric, between,
 } from 'vuelidate/lib/validators';
 import api from '../../core/services/api/api';
 
@@ -393,34 +566,132 @@ export default {
       listApartment: [],
       listTypeCurrency: [
         {
-          id: 1,
+          value: 1,
           text: 'VNĐ',
         },
         {
-          id: 2,
+          value: 2,
           text: 'USD',
         },
         {
-          id: 1,
+          value: 3,
           text: 'JPN',
         },
       ],
       listService: [],
-      typeCurrency: 1,
       isBrokerageContract: false,
       isServiceContract: false,
+      basicForm: {
+        name: '',
+        apartment: null,
+        employee: null,
+        endUser: null,
+        typeCurrency: 1,
+      },
+      loanForm: {
+        dayStartContract: null,
+        dayEndContract: null,
+        dayReceive: null,
+        dayReturn: null,
+        periodPayment: null,
+        priceContract: null,
+        deposits: null,
+        conditionRenewal: null,
+        note: null,
+      },
+      brokerageContractForm: {
+        brokerageMoney: null,
+        note: null,
+      },
+      serviceForm: {
+        moneyReceive: null,
+        moneyService: null,
+        datePayment: null,
+        listService: [
+          {
+            nameService: null,
+            quota: null,
+            periodPayment: null,
+          },
+        ],
+      },
     };
   },
   validations: {
-    form: {
-      username: {
+    basicForm: {
+      name: {
         required,
         minLength: minLength(4),
         maxLength: maxLength(30),
       },
-      password: {
+      employee: {
         required,
-        minLength: minLength(6),
+      },
+      apartment: {
+        required,
+      },
+      endUser: {
+        required,
+      },
+    },
+    loanForm: {
+      dayStartContract: {
+        required,
+      },
+      dayEndContract: {
+        required,
+      },
+      dayReturn: {
+        required,
+      },
+      dayReceive: {
+        required,
+      },
+      periodPayment: {
+        required,
+        numeric,
+        between: between(1, 32),
+      },
+      priceContract: {
+        required,
+        numeric,
+      },
+      deposits: {
+        numeric,
+      },
+      conditionRenewal: {
+        maxLength: maxLength(255),
+      },
+      note: {
+        maxLength: maxLength(255),
+      },
+    },
+    brokerageContractForm: {
+      brokerageMoney: {
+        required,
+        numeric,
+      },
+    },
+    serviceForm: {
+      moneyReceive: {
+        required,
+        numeric,
+      },
+      moneyService: {
+        required,
+        numeric,
+      },
+      listService: {
+        $each: {
+          nameService: {
+            required,
+          },
+          periodPayment: {
+            required,
+            numeric,
+            between: between(1, 32),
+          },
+        },
       },
     },
   },
@@ -458,32 +729,198 @@ export default {
       }
       return cloneStateStep;
     },
+    getNameCurrentForm() {
+      switch (this.currentStep) {
+        case 1:
+          return 'basicForm';
+        case 2:
+          return 'loanForm';
+        case 3:
+          return 'brokerageContractForm';
+        case 4:
+          return 'serviceForm';
+        default:
+          return '';
+      }
+    },
   },
   methods: {
-    submit(e) {},
+    validateState(form, name, index, subName) {
+      if (index) {
+        const { $dirty, $error } = this.$v[form][name].$each.$iter[index][subName];
+        return $dirty ? !$error : null;
+      }
+      const { $dirty, $error } = this.$v[form][name];
+      return $dirty ? !$error : null;
+    },
     async getListEmployees() {
       const res = await api('getAccount', '');
       if (res.success) {
-        this.listEmployee = [{ value: null, text: 'Hãy chọn nhân viên', disabled: true }, ...res.data.data.map((item) => ({ value: item.id, text: item.full_name }))];
+        this.listEmployee = [
+          { value: null, text: 'Hãy chọn nhân viên', disabled: true },
+          ...res.data.data.map((item) => ({ value: item.id, text: item.full_name })),
+        ];
       }
     },
     async getListEndUser() {
       const res = await api('getKhachThue', '');
       if (res.success) {
-        this.listEndUser = [{ value: null, text: 'Hãy chọn khách thuê', disabled: true }, ...res.data.data.map((item) => ({ value: item.id, text: item.name }))];
+        this.listEndUser = [
+          { value: null, text: 'Hãy chọn khách thuê', disabled: true },
+          ...res.data.data.map((item) => ({ value: item.id, text: item.name })),
+        ];
       }
     },
     async getListApartment() {
       const res = await api('getCanHo', '');
       if (res.success) {
-        this.listApartment = [{ value: null, text: 'Hãy chọn căn hộ', disabled: true }, ...res.data.data.map((item) => ({ value: item.id, text: item.name }))];
+        this.listApartment = [
+          { value: null, text: 'Hãy chọn căn hộ', disabled: true },
+          ...res.data.data.map((item) => ({ value: item.id, text: item.name })),
+        ];
       }
     },
     async getListService() {
       const res = await api('getService', '');
       if (res.success) {
-        this.listService = [{ value: null, text: 'Hãy chọn dịch vụ', disabled: true }, ...res.data.data.map((item) => ({ value: item.id, text: item.name }))];
+        this.listService = [
+          { value: null, text: 'Hãy chọn dịch vụ', disabled: true },
+          ...res.data.data.map((item) => ({ value: item.id, text: item.name })),
+        ];
       }
+    },
+    async onSubmit() {
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      this.$v[this.getNameCurrentForm].$touch();
+      if (this.$v[this.getNameCurrentForm].$anyError) {
+        return;
+      }
+      if (this.currentStep === 2 && !this.isBrokerageContract && !this.isServiceContract) {
+        const res = await api('createContract', {
+          name: this.basicForm.name,
+          can_ho: this.basicForm.apartment,
+          nhan_vien: this.basicForm.employee,
+          hd_thue: {
+            khach_thue: this.basicForm.endUser,
+            start_date: this.loanForm.dayStartContract,
+            end_date: this.loanForm.dayEndContract,
+            dk_gia_han: this.loanForm.conditionRenewal,
+            gia_thue_per_month: this.loanForm.priceContract,
+            ky_tt: Number(this.loanForm.periodPayment),
+            tien_dat_coc: this.loanForm.deposits,
+            note: this.loanForm.note,
+            ngoai_te: this.basicForm.typeCurrency,
+            dich_vu: [],
+          },
+        });
+        return;
+      }
+      if (this.currentStep === 3 && this.isBrokerageContract && !this.isServiceContract) {
+        const res = await api('createContract', {
+          name: this.basicForm.name,
+          can_ho: this.basicForm.apartment,
+          nhan_vien: this.basicForm.employee,
+          hd_thue: {
+            khach_thue: this.basicForm.endUser,
+            start_date: this.loanForm.dayStartContract,
+            end_date: this.loanForm.dayEndContract,
+            dk_gia_han: this.loanForm.conditionRenewal,
+            gia_thue_per_month: this.loanForm.priceContract,
+            ky_tt: Number(this.loanForm.periodPayment),
+            tien_dat_coc: this.loanForm.deposits,
+            note: this.loanForm.note,
+            ngoai_te: this.basicForm.typeCurrency,
+            dich_vu: [],
+          },
+          hd_moi_gioi: {
+            note: this.brokerageContractForm.note,
+            tien_moi_gioi: this.brokerageContractForm.brokerageMoney,
+          },
+        });
+        return;
+      }
+      if (this.currentStep === 3 && !this.isBrokerageContract && this.isServiceContract) {
+        const res = await api('createContract', {
+          name: this.basicForm.name,
+          can_ho: this.basicForm.apartment,
+          nhan_vien: this.basicForm.employee,
+          hd_thue: {
+            khach_thue: this.basicForm.endUser,
+            start_date: this.loanForm.dayStartContract,
+            end_date: this.loanForm.dayEndContract,
+            dk_gia_han: this.loanForm.conditionRenewal,
+            gia_thue_per_month: this.loanForm.priceContract,
+            ky_tt: Number(this.loanForm.periodPayment),
+            tien_dat_coc: this.loanForm.deposits,
+            note: this.loanForm.note,
+            ngoai_te: this.basicForm.typeCurrency,
+            dich_vu: [
+              ...this.serviceForm.listService.map((service) => ({
+                dich_vu: service.nameService,
+                ky_tt: Number(service.periodPayment),
+                dinh_muc: service.quota,
+              })),
+            ],
+          },
+          hd_dich_vu: {
+            tien_thuc_linh: this.serviceForm.moneyReceive,
+            tien_dich_vu: this.serviceForm.moneyService,
+            thoi_gian_thanh_toan: this.serviceForm.datePayment,
+          },
+        });
+        return;
+      }
+      if (this.currentStep === 4 && this.isBrokerageContract && this.isServiceContract) {
+        const res = await api('createContract', {
+          name: this.basicForm.name,
+          can_ho: this.basicForm.apartment,
+          nhan_vien: this.basicForm.employee,
+          hd_thue: {
+            khach_thue: this.basicForm.endUser,
+            start_date: this.loanForm.dayStartContract,
+            end_date: this.loanForm.dayEndContract,
+            dk_gia_han: this.loanForm.conditionRenewal,
+            gia_thue_per_month: this.loanForm.priceContract,
+            ky_tt: Number(this.loanForm.periodPayment),
+            tien_dat_coc: this.loanForm.deposits,
+            note: this.loanForm.note,
+            ngoai_te: this.basicForm.typeCurrency,
+            dich_vu: [
+              ...this.serviceForm.listService.map((service) => ({
+                dich_vu: service.nameService,
+                ky_tt: Number(service.periodPayment),
+                dinh_muc: Number(service.quota),
+              })),
+            ],
+          },
+          hd_moi_gioi: {
+            note: this.brokerageContractForm.note,
+            tien_moi_gioi: this.brokerageContractForm.brokerageMoney,
+          },
+          hd_dich_vu: {
+            tien_thuc_linh: this.serviceForm.moneyReceive,
+            tien_dich_vu: this.serviceForm.moneyService,
+            thoi_gian_thanh_toan: this.serviceForm.datePayment,
+          },
+        });
+        return;
+      }
+      this.currentStep += 1;
+    },
+    backStep() {
+      if (this.currentStep > 1) {
+        this.currentStep -= 1;
+      }
+    },
+    addMoreService() {
+      this.serviceForm.listService.push({
+        nameService: null,
+        quota: null,
+        periodPayment: null,
+      });
+    },
+    deleteService(indexService) {
+      this.serviceForm.listService.splice(indexService, 1);
     },
   },
   created() {

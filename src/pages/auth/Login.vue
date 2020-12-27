@@ -186,7 +186,6 @@ export default {
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       const res = await api('loginApi', { username: this.form.username, password: this.form.password });
       if (res.success) {
-        console.log(res);
         this.errors = [];
         sessionStorage.setItem('jwtToken', res?.data?.data?.token);
         sessionStorage.setItem('myAccount', res?.data?.data?.profile?.id);

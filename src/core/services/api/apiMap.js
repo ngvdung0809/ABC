@@ -41,6 +41,8 @@ const api = (config) => ({
   // dich vu
   getService: (keyword) => config('get', `/dich-vu/v1/list-dich-vu/?search=${keyword}`, ''),
   deleteService: (payload) => config('post', '/dich-vu/v1/delete_dichvu/', payload),
+  // contract
+  createContract: (payload) => config('post', '/hd-groups/v1/', payload),
 });
 
 export default api;
