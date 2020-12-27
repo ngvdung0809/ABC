@@ -55,13 +55,12 @@
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
-                  v-b-modal.modal-detail-contract
+                  @click="getSingleContract(contract.id, 'edit')"
                 ></b-icon-pencil-square>
                 <b-icon-trash
                   variant="light"
                   class="rounded-circle bg-danger p-2"
-                  v-b-modal.modal-delete-contract
-                  @click="getSingleContract(contract.id)"
+                  @click="getSingleContract(contract.id, 'delete')"
                 ></b-icon-trash>
               </div>
             </td>
@@ -82,6 +81,7 @@
 
     <div>
       <PopupAddContract
+        :detailContract="detailContract"
         :idModal="constants.CONTRACT_CONST.ID_POPUP_ADD"
       />
     </div>
@@ -110,6 +110,7 @@ export default {
       inputSearch: '',
       selectedListContract: [],
       isSelectedAll: false,
+      detailContract: {},
       constants,
     };
   },
@@ -163,8 +164,19 @@ export default {
         this.selectedListContract = [];
       }
     },
-    getSingleContract(id) {
+    getSingleContract(id, type) {
       this.selectedListContract = [id];
+      const resultFindContract = this.getListContract.find((item) => item.id === id);
+      if (resultFindContract) {
+        this.detailContract = { ...resultFindContract };
+        if (type === 'edit') {
+          this.$bvModal.show(constants.CONTRACT_CONST.ID_POPUP_ADD);
+          return;
+        }
+        if (type === 'delete') {
+          this.$bvModal.show('modal-delete-contract');
+        }
+      }
     },
     searchContract(event) {
       event.preventDefault();

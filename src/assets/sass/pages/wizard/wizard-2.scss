@@ -114,6 +114,7 @@ $wizard-nav-width-sm: 325px;
 
 	// Body
 	.wizard-body {
+		overflow: auto;
 		width: 100%;
 	}
 }
