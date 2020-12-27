@@ -1,25 +1,21 @@
 <template>
   <div class="header-container">
-    <div class="header-container__title">QUẢN LÝ KHÁCH THUÊ</div>
+    <div class="header-container__title">{{ constants.GUEST_CONST.HEADER_MANAGE }}</div>
     <div>
-      <Button :title="title" :styleCss="styleCss" />
+      <b-button v-b-modal.modal-add-guest>{{ constants.GUEST_CONST.TITLE_MANAGE }}</b-button>
     </div>
   </div>
 </template>
 
 <script>
-import Button from '../Buttons/Button.vue';
+import constants from '../../../constants/index';
 
 export default {
   name: 'Header',
-  components: {
-    Button,
-  },
   data() {
     return {
-      title: 'Thêm khách thuê',
-      styleCss: 'background: #FFFFFF;color:#333333;',
-    };
+      constants,
+    }
   },
   methods: {},
 };

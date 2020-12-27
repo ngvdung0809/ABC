@@ -11,7 +11,7 @@
               :state="validateState('name')"
               aria-describedby="input-name-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.data.name.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-name-feedback" v-if="!$v.data.name.required" >
               Vui lòng nhập tên chủ nhà
             </b-form-invalid-feedback>
 
@@ -36,9 +36,11 @@
               :state="validateState('address')"
               aria-describedby="input-address-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-address-feedback" v-if="!$v.data.address.required" >
+            <div>
+            <b-form-invalid-feedback class="ml-3" id="input-address-feedback" v-if="!$v.data.address.required" >
               Vui lòng nhập địa chỉ chủ nhà
             </b-form-invalid-feedback>
+            </div>
           </b-col>
         </b-row>
       </div>
@@ -54,7 +56,7 @@
               :state="validateState('phone')"
               aria-describedby="input-phone-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-phone-feedback" v-if="!$v.data.phone.numeric | !$v.data.phone.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-phone-feedback" v-if="!$v.data.phone.numeric | !$v.data.phone.required" >
               Vui lòng nhập số  điện thoại
             </b-form-invalid-feedback>
           </b-col>
@@ -81,7 +83,7 @@
               :state="validateState('email')"
               aria-describedby="input-email-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-email-feedback" v-if="!$v.data.email.email | !$v.data.email.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-email-feedback" v-if="!$v.data.email.email | !$v.data.email.required" >
               Vui lòng nhập địa chỉ email
             </b-form-invalid-feedback>
           </b-col>
@@ -244,7 +246,7 @@
               :state="validateState('so_TK')"
               aria-describedby="input-so_TK-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-so_TK-feedback" v-if="!$v.data.so_TK.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-so_TK-feedback" v-if="!$v.data.so_TK.required" >
               Vui lòng nhập số  tài khoản ngân hàng
             </b-form-invalid-feedback>
           </b-col>
@@ -256,7 +258,7 @@
               :state="validateState('ngan_hang')"
               aria-describedby="input-ngan_hang-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-ngan_hang-feedback" v-if="!$v.data.ngan_hang.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-ngan_hang-feedback" v-if="!$v.data.ngan_hang.required" >
               Vui lòng nhập tên ngân hàng
             </b-form-invalid-feedback>
           </b-col>
@@ -268,7 +270,7 @@
               :state="validateState('chi_nhanh')"
               aria-describedby="input-chi_nhanh-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-chi_nhanh-feedback" v-if="!$v.data.chi_nhanh.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-chi_nhanh-feedback" v-if="!$v.data.chi_nhanh.required" >
               Vui lòng nhập tên chi nhánh của ngân hàng
             </b-form-invalid-feedback>
           </b-col>
@@ -353,12 +355,12 @@ export default {
   mixins: [validationMixin],
   data() {
     return {
-      phoneNumberSub: this.detail?.phone2 !== null,
-      emailSub: this.detail?.email2 !== null,
-      checkboxCMT: this.detail?.cmt !== null,
-      checkboxCCCD: this.detail?.cccd !== null,
-      checkboxHC: this.detail?.passport_no !== null,
-      bankAccountSub: this.detail?.so_TK2 !== null,
+      phoneNumberSub: true,
+      emailSub: true,
+      checkboxCMT: true,
+      checkboxCCCD: true,
+      checkboxHC: true,
+      bankAccountSub: true,
       data: {
         name: this.detail?.name,
         cmt: this.detail?.cmt,
@@ -457,14 +459,6 @@ export default {
       const { $dirty, $error } = this.$v.data[name];
       return $dirty ? !$error : null;
     },
-    deleteNullValue(payload, key) {
-      const payloadNew = payload;
-      key.forEach((item) => {
-        if (!payloadNew[item]) {
-          delete payloadNew[item];
-        }
-      });
-    },
     resetData() {
       this.data = {
         name: this.detail?.name,
@@ -491,12 +485,12 @@ export default {
         ngan_hang2: this.detail?.ngan_hang2,
         note: this.detail?.note,
       };
-      this.phoneNumberSub = this.detail?.phone2 !== null;
-      this.emailSub = this.detail?.email2 !== null;
-      this.checkboxCMT = this.detail?.cmt !== null
-      this.checkboxCCCD = this.detail?.cccd !== null;
-      this.checkboxHC = this.detail?.passport_no !== null;
-      this.bankAccountSub = this.detail?.so_TK2 !== null;
+      this.phoneNumberSub = true;
+      this.emailSub = true;
+      this.checkboxCMT = true;
+      this.checkboxCCCD = true;
+      this.checkboxHC = true;
+      this.bankAccountSub = true;
       this.$nextTick(() => {
         this.$v.$reset();
       });
@@ -519,8 +513,6 @@ export default {
         return;
       }
       const payload = this.data;
-      const key = ['birthday', 'cccd_NgayCap', 'cmt_NgayCap', 'passport_NgayCap', 'passport_NgayHan']
-      this.deleteNullValue(payload, key)
       const submitData = {
         id: this.detail.id,
         data: payload

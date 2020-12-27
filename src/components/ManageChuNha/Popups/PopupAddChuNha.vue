@@ -11,7 +11,7 @@
               :state="validateState('name')"
               aria-describedby="input-name-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-name-feedback" v-if="!$v.data.name.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-name-feedback" v-if="!$v.data.name.required" >
               Vui lòng nhập tên chủ nhà
             </b-form-invalid-feedback>
           </b-col>
@@ -35,7 +35,7 @@
               :state="validateState('address')"
               aria-describedby="input-address-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-address-feedback" v-if="!$v.data.address.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-address-feedback" v-if="!$v.data.address.required" >
               Vui lòng nhập địa chỉ chủ nhà
             </b-form-invalid-feedback>
           </b-col>
@@ -53,7 +53,7 @@
               :state="validateState('phone')"
               aria-describedby="input-phone-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-phone-feedback" v-if="!$v.data.phone.numeric | !$v.data.phone.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-phone-feedback" v-if="!$v.data.phone.numeric | !$v.data.phone.required" >
               Vui lòng nhập số  điện thoại
             </b-form-invalid-feedback>
           </b-col>
@@ -80,7 +80,7 @@
               :state="validateState('email')"
               aria-describedby="input-email-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-email-feedback" v-if="!$v.data.email.email | !$v.data.email.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-email-feedback" v-if="!$v.data.email.email | !$v.data.email.required" >
               Vui lòng nhập địa chỉ email
             </b-form-invalid-feedback>
           </b-col>
@@ -243,7 +243,7 @@
               :state="validateState('so_TK')"
               aria-describedby="input-so_TK-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-so_TK-feedback" v-if="!$v.data.so_TK.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-so_TK-feedback" v-if="!$v.data.so_TK.required" >
               Vui lòng nhập số  tài khoản ngân hàng
             </b-form-invalid-feedback>
           </b-col>
@@ -255,7 +255,7 @@
               :state="validateState('ngan_hang')"
               aria-describedby="input-ngan_hang-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-ngan_hang-feedback" v-if="!$v.data.ngan_hang.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-ngan_hang-feedback" v-if="!$v.data.ngan_hang.required" >
               Vui lòng nhập tên ngân hàng
             </b-form-invalid-feedback>
           </b-col>
@@ -267,7 +267,7 @@
               :state="validateState('chi_nhanh')"
               aria-describedby="input-chi_nhanh-feedback"
             ></b-form-input>
-            <b-form-invalid-feedback id="input-chi_nhanh-feedback" v-if="!$v.data.chi_nhanh.required" >
+            <b-form-invalid-feedback class="ml-3" id="input-chi_nhanh-feedback" v-if="!$v.data.chi_nhanh.required" >
               Vui lòng nhập tên chi nhánh của ngân hàng
             </b-form-invalid-feedback>
           </b-col>
