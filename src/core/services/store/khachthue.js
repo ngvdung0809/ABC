@@ -31,13 +31,13 @@ export default {
       const response = await api('deleteGuest', payload);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
-    // async updateAccount(payload) {
-    //   const response = await api('updateAccount', payload);
-    //   if (response.data.error_code === 0) {
-    //     // commit('SET_LIST_ACCOUNT', response.data.data);
-    //   } else {
-    //     // show message failed
-    //   }
-    // },
+    async addGuest({ commit }, payload) {
+      const response = await api('addGuest', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
+    async updateGuest({ commit }, payload) {
+      const response = await api('updateGuest', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
   },
 };

@@ -2,7 +2,7 @@
   <div class="header-container">
     <div class="header-container__title">{{ constants.CANHO_CONST.HEADER_MANAGE}}</div>
     <div>
-      <b-button>{{ constants.CANHO_CONST.TITLE_MANAGE }}</b-button>
+      <b-button v-b-modal.modal-add-canho @click="getCommon">{{ constants.CANHO_CONST.TITLE_MANAGE }}</b-button>
     </div>
   </div>
 </template>
@@ -21,7 +21,12 @@ export default {
       constants
     };
   },
-  methods: {},
+  methods: {
+    getCommon() {
+      this.$store.dispatch('getHost', '');
+      this.$store.dispatch('getBuilding', '')
+    }
+  },
 };
 </script>
 

@@ -57,19 +57,19 @@
                       id="input-1-live-feedback"
                       v-if="!$v.basicForm.name.required"
                     >
-                      Xin hãy nhập tên đăng nhập
+                      Xin hãy nhật tên bộ hợp đồng
                     </b-form-invalid-feedback>
                     <b-form-invalid-feedback
                       id="input-1-live-feedback"
                       v-else-if="!$v.basicForm.name.minLength"
                     >
-                      Độ dài tối thiểu của tên đăng nhập là 4
+                      Độ dài tối thiểu của tên bộ hợp đồng là 4
                     </b-form-invalid-feedback>
                     <b-form-invalid-feedback
                       id="input-1-live-feedback"
                       v-else-if="!$v.basicForm.name.maxLength"
                     >
-                      Độ dài tối đa của tên đăng nhập là 32
+                      Độ dài tối đa của tên bộ hợp đồng là 32
                     </b-form-invalid-feedback>
                     <!-- <div id="input-1-live-feedback" v-else style="height: 1.4rem" /> -->
                   </b-form-group>
@@ -161,7 +161,7 @@
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.loanForm.dayStartContract.required"
-                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                          >Xin hãy chọn ngày bắt đầu hợp đồng</b-form-invalid-feedback
                         >
                       </b-form-group>
                     </div>
@@ -181,7 +181,7 @@
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.loanForm.dayEndContract.required"
-                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                          >Xin hãy chọn ngày kết thúc hợp đồng</b-form-invalid-feedback
                         >
                       </b-form-group>
                     </div>
@@ -203,7 +203,7 @@
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.loanForm.dayReceive.required"
-                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                          >Xin hãy chọn ngày nhận nhà</b-form-invalid-feedback
                         >
                       </b-form-group>
                     </div>
@@ -223,7 +223,7 @@
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.loanForm.dayReturn.required"
-                          >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                          >Xin hãy chọn ngày trả nhà</b-form-invalid-feedback
                         >
                       </b-form-group>
                     </div>
@@ -251,7 +251,7 @@
                     <b-form-invalid-feedback
                       id="input-1-live-feedback"
                       v-if="!$v.loanForm.periodPayment.between"
-                      >Bạn đã nhập vượt quá kỳ thanh toán</b-form-invalid-feedback
+                      >Bạn đã nhập vượt quá kỳ thanh toán (1 - 32)</b-form-invalid-feedback
                     >
                   </b-form-group>
                   <div class="row">
@@ -264,12 +264,12 @@
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
                           aria-describedby="input-1-live-feedback"
-                          placeholder="Nhập kỳ thanh toán"
+                          placeholder="Nhập giá thuê theo tháng"
                         />
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.loanForm.priceContract.required"
-                          >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                          >Xin hãy nhập giá thuê theo tháng</b-form-invalid-feedback
                         >
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
@@ -287,7 +287,7 @@
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
                           aria-describedby="input-1-live-feedback"
-                          placeholder="Nhập kỳ thanh toán"
+                          placeholder="Nhập số tiền cọc trước"
                         />
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
@@ -303,7 +303,7 @@
                         <label>Điều kiện gia hạn:</label>
                         <b-form-textarea
                           class="form-control-solid"
-                          placeholder="Enter something..."
+                          placeholder="Nhập thêm điều kiện gia hạn"
                           rows="3"
                           v-model="loanForm.conditionRenewal"
                           no-resize
@@ -316,7 +316,7 @@
                         <label>Ghi chú:</label>
                         <b-form-textarea
                           class="form-control-solid"
-                          placeholder="Enter something..."
+                          placeholder="Nhập thêm ghi chú"
                           v-model="loanForm.note"
                           rows="3"
                           no-resize
@@ -335,12 +335,12 @@
                       class="form-control form-control-solid form-control-lg"
                       name="fname"
                       aria-describedby="input-1-live-feedback"
-                      placeholder="Nhập kỳ thanh toán"
+                      placeholder="Nhập số tiền môi giới"
                     />
                     <b-form-invalid-feedback
                       id="input-1-live-feedback"
                       v-if="!$v.brokerageContractForm.brokerageMoney.required"
-                      >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                      >Xin hãy nhập số tiền môi giới</b-form-invalid-feedback
                     >
                     <b-form-invalid-feedback
                       id="input-1-live-feedback"
@@ -353,7 +353,7 @@
                     <b-form-textarea
                       class="form-control-solid"
                       v-model="brokerageContractForm.note"
-                      placeholder="Enter something..."
+                      placeholder="Nhập thêm ghi chú"
                       rows="6"
                       max-rows="6"
                       no-resize
@@ -371,12 +371,12 @@
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
                           aria-describedby="input-1-live-feedback"
-                          placeholder="Nhập kỳ thanh toán"
+                          placeholder="Nhập số tiền thực lĩnh"
                         />
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.serviceForm.moneyReceive.required"
-                          >Xin hãy nhập kì thanh toán</b-form-invalid-feedback
+                          >Xin hãy nhập số tiền thực lĩnh</b-form-invalid-feedback
                         >
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
@@ -394,12 +394,12 @@
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
                           aria-describedby="input-1-live-feedback"
-                          placeholder="Nhập kỳ thanh toán"
+                          placeholder="Nhập số tiền dịch vụ"
                         />
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.serviceForm.moneyService.required"
-                          >Xin hãy nhập kì thanh toán</b-form-invalid-feedback>
+                          >Xin hãy nhập số tiền dịch vụ</b-form-invalid-feedback>
                         <b-form-invalid-feedback
                           id="input-1-live-feedback"
                           v-if="!$v.serviceForm.moneyService.numeric"
@@ -448,7 +448,7 @@
                           <b-form-invalid-feedback
                             id="input-1-live-feedback"
                             v-if="!item.nameService.required"
-                            >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                            >Xin hãy dịch vụ tương ứng</b-form-invalid-feedback
                           >
                         </b-form-group>
                       </div>
@@ -458,7 +458,7 @@
                           type="text"
                           class="form-control form-control-solid form-control-lg"
                           name="fname"
-                          placeholder="Nhập tên bộ hợp đồng"
+                          placeholder="Nhập định mức của dịch vụ"
                         />
                       </div>
                       <div class="col-4">
@@ -472,12 +472,12 @@
                             class="form-control form-control-solid form-control-lg"
                             name="fname"
                             aria-describedby="input-1-live-feedback"
-                            placeholder="Nhập kỳ thanh toán"
+                            placeholder="Nhập kỳ thanh toán của dịch vụ"
                           />
                           <b-form-invalid-feedback
                             id="input-1-live-feedback"
                             v-if="!item.periodPayment.required"
-                            >Xin hãy chọn căn hộ</b-form-invalid-feedback
+                            >Xin hãy nhập kỳ thanh toán của dịch vụ</b-form-invalid-feedback
                           >
                           <b-form-invalid-feedback
                             id="input-1-live-feedback"
@@ -487,7 +487,7 @@
                           <b-form-invalid-feedback
                             id="input-1-live-feedback"
                             v-if="!item.periodPayment.between"
-                            >Bạn đã nhập vượt quá kỳ thanh toán</b-form-invalid-feedback
+                            >Bạn đã nhập vượt quá kỳ thanh toán (1 - 32)</b-form-invalid-feedback
                           >
                         </b-form-group>
                       </div>

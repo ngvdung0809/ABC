@@ -4,8 +4,8 @@
     class="aside-brand d-flex flex-column align-items-center flex-column-auto py-5 py-lg-12"
   >
     <!--begin::Logo-->
-    <router-link to="/dashboard">
-      <img src="../../../public/media/logos/logo-letter-2.png" alt="Logo" class="max-h-30px" />
+    <router-link to="/summary">
+      <img src="../../../public/media/logos/real-estate-1.png" alt="Logo" class="max-h-50px" />
     </router-link>
     <!--end::Logo-->
   </div>

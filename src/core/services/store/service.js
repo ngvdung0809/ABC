@@ -31,13 +31,13 @@ export default {
       const response = await api('deleteService', payload);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
-    // async updateAccount(payload) {
-    //   const response = await api('updateAccount', payload);
-    //   if (response.data.error_code === 0) {
-    //     // commit('SET_LIST_ACCOUNT', response.data.data);
-    //   } else {
-    //     // show message failed
-    //   }
-    // },
+    async addService({ commit }, payload) {
+      const response = await api('addService', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
+    async updateService({ commit }, payload) {
+      const response = await api('updateService', payload);
+      commit('SET_ERROR_CODE', response.data.error_code);
+    },
   },
 };

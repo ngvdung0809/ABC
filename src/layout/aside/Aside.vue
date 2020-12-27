@@ -37,7 +37,10 @@
           </li>
         </ul>
         <div class="btn-logout" @click="logoutAction">
-          <span class=" svg-icon-xl">
+          <span 
+            class="svg-icon-xl"
+            v-b-tooltip.hover="'Sign Out'"
+          >
             <!--begin::Svg Icon-->
             <inline-svg src="media/svg/icons/Navigation/Sign-out.svg" />
             <!--end::Svg Icon-->
@@ -58,7 +61,7 @@
           data-placement="right"
           data-container="body"
           data-boundary="window"
-          v-b-tooltip.hover.right="'Toggle Aside'"
+          v-b-tooltip.hover.right="''"
           @click="minimizedAside"
         >
           <inline-svg
@@ -139,87 +142,111 @@ export default {
           icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
           child: [
             {
-              nameSubNav: 'Summary',
+              nameSubNav: 'Tổng quát',
               router: '/summary',
+              icon: 'media/svg/icons/Design/Select.svg',
             },
           ],
         },
         {
           name: 'Admin',
-          icon: 'media/svg/icons/Layout/Layout-4-blocks.svg',
+          icon: 'media/svg/icons/Communication/Group.svg',
           child: [
             {
-              nameSubNav: 'Account',
+              nameSubNav: 'Tài khoản',
               router: '/manage-account',
+              icon: 'media/svg/icons/Communication/Address-card.svg',
             },
           ],
         },
         {
-          name: 'Manage',
-          icon: 'media/svg/icons/Communication/Group.svg',
+          name: 'Các bên liên quan',
+          icon: 'media/svg/icons/Home/Home.svg',
           router: '/manage',
           child: [
             {
-              nameSubNav: 'Building',
+              nameSubNav: 'Tòa nhà',
               router: '/manage-building',
+              icon: 'media/svg/icons/Map/Marker1.svg',
             },
             {
-              nameSubNav: 'Appartment',
+              nameSubNav: 'Căn hộ',
               router: '/manage-appartment',
+              icon: 'media/svg/icons/Map/Marker1.svg',
             },
             {
-              nameSubNav: 'Services',
+              nameSubNav: 'Dịch vụ',
               router: '/manage-service',
+              icon: 'media/svg/icons/Map/Marker1.svg',
             },
           ],
         },
         {
-          name: 'Contract',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          name: 'Hợp đồng',
+          icon: 'media/svg/icons/Home/Commode1.svg',
           child: [
             {
-              nameSubNav: 'Manage Contract',
+              nameSubNav: 'Quản lý bộ hợp đồng',
               router: '/manage-contract',
+              icon: 'media/svg/icons/Communication/Clipboard-list.svg',
             },
             {
-              nameSubNav: 'Host',
+              nameSubNav: 'Chủ nhà',
               router: '/manage-host',
+              icon: 'media/svg/icons/General/User.svg',
             },
             {
-              nameSubNav: 'Guest',
+              nameSubNav: 'Khách thuê',
               router: '/manage-guest',
+              icon: 'media/svg/icons/General/User.svg',
             },
             {
-              nameSubNav: 'Company',
+              nameSubNav: 'Công ty môi giới',
               router: '/manage-company',
+              icon: 'media/svg/icons/Home/Building.svg',
             },
           ],
         },
         {
-          name: 'Finance',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          name: 'Thanh toán',
+          icon: 'media/svg/icons/Design/PenAndRuller.svg',
           child: [
             {
-              nameSubNav: 'Danh sách kỳ thanh toán hợp đồng',
+              nameSubNav: 'Danh sách kỳ TT hợp đồng',
               router: '/period-payment-contract',
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
             {
-              nameSubNav: 'Danh sách kỳ thanh toán dịch vụ',
+              nameSubNav: 'Danh sách kỳ TT dịch vụ',
               router: '/period-payment-service',
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
           ],
         },
         {
           name: 'Báo cáo chung',
-          icon: 'media/svg/icons/Media/Equalizer.svg',
+          icon: 'media/svg/icons/Files/Selected-file.svg',
           child: [
             {
-              nameSubNav: 'Báo cáo nợ xấu kỳ hợp đồng',
+              nameSubNav: 'Nợ xấu kỳ TT hợp đồng',
               router: '/bad-debt-contract',
+              icon: 'media/svg/icons/Code/Compiling.svg',
             },
             {
-              nameSubNav: 'Báo cáo nợ xấu kỳ dịch vụ',
+              nameSubNav: 'Nợ xấu kỳ TT dịch vụ',
               router: '/bad-debt-service',
+              icon: 'media/svg/icons/Code/Compiling.svg',
+            },
+          ],
+        },
+        {
+          name: 'Cài đặt',
+          icon: 'media/svg/icons/Navigation/Exchange.svg',
+          child: [
+            {
+              nameSubNav: 'Thay đổi mật khẩu',
+              router: '/change-password',
+              icon: 'media/svg/icons/General/Settings-2.svg',
             },
           ],
         },

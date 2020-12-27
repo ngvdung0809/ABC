@@ -5,7 +5,7 @@
       <b-button size="sm" variant="danger" @click="cancel">
         Không
       </b-button>
-      <b-button size="sm" variant="success" @click="submit">
+      <b-button size="sm" variant="success" @click="payment">
         Có
       </b-button>
     </template>
@@ -14,7 +14,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import constants from '../../constants/index';
+import constants from '../../../constants/index';
+import api from '../../../core/services/api/api';
 
 export default {
   props: {
@@ -27,23 +28,17 @@ export default {
     contentModal: {
       type: String,
     },
-    selectedListId: {
-      type: Array,
+    paymentId: {
+      type: Number,
     },
-    action: {
-      type: String
+    getListPayment: {
+      type: Function,
     },
-    listAction: {
-      type: String
-    }
   },
   data() {
     return {
       constants,
     };
-  },
-  computed: {
-    ...mapGetters(['getErrorCode']),
   },
   methods: {
     makeToastMessage(message, status) {
@@ -54,20 +49,18 @@ export default {
         solid: true,
       });
     },
-    async submit() {
+    async payment() {
       const payload = {
-        list_id: this.selectedListId,
+        id: this.paymentId,
       };
-      await this.$store.dispatch(this.action, payload);
-      this.$bvModal.hide(this.idModal);
-      if (this.getErrorCode === 0) {
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_SUCCEED, 'success');
-        this.selectedListId = [];
-        this.$emit('updateSelectedListId', this.selectedListId);
+      const response = await api('payment', payload);
+      if (response.data.error_code === 0) {
+        this.makeToastMessage('Thanh toán thành công', 'success');
+        this.getListPayment();
       } else {
-        this.makeToastMessage(constants.COMMON_CONST.MESSAGE_DELETE_FAILED, 'danger');
+        this.makeToastMessage('Thanh toán thất bại', 'danger');
       }
-      await this.$store.dispatch(this.listAction, '');
+      this.cancel();
     },
     cancel() {
       this.$bvModal.hide(this.idModal);

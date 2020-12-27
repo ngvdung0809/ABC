@@ -13,7 +13,7 @@
         <div class="d-flex flex-row-fluid flex-column justify-content-between">
           <!--begin: Aside header -->
           <a href="#" class="flex-column-auto">
-            <img src="media/logos/logo-letter-1.png" class="h-25" />
+            <img src="media/logos/real-estate-1.png" class="h-25" />
           </a>
           <!--end: Aside header -->
           <!--begin: Aside content -->
@@ -21,11 +21,10 @@
             class="flex-column-fluid d-flex flex-column justify-content-center"
           >
             <h3 class="font-size-h1 mt-10 mb-5 text-white">
-              Welcome to Metronic!
+              Welcome to Sakura Housing!
             </h3>
             <p class="font-weight-lighter text-white opacity-80">
-              The ultimate Bootstrap, Angular 8, React &amp; VueJS admin theme
-              framework for next generation web apps.
+              Chào mừng đến với phần mềm quản lý môi giới bất động sản.
             </p>
           </div>
           <!--end: Aside content -->
@@ -58,7 +57,7 @@ export default {
   name: 'auth',
   data() {
     return {
-      a: 'phong@gmail.com',
+      a: 'admin',
     };
   },
   methods: {},
