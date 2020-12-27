@@ -27,10 +27,11 @@
         ></b-form-datepicker>
       </div>
       <div class="d-flex">
-        <select id="can_ho" class="b-dropdown ml-5 mr-5" v-model="can_ho">
+        <b-form-select v-model="can_ho" :options="listCanHo"></b-form-select>
+        <!-- <select id="can_ho" class="b-dropdown ml-5 mr-5" v-model="can_ho">
           <option value="">Tất cả căn hộ</option>
           <option v-for="can_ho in listCanHo" :key="can_ho.id" :value="can_ho.id" >{{ can_ho.name }}</option>  
-        </select>
+        </select> -->
         <select id="service" class="b-dropdown ml-5 mr-5" v-model="service">
           <option value="">Tất cả dịch vụ</option>
           <option v-for="service in listService" :key="service.id" :value="service.id" >{{ service.name }}</option>  
@@ -163,7 +164,14 @@ export default {
     async getListCanHo() {
       const response = await api('getCanHo', '');
       if (response.data.error_code === 0) {
-        this.listCanHo = response.data.data;
+        this.listCanHo = response.data.data.map((canHo) => ({
+          value: canHo.id,
+          text: canHo.name
+        }));
+        this.listCanHo.unshift({
+          value: '',
+          text: 'Tat ca cac can ho'
+        })
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
