@@ -7,6 +7,7 @@
     no-close-on-backdrop=""
     hide-header-close
     no-close-on-esc
+    :key="typeSubmit"
   >
     <template #modal-header>
       <!-- Emulate built in modal header close button action -->
@@ -768,7 +769,7 @@ export default {
         case 2:
           return 'loanForm';
         case 3:
-          return 'brokerageContractForm';
+          return this.isBrokerageContract ? 'brokerageContractForm' : 'serviceForm';
         case 4:
           return 'serviceForm';
         default:
@@ -778,7 +779,6 @@ export default {
   },
   watch: {
     detailContract(val) {
-      console.log(val)
       if (val) {
         this.typeSubmit = 'updateContract';
         this.idContract = val.id;
