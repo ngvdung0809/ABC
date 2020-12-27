@@ -26,11 +26,7 @@
           v-model="end_date"
         ></b-form-datepicker>
       </div>
-      <select id="can_ho" class="b-dropdown ml-5 mr-5" v-model="can_ho">
-        <option value="">Tất cả</option>
-        <option v-for="can_ho in listCanHo" :key="can_ho.id" :value="can_ho.id" >{{ can_ho.name }}</option>  
-      </select>
-
+      <b-form-select class="ml-5 mr-5" v-model="can_ho" :options="listCanHo"></b-form-select>
       <div class="d-flex justify-content-end">
         <b-button class="btn-search" @click="searchPayment">Tìm kiếm</b-button>
       </div>
@@ -166,7 +162,14 @@ export default {
     async getListCanHo() {
       const response = await api('getCanHo', '');
       if (response.data.error_code === 0) {
-        this.listCanHo = response.data.data;
+        this.listCanHo = response.data.data.map((canHo) => ({
+          value: canHo.id,
+          text: canHo.name
+        }));
+        this.listCanHo.unshift({
+          value: '',
+          text: 'Tất cả căn hộ'
+        })
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }

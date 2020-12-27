@@ -35,11 +35,11 @@
       <label for="role">
         <span class="text-color-required">*</span> Vai trò:
       </label>
-      <select id="role" v-model="dataSubmit.role" class="b-dropdown">
-        <option value="Admin">ADMIN</option>
-        <option value="View">VIEW</option>
-        <option value="Disable">DISABLED</option>
-      </select>
+      <b-form-select 
+        class="b-dropdown" 
+        v-model="dataSubmit.role" 
+        :options="listRole"
+      ></b-form-select>
     </div>
     <div class="form-input">
       <label for="staffCode">Mã nhân viên:</label>
@@ -49,9 +49,11 @@
       <label for="company">
         <span class="text-color-required">*</span> Tên công ty:
       </label>
-      <select id="company" class="b-dropdown" v-model="dataSubmit.tenant">
-        <option v-for="company in getListTenant" :key="company.id" :value="company.id">{{ company.name }}</option>
-      </select>
+      <b-form-select 
+          class="b-dropdown" 
+          v-model="dataSubmit.tenant" 
+          :options="listTenant"
+        ></b-form-select>
     </div>
   </div>
 </template>
@@ -78,6 +80,12 @@ export default {
         staff_code: this.userDetail.staff_code,
         tenant: this.userDetail.tenant.id,
       },
+      listRole: [
+        { value: '', text: 'Vui lòng chọn quyền của tài khoản', disabled: true },
+        { value: 'Admin', text: 'Admin', disabled: false },
+        { value: 'View', text: 'View', disabled: false },
+        { value: 'Disable', text: 'Disable', disabled: false },
+      ],
     };
   },
   validations: {
@@ -112,6 +120,14 @@ export default {
       } else result = false;
       return result;
     },
+    listTenant() {
+      let result = [];
+      result = [
+        { value: '', text: 'Vui lòng chọn công ty chủ quản', disabled: true },
+        ...this.getListTenant.map((item) => ({ value: item.id, text: item.name })),
+      ];
+      return result
+    },
   },
   methods: {
     validateState(name) {
@@ -129,7 +145,7 @@ export default {
    grid-template-columns: 20% 80%;
    margin-bottom: 12px;
    .b-dropdown {
-     width: 130px;
+     width: 60%;
      border: 1px solid #dcdcdc;
      outline: none;
    }

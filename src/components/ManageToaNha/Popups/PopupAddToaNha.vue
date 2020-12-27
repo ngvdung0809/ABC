@@ -46,11 +46,14 @@
         <label for="district">
           <span class="text-color-required">*</span> Quận:
         </label>
-        <select id="district" class="b-dropdown" v-model="district" >
-          <option v-for="district in ListDistrict" :key="district.id" :value="district.id">{{
-            district.name
-          }}</option>
-        </select>
+        <b-form-select 
+          class="b-dropdown" 
+          v-model="district" 
+          :options="ListDistrict"
+          :state="validateState('district')"
+          aria-describedby="input-district-feedback"
+        ></b-form-select>
+        <b-form-invalid-feedback id="input-district-feedback" v-if="!$v.district.required" ></b-form-invalid-feedback>
       </div>
       <div class="form-input">
         <label for="city">
@@ -100,14 +103,17 @@ export default {
       name: '',
       address: '',
       phuong: '',
-      district: 0,
+      district: null,
       city: '',
-      ListDistrict: [],
+      ListDistrict: [{ value: null, text: 'Hãy chọn tòa nhà', disabled: true }],
       constants,
     };
   },
   validations: {
     name: {
+      required,
+    },
+    district: {
       required,
     },
   },
@@ -117,13 +123,6 @@ export default {
   computed: {
     ...mapGetters(['getErrorCodeToaNha'])
   },
-  watch: {
-    ListDistrict: {
-      handler(val) {
-        this.district = val[0]?.id;
-      }
-    }
-  },
   methods: {
     validateState(name) {
       const { $dirty, $error } = this.$v[name];
@@ -132,7 +131,10 @@ export default {
     async getListDistrict() {
       const response = await api('listDistrict');
       if (response.data.error_code === 0) {
-        this.ListDistrict = response.data.data;
+        this.ListDistrict = [
+          { value: null, text: 'Vui lòng chọn quận', disabled: true },
+          ...response.data.data.map((item) => ({ value: item.id, text: item.name })),
+        ];
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
@@ -141,19 +143,8 @@ export default {
       this.name = '';
       this.address = '';
       this.phuong = '';
-      this.district = this.ListDistrict[0]?.id;
+      this.district = null;
       this.city = '';
-    },
-    resetData() {
-      this.data = {
-        name: this.detail.name,
-        don_vi: this.detail.don_vi,
-        code: this.detail.code,
-        dinh_ky: this.detail.dinh_ky,
-      }
-      this.$nextTick(() => {
-        this.$v.$reset();
-      });
     },
     clearErrorValidate() {
       this.$nextTick(() => {
@@ -213,7 +204,7 @@ export default {
     grid-template-columns: 20% 80%;
     margin-bottom: 12px;
     .b-dropdown {
-      width: 130px;
+      width: 60%;
       border: 1px solid #dcdcdc;
       outline: none;
     }

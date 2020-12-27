@@ -5,8 +5,8 @@
       <div class="col-md-3">
         <div class="box box1">
           <div class="details">
-            <h3>{{ responseData.chu_nha }}</h3>
-            <h4>CHỦ NHÀ</h4>
+            <h3 class="text-color">{{ responseData.chu_nha }}</h3>
+            <h4 class="text-color">CHỦ NHÀ</h4>
           </div>
           <div id="spark1"></div>
         </div>
@@ -14,8 +14,8 @@
       <div class="col-md-3">
         <div class="box box2">
           <div class="details">
-            <h3>{{ responseData.khach_thue }}</h3>
-            <h4>KHÁCH THUÊ</h4>
+            <h3 class="text-color">{{ responseData.khach_thue }}</h3>
+            <h4 class="text-color">KHÁCH THUÊ</h4>
           </div>
           <div id="spark2"></div>
         </div>
@@ -23,8 +23,8 @@
       <div class="col-md-3">
         <div class="box box3">
           <div class="details">
-            <h3>{{ responseData.toa_nha }}</h3>
-            <h4>TÒA NHÀ</h4>
+            <h3 class="text-color">{{ responseData.toa_nha }}</h3>
+            <h4 class="text-color">TÒA NHÀ</h4>
           </div>
           <div id="spark3"></div>
         </div>
@@ -32,8 +32,8 @@
       <div class="col-md-3">
         <div class="box box4">
           <div class="details">
-            <h3>{{ responseData.can_ho }}</h3>
-            <h4>CĂN HỘ</h4>
+            <h3 class="text-color">{{ responseData.can_ho }}</h3>
+            <h4 class="text-color">CĂN HỘ</h4>
           </div>
           <div id="spark4"></div>
         </div>
@@ -155,5 +155,8 @@ export default {
   .sub-text {
     font-weight: 600;
     font-size: 15px;
+  }
+  .text-color {
+    color: #fff;
   }
 </style>

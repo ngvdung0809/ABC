@@ -5,14 +5,8 @@
     </div>
     <div class="manage-servicepayment-container__filter">
       <div class="d-flex">
-        <select id="can_ho" class="b-dropdown mr-5" v-model="can_ho">
-          <option value="">Tất cả căn hộ</option>
-          <option v-for="can_ho in listCanHo" :key="can_ho.id" :value="can_ho.id" >{{ can_ho.name }}</option>  
-        </select>
-        <select id="service" class="b-dropdown mr-5" v-model="service">
-          <option value="">Tất cả dịch vụ</option>
-          <option v-for="service in listService" :key="service.id" :value="service.id" >{{ service.name }}</option>  
-        </select>
+        <b-form-select v-model="can_ho" :options="listCanHo"></b-form-select>
+        <b-form-select class="ml-4" v-model="service" :options="listService"></b-form-select>
       </div>
       <div class="d-flex justify-content-end">
         <b-button class="btn-search" @click="searchServicePayment">Tìm kiếm</b-button>
@@ -121,7 +115,14 @@ export default {
     async getListCanHo() {
       const response = await api('getCanHo', '');
       if (response.data.error_code === 0) {
-        this.listCanHo = response.data.data;
+        this.listCanHo = response.data.data.map((canHo) => ({
+          value: canHo.id,
+          text: canHo.name
+        }));
+        this.listCanHo.unshift({
+          value: '',
+          text: 'Tất cả căn hộ'
+        })
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
@@ -129,7 +130,14 @@ export default {
     async getListService() {
       const response = await api('getService', '');
       if (response.data.error_code === 0) {
-        this.listService = response.data.data;
+        this.listService = response.data.data.map((service) => ({
+          value: service.id,
+          text: service.name
+        }));
+        this.listService.unshift({
+          value: '',
+          text: 'Tất cả dịch vụ'
+        })
       } else {  
         this.makeToastMessage(response.data.message, 'danger');
       }

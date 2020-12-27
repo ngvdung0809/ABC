@@ -81,11 +81,11 @@
         <label for="role">
           <span class="text-color-required">*</span> Vai trò:
         </label>
-        <select id="role" class="b-dropdown" v-model="role" >
-          <option :value="1">ADMIN</option>
-          <option :value="2">VIEW</option>
-          <option :value="3">DISABLED</option>
-        </select>
+        <b-form-select 
+          class="b-dropdown" 
+          v-model="role" 
+          :options="listRole"
+        ></b-form-select>
       </div>
       <div class="form-input">
         <label for="staffCode">Mã nhân viên:</label>
@@ -106,11 +106,11 @@
         <label for="company">
           <span class="text-color-required">*</span> Tên công ty:
         </label>
-        <select id="company" class="b-dropdown" v-model="company" >
-          <option v-for="company in getListTenant" :key="company.id" :value="company.id">{{
-            company.name
-          }}</option>
-        </select>
+        <b-form-select 
+          class="b-dropdown" 
+          v-model="company" 
+          :options="listTenant"
+        ></b-form-select>
       </div>
     </div>
     <template #modal-footer="">
@@ -148,9 +148,15 @@ export default {
       password: '',
       confirmPassword: '',
       fullName: '',
-      role: 1,
+      role: '',
       staffCode: '',
       company: '',
+      listRole: [
+        { value: '', text: 'Vui lòng chọn quyền của tài khoản', disabled: true },
+        { value: 1, text: 'Admin', disabled: false },
+        { value: 2, text: 'View', disabled: false },
+        { value: 3, text: 'Disable', disabled: false },
+      ],
       constants,
     };
   },
@@ -173,15 +179,16 @@ export default {
       minLength: minLength(4),
     },
   },
-  watch: {
-    getListTenant: {
-      handler(val) {
-        this.company = val[0]?.id;
-      },
-    },
-  },
   computed: {
     ...mapGetters(['getListTenant', 'getErrorCodeAccount']),
+    listTenant() {
+      let result = [];
+      result = [
+        { value: '', text: 'Vui lòng chọn công ty chủ quản', disabled: true },
+        ...this.getListTenant.map((item) => ({ value: item.id, text: item.name })),
+      ];
+      return result
+    }
   },
   methods: {
     validateState(name) {
@@ -193,9 +200,9 @@ export default {
       this.password = '';
       this.confirmPassword = '';
       this.fullName = '';
-      this.role = 1;
+      this.role = '';
       this.staffCode = '';
-      this.company = this.getListTenant[0]?.id;
+      this.company = '';
     },
     clearErrorValidate() {
       this.$nextTick(() => {
@@ -258,7 +265,7 @@ export default {
     grid-template-columns: 20% 80%;
     margin-bottom: 12px;
     .b-dropdown {
-      width: 130px;
+      width: 60%;
       border: 1px solid #dcdcdc;
       outline: none;
     }

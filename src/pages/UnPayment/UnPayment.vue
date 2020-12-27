@@ -4,10 +4,11 @@
       <Header />
     </div>
     <div class="manage-unpayment-container__filter">
-      <select id="can_ho" class="b-dropdown" v-model="can_ho">
+      <!-- <select id="can_ho" class="b-dropdown" v-model="can_ho">
         <option value="">Tất cả</option>
         <option v-for="can_ho in listCanHo" :key="can_ho.id" :value="can_ho.id" >{{ can_ho.name }}</option>  
-      </select>
+      </select> -->
+      <b-form-select class="b-dropdown" v-model="can_ho" :options="listCanHo"></b-form-select>
 
       <div class="d-flex justify-content-end">
         <b-button class="btn-search" @click="searchUnPayment">Tìm kiếm</b-button>
@@ -110,7 +111,14 @@ export default {
     async getListCanHo() {
       const response = await api('getCanHo', '');
       if (response.data.error_code === 0) {
-        this.listCanHo = response.data.data;
+        this.listCanHo = response.data.data.map((canHo) => ({
+          value: canHo.id,
+          text: canHo.name
+        }));
+        this.listCanHo.unshift({
+          value: '',
+          text: 'Tất cả căn hộ'
+        })
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
@@ -170,8 +178,7 @@ export default {
     grid-template-columns: 50% 50%;
     margin: 12px 0px;
     .b-dropdown {
-      outline: none;
-      border: 1px solid #dcdcdc;
+      width: 60%;
     }
     .btn-search {
       width: 160px;

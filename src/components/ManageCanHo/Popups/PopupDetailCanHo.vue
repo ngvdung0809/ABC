@@ -39,22 +39,21 @@
         <label for="district">
           <span class="text-color-required">*</span> Chủ nhà:
         </label>
-        <select id="district" class="b-dropdown" v-model="data.chu_nha" >
-          <option v-for="chu_nha in getlistChuNha" :key="chu_nha.id" :value="chu_nha.id">{{
-            chu_nha.name
-          }}</option>
-        </select>
+        <b-form-select 
+          class="b-dropdown" 
+          v-model="data.chu_nha" 
+          :options="listChuNha"
+        ></b-form-select>
       </div>
       <div class="form-input">
         <label for="toa_nha">
           Tòa nhà:
         </label>
-        <select id="toa_nha" class="b-dropdown" v-model="data.toa_nha" >
-          <option value="">Không</option>
-          <option v-for="toa_nha in getlistToaNha" :key="toa_nha.id" :value="toa_nha.id">{{
-            toa_nha.name
-          }}</option>
-        </select>
+        <b-form-select 
+          class="b-dropdown" 
+          v-model="data.toa_nha" 
+          :options="listBuilding"
+        ></b-form-select>
       </div>
       <div class="form-input">
         <label for="gcn">
@@ -224,6 +223,22 @@ export default {
         note: this.detail?.note,
       };
       return result;
+    },
+    listChuNha() {
+      let result = [];
+      result = [
+        { value: null, text: 'Vui lòng chọn chủ nhà', disabled: true },
+        ...this.getlistChuNha.map((item) => ({ value: item.id, text: item.name })),
+      ];
+      return result
+    },
+    listBuilding() {
+      let result = [];
+      result = [
+        { value: '', text: 'Vui lòng chọn tòa nhà', disabled: false },
+        ...this.getlistToaNha.map((item) => ({ value: item.id, text: item.name })),
+      ];
+      return result
     }
   },
   methods: {
@@ -299,7 +314,7 @@ export default {
     grid-template-columns: 20% 80%;
     margin-bottom: 12px;
     .b-dropdown {
-      width: 130px;
+      width: 60%;
       border: 1px solid #dcdcdc;
       outline: none;
     }

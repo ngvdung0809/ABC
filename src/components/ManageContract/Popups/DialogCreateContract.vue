@@ -554,7 +554,7 @@
             class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
             data-wizard-type="action-prev"
           >
-            Previous
+            Quay Lại
           </button>
         </div>
         <div>
@@ -564,7 +564,7 @@
             class="btn btn-primary font-weight-bold text-uppercase px-9 py-4"
             data-wizard-type="action-next"
           >
-            {{ currentStep === filterStateStep.length ? "Submit" : "Next Step" }}
+            {{ currentStep === filterStateStep.length ? "Submit" : "Tiếp theo" }}
           </button>
         </div>
       </div>
@@ -930,7 +930,7 @@ export default {
           },
         });
       }
-      if (this.currentStep === 3 && !this.isBrokerageContract && this.isServiceContract) {
+      if (this.currentStep === 4 && !this.isBrokerageContract && this.isServiceContract) {
         await api(this.typeSubmit, {
           id: this.idContract,
           data: {

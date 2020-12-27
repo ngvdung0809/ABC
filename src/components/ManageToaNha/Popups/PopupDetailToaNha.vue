@@ -46,10 +46,11 @@
         <label for="district">
           <span class="text-color-required">*</span> Quận:
         </label>
-        <select id="district" class="b-dropdown" v-model="data.district" >
-          <option v-for="district in ListDistrict" :key="district.id" :value="district.id">
-            {{ district.name }}</option>
-        </select>
+        <b-form-select 
+          class="b-dropdown" 
+          v-model="data.district" 
+          :options="ListDistrict"
+        ></b-form-select>
       </div>
       <div class="form-input">
         <label for="city">
@@ -145,7 +146,10 @@ export default {
     async getListDistrict() {
       const response = await api('listDistrict');
       if (response.data.error_code === 0) {
-        this.ListDistrict = response.data.data;
+        this.ListDistrict = [
+          { value: null, text: 'Hãy chọn quận', disabled: true },
+          ...response.data.data.map((item) => ({ value: item.id, text: item.name })),
+        ];
       } else {
         this.makeToastMessage(response.data.message, 'danger');
       }
@@ -217,7 +221,7 @@ export default {
     grid-template-columns: 20% 80%;
     margin-bottom: 12px;
     .b-dropdown {
-      width: 130px;
+      width: 60%;
       border: 1px solid #dcdcdc;
       outline: none;
     }
