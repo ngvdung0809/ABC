@@ -930,7 +930,7 @@ export default {
           },
         });
       }
-      if (this.currentStep === 4 && !this.isBrokerageContract && this.isServiceContract) {
+      if (this.currentStep === 3 && !this.isBrokerageContract && this.isServiceContract) {
         await api(this.typeSubmit, {
           id: this.idContract,
           data: {
