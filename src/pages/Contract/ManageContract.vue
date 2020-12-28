@@ -170,8 +170,9 @@ export default {
       if (resultFindContract) {
         this.detailContract = { ...resultFindContract };
         if (type === 'edit') {
-          this.$bvModal.show(constants.CONTRACT_CONST.ID_POPUP_ADD);
-          return;
+          setTimeout(() => {
+            this.$bvModal.show(constants.CONTRACT_CONST.ID_POPUP_ADD);
+          }, 0);
         }
         if (type === 'delete') {
           this.$bvModal.show('modal-delete-contract');
