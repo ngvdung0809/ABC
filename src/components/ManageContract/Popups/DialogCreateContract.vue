@@ -1006,6 +1006,7 @@ export default {
       }
       if (this.currentStep === this.filterStateStep.length) {
         await this.$store.dispatch('getContract', '');
+        this.$emit('updateSelectedListId', []);
         this.resetData();
         this.cancel();
         return;

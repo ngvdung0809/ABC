@@ -83,6 +83,7 @@
       <PopupAddContract
         :detailContract="detailContract"
         :idModal="constants.CONTRACT_CONST.ID_POPUP_ADD"
+        @updateSelectedListId="updateSelectedListId"
       />
     </div>
   </div>
