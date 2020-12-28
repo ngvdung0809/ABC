@@ -39,11 +39,18 @@
         <label for="district">
           <span class="text-color-required">*</span> Chủ nhà:
         </label>
-        <b-form-select 
-          class="b-dropdown" 
-          v-model="chu_nha" 
-          :options="listChuNha"
-        ></b-form-select>
+        <div>
+          <b-form-select 
+            class="b-dropdown" 
+            :options="listChuNha"
+            v-model="$v.chu_nha.$model"
+            :state="validateState('chu_nha')"
+            aria-describedby="input-chu_nha-feedback"
+          ></b-form-select>
+          <b-form-invalid-feedback id="input-chu_nha-feedback" v-if="!$v.chu_nha.required" >
+            Vui lòng chọn chủ nhà!
+          </b-form-invalid-feedback>
+        </div>
       </div>
       <div class="form-input">
         <label for="toa_nha">
@@ -193,6 +200,9 @@ export default {
     gcn_NgayCap: {
       required
     },
+    chu_nha: {
+      required,
+    }
   },
   computed: {
     ...mapGetters(['getlistChuNha', 'getlistToaNha', 'getErrorCodeCanHo']),

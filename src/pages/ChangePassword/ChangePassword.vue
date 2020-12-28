@@ -38,6 +38,9 @@
               <b-form-invalid-feedback id="input-newPassword-feedback" v-if="!$v.newPassword.required" >
                 Xin hãy nhập mật khẩu hiện mới
               </b-form-invalid-feedback>
+              <b-form-invalid-feedback id="input-password-feedback" v-if="!$v.newPassword.passwordRegex" >
+                Mật khẩu có ít nhất 8 kí tự và phải bao gồm chữ hoa, chữ thường và số
+              </b-form-invalid-feedback>
             </div>
           </div>
         </div>
@@ -75,9 +78,11 @@
 
 <script>
 import { validationMixin } from 'vuelidate';
-import { required, sameAs } from 'vuelidate/lib/validators';
+import { required, sameAs, helpers } from 'vuelidate/lib/validators';
 import api from '../../core/services/api/api';
 import constants from '../../constants/index';
+
+const passwordRegex = helpers.regex('passwordRegex', /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*?]{8,50}$/)
 
 export default {
   mixins: [validationMixin],
@@ -95,6 +100,7 @@ export default {
     },
     newPassword: {
       required,
+      passwordRegex
     },
     confirmNewPassword: {
       required,

@@ -34,9 +34,9 @@
           <b-form-invalid-feedback id="input-password-feedback" v-if="!$v.password.required" >
             Xin hãy nhập mật khẩu
           </b-form-invalid-feedback>
-          <!-- <b-form-invalid-feedback id="input-password-feedback" v-else-if="!$v.password.alphaNumAndDotValidator" >
-            Mật khẩu không hợp lệ
-          </b-form-invalid-feedback> -->
+          <b-form-invalid-feedback id="input-password-feedback" v-if="!$v.password.passwordRegex" >
+            Mật khẩu có ít nhất 8 kí tự và phải bao gồm chữ hoa, chữ thường và số
+          </b-form-invalid-feedback>
         </div>
       </div>
       <div class="form-input">
@@ -81,11 +81,18 @@
         <label for="role">
           <span class="text-color-required">*</span> Vai trò:
         </label>
-        <b-form-select 
-          class="b-dropdown" 
-          v-model="role" 
-          :options="listRole"
-        ></b-form-select>
+        <div>
+          <b-form-select 
+            class="b-dropdown" 
+            :options="listRole"
+            v-model="$v.role.$model"
+            :state="validateState('role')"
+            aria-describedby="input-role-feedback"
+          ></b-form-select>
+          <b-form-invalid-feedback id="input-role-feedback" v-if="!$v.role.required" >
+            Vui lòng chọn quyền tài khoản!
+          </b-form-invalid-feedback>
+        </div>
       </div>
       <div class="form-input">
         <label for="staffCode">Mã nhân viên:</label>
@@ -106,11 +113,18 @@
         <label for="company">
           <span class="text-color-required">*</span> Tên công ty:
         </label>
-        <b-form-select 
-          class="b-dropdown" 
-          v-model="company" 
-          :options="listTenant"
-        ></b-form-select>
+        <div>
+          <b-form-select 
+            class="b-dropdown" 
+            :options="listTenant"
+            v-model="$v.company.$model"
+            :state="validateState('company')"
+            aria-describedby="input-company-feedback"
+          ></b-form-select>
+          <b-form-invalid-feedback id="input-company-feedback" v-if="!$v.company.required" >
+            Vui lòng chọn công ty chủ quản!
+          </b-form-invalid-feedback>
+        </div>
       </div>
     </div>
     <template #modal-footer="">
@@ -127,10 +141,10 @@
 <script>
 import { mapGetters } from 'vuex';
 import { validationMixin } from 'vuelidate';
-import { required, sameAs, minLength } from 'vuelidate/lib/validators';
+import { required, sameAs, minLength, helpers } from 'vuelidate/lib/validators';
 import constants from '../../../constants/index';
 
-// const alphaNumAndDotValidator = constants.ACCOUNT_CONST.REGEX_PASSWORD;
+const passwordRegex = helpers.regex('passwordRegex', /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d!@#$%^&*?]{8,50}$/)
 
 export default {
   props: {
@@ -166,11 +180,11 @@ export default {
     },
     password: {
       required,
+      passwordRegex,
     },
     confirmPassword: {
       required,
       sameAsPassword: sameAs('password'),
-      // alphaNumAndDotValidator,
     },
     fullName: {
       required,
@@ -178,6 +192,12 @@ export default {
     staffCode: {
       minLength: minLength(4),
     },
+    role: {
+      required,
+    },
+    company: {
+      required,
+    }
   },
   computed: {
     ...mapGetters(['getListTenant', 'getErrorCodeAccount']),

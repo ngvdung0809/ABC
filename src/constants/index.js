@@ -73,7 +73,6 @@ const ACCOUNT_CONST = {
   TITLE_POPUP_ADD_ACCOUNT: 'Thêm tài khoản',
   TITLE_POPUP_DETAIL_ACCOUNT: 'Chi tiết tài khoản',
   TITLE_POPUP_DELETE_ACCOUNT: 'Xóa tài khoản',
-  REGEX_PASSWORD: '^(?=.*[a-z])(?=.*[A-Z])(?=.*)[A-Za-z!@#$%^&*?]{8,50}$',
 };
 
 const CANHO_CONST = {

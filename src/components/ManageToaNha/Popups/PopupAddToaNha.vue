@@ -46,14 +46,16 @@
         <label for="district">
           <span class="text-color-required">*</span> Quận:
         </label>
-        <b-form-select 
-          class="b-dropdown" 
-          v-model="district" 
-          :options="ListDistrict"
-          :state="validateState('district')"
-          aria-describedby="input-district-feedback"
-        ></b-form-select>
-        <b-form-invalid-feedback id="input-district-feedback" v-if="!$v.district.required" ></b-form-invalid-feedback>
+        <div>
+          <b-form-select
+            class="b-dropdown"
+            :options="ListDistrict"
+            v-model="$v.district.$model"
+            :state="validateState('district')"
+            aria-describedby="input-district-feedback"
+          ></b-form-select>
+          <b-form-invalid-feedback id="input-district-feedback" v-if="!$v.district.required">Vui lòng chọn quận</b-form-invalid-feedback>
+        </div>
       </div>
       <div class="form-input">
         <label for="city">
