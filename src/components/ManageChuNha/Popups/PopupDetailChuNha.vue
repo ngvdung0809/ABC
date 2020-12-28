@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop :title="detail.name" size="xl" @hidden="cancel">
-    <div class="popup-add-chunha">
+    <div class="popup-add-chunha ml-3 mr-3">
       <div class="justify-content-between">
         <b-row>
           <b-col cols="4" class="d-flex">

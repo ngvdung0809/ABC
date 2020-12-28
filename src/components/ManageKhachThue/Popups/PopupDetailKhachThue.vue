@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop :title="detail.name" size="xl" @hidden="cancel">
-    <div class="popup-add-guest">
+    <div class="popup-add-guest ml-3 mr-3">
       <div class="justify-content-between">
         <b-row>
           <b-col class="d-flex">

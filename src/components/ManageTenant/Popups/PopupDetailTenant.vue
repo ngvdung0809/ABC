@@ -1,6 +1,6 @@
 <template>
   <b-modal :id="idModal" no-close-on-backdrop :title="detail.name" size="xl" @hidden="cancel">
-    <div class="popup-add-tenant">
+    <div class="popup-add-tenant ml-3 mr-3">
       <div>
         <b-row>
           <b-col cols="4" class="d-flex">
