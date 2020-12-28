@@ -57,7 +57,8 @@
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
-                  v-b-modal.modal-detail-account
+                  @click="getDetaiCanHo(can_ho.id)"
+                  v-b-modal.modal-detail-canho
                 ></b-icon-pencil-square>
                 <b-icon-trash
                   variant="light"
@@ -81,6 +82,19 @@
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
+    <div>
+      <PopupAddCanHo
+        :titleModal="constants.CANHO_CONST.TITLE_MANAGE"
+        :idModal="constants.CANHO_CONST.ID_POPUP_ADD"
+      />
+    </div>
+    <div>
+      <PopupDetailCanHo
+        :idModal="constants.CANHO_CONST.ID_POPUP_DETAIL"
+        :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
@@ -88,6 +102,8 @@
 import { mapGetters } from 'vuex';
 import Header from '../../components/ManageCanHo/Headers/Header.vue';
 import PopupDeleteCanHo from '../../components/ManageCanHo/Popups/PopupDeleteCanHo.vue';
+import PopupAddCanHo from '../../components/ManageCanHo/Popups/PopupAddCanHo.vue';
+import PopupDetailCanHo from '../../components/ManageCanHo/Popups/PopupDetailCanHo.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -95,6 +111,8 @@ export default {
   components: {
     Header,
     PopupDeleteCanHo,
+    PopupAddCanHo,
+    PopupDetailCanHo,
   },
   data() {
     return {
@@ -105,6 +123,7 @@ export default {
       selectedListCanHo: [],
       isSelectedAll: false,
       constants,
+      detail: {},
     };
   },
   computed: {
@@ -115,7 +134,7 @@ export default {
         items.push({
           name: item.name,
           host: item.chu_nha.name,
-          building: item.toa_nha.name,
+          building: item.toa_nha?.name,
           address: item.address,
           id: item.id,
         });
@@ -157,6 +176,12 @@ export default {
       } else {
         this.selectedListCanHo = [];
       }
+    },
+    getDetaiCanHo(id) {
+      this.selectedListCanHo = [id];
+      this.detail = this.getlistCanHo.find((item) => item.id === id);
+      this.$store.dispatch('getHost', '');
+      this.$store.dispatch('getBuilding', '')
     },
     getSingleCanHoId(id) {
       this.selectedListCanHo = [id];

@@ -12,6 +12,7 @@
 
   .invalid-feedback,
   .valid-feedback {
+    position: absolute;
     font-size: $form-feedback-font-size;
     font-weight: $form-feedback-font-weight;
   }
@@ -24,6 +25,9 @@
 
 // Form control
 .form-control {
+  label {
+    background-image: none !important;
+  }
   // Readonly state
   &[readonly] {
     background-color: $input-readonly-bg;

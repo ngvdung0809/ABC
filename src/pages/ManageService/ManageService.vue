@@ -52,12 +52,20 @@
             <td>{{ service.name }}</td>
             <td>{{ service.donvi }}</td>
             <td>{{ service.code }}</td>
-            <td>{{ service.dinhky }}</td>
+            <td>
+              <div :class="{
+                  '-completed' : service.dinhky === true,
+                  '-unCompleted' : service.dinhky === false
+                }"
+              >
+                <b>{{ service.dinhky ? 'True' : 'False' }}</b>
+              </div>
+            </td>
             <td>
               <div class="show-detail">
                 <b-icon-pencil-square
                   variant="light"
-                  @click="getDetailAccount(account.id)"
+                  @click="getDetailService(service.id)"
                   v-b-modal.modal-detail-service
                 ></b-icon-pencil-square>
                 <b-icon-trash
@@ -81,13 +89,29 @@
         @updateSelectedListId="updateSelectedListId"
       />
     </div>
+    <div>
+      <PopupAddService
+        :titleModal="constants.SERVICE_CONST.TITLE_POPUP_ADD"
+        :idModal="constants.SERVICE_CONST.ID_POPUP_ADD"
+      />
+    </div>
+
+    <div>
+      <PopupDetailService
+        :idModal="constants.SERVICE_CONST.ID_POPUP_DETAIL"
+        :detail ="detail"
+        @updateSelectedListId="updateSelectedListId"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import Header from '../../components/ManageToaNha/Headers/Header.vue';
+import Header from '../../components/ManageService/Headers/Header.vue';
 import PopupDeleteService from '../../components/ManageService/Popups/PopupDeleteService.vue';
+import PopupAddService from '../../components/ManageService/Popups/PopupAddService.vue';
+import PopupDetailService from '../../components/ManageService/Popups/PopupDetailService.vue';
 import constants from '../../constants/index';
 
 export default {
@@ -95,6 +119,8 @@ export default {
   components: {
     Header,
     PopupDeleteService,
+    PopupAddService,
+    PopupDetailService,
   },
   data() {
     return {
@@ -104,6 +130,7 @@ export default {
       inputSearch: '',
       isSelectedAll: false,
       selectedListService: [],
+      detail: {},
       constants,
 
     };
@@ -156,7 +183,6 @@ export default {
       this.selectedListService = [id];
     },
     setIsSelectedAll() {
-      console.log('vao day');
       this.isSelectedAll = !this.isSelectedAll;
       if (this.isSelectedAll) {
         this.selectedListService = this.listIdServce;
@@ -165,14 +191,15 @@ export default {
       }
     },
     updateSelectedListId(value) {
-      this.selectedListBuilding = value;
+      this.selectedListService = value;
     },
     searchService(event) {
       event.preventDefault();
       this.$store.dispatch('getService', this.inputSearch);
     },
-    submit() {
-      // console.log('ok');
+    getDetailService(id) {
+      this.selectedListService = [id];
+      this.detail = this.getlistService.find((item) => item.id === id);
     },
     cancel() {
       this.$bvModal.hide('modal-detail-account');
@@ -225,6 +252,12 @@ export default {
     }
   }
   &__table {
+    .-completed {
+      color: #42cf17;
+    }
+    .-unCompleted {
+      color: #bd6908;
+    }
     .show-detail {
       svg {
         border-radius: 50%;

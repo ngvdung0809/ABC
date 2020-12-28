@@ -37,6 +37,7 @@ export default {
     align-items: center;
     font-weight: 900;
     font-size: 18px;
+    color: whitesmoke;
   }
 }
 </style>

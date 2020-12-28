@@ -1,5 +1,5 @@
 <template>
-  <div class="popup-detail-account">
+  <div class="popup-detail-account ml-3 mr-3">
     <div class="form-input">
       <label for="username">
         <span class="text-color-required">*</span> Tài khoản:

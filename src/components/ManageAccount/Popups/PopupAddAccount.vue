@@ -1,6 +1,6 @@
 <template>
-  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal">
-    <div class="popup-add-account">
+  <b-modal :id="idModal" no-close-on-backdrop size="lg" :title="titleModal" @hidden="cancel">
+    <div class="popup-add-account ml-3 mr-3">
       <div class="form-input">
         <label for="username">
           <span class="text-color-required">*</span> Tài khoản:
@@ -177,8 +177,8 @@ export default {
     getListTenant: {
       handler(val) {
         this.company = val[0]?.id;
-      }
-    }
+      },
+    },
   },
   computed: {
     ...mapGetters(['getListTenant', 'getErrorCodeAccount']),
@@ -204,6 +204,8 @@ export default {
     },
     cancel() {
       this.$bvModal.hide(this.idModal);
+      this.clearData();
+      this.clearErrorValidate()
     },
     makeToastMessage(message, status) {
       this.$bvToast.toast(message, {
@@ -227,10 +229,6 @@ export default {
         tenant: this.company,
       };
       
-      // if staff_code null => delete staff_code
-      if (payload.staff_code === '') {
-        delete payload.staff_code;
-      }
       const submitButton = this.$refs.btn_add_account;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('addAccount', payload);
