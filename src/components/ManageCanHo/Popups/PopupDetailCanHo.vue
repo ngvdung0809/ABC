@@ -139,7 +139,7 @@
         Hủy bỏ
       </b-button>
       <b-button ref="btn_add_service" size="sm" variant="success" @click="submit" >
-        Sửa
+        Thay đổi
       </b-button>
     </template>
   </b-modal>
