@@ -879,7 +879,7 @@ export default {
         && !this.isBrokerageContract
         && !this.isServiceContract
       ) {
-        await api(this.typeSubmit, {
+        const response = await api(this.typeSubmit, {
           id: this.idContract,
           data: {
             name: this.basicForm.name,
@@ -900,9 +900,14 @@ export default {
             },
           },
         });
+        if (response.data.error_code === 0) {
+          this.makeToastMessage('Thành công', 'success');
+        } else {
+          this.makeToastMessage('Thất bại', 'success');
+        }
       }
       if (this.currentStep === 3 && this.isBrokerageContract && !this.isServiceContract) {
-        await api(this.typeSubmit, {
+        const response = await api(this.typeSubmit, {
           id: this.idContract,
           data: {
             name: this.basicForm.name,
@@ -927,9 +932,14 @@ export default {
             },
           },
         });
+        if (response.data.error_code === 0) {
+          this.makeToastMessage('Thành công', 'success');
+        } else {
+          this.makeToastMessage('Thất bại', 'success');
+        }
       }
       if (this.currentStep === 3 && !this.isBrokerageContract && this.isServiceContract) {
-        await api(this.typeSubmit, {
+        const response = await api(this.typeSubmit, {
           id: this.idContract,
           data: {
             name: this.basicForm.name,
@@ -962,9 +972,14 @@ export default {
             },
           },
         });
+        if (response.data.error_code === 0) {
+          this.makeToastMessage('Thành công', 'success');
+        } else {
+          this.makeToastMessage('Thất bại', 'success');
+        }
       }
       if (this.currentStep === 4 && this.isBrokerageContract && this.isServiceContract) {
-        await api(this.typeSubmit, {
+        const response = await api(this.typeSubmit, {
           id: this.idContract,
           data: {
             name: this.basicForm.name,
@@ -1001,6 +1016,11 @@ export default {
             },
           },
         });
+        if (response.data.error_code === 0) {
+          this.makeToastMessage('Thành công', 'success');
+        } else {
+          this.makeToastMessage('Thất bại', 'success');
+        }
       }
       if (this.currentStep === this.filterStateStep.length) {
         await this.$store.dispatch('getContract', '');
@@ -1025,6 +1045,14 @@ export default {
     },
     deleteService(indexService) {
       this.serviceForm.listService.splice(indexService, 1);
+    },
+    makeToastMessage(message, status) {
+      this.$bvToast.toast(message, {
+        title: 'Thông báo',
+        variant: status,
+        autoHideDelay: 2000,
+        solid: true,
+      });
     },
     cancel() {
       this.resetData();
