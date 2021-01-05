@@ -521,7 +521,7 @@
                           >
                         </b-form-group>
                       </div>
-                      <b-button style="height: 67%" @click="deleteService(index)" v-if="serviceForm.listService > 1">
+                      <b-button style="height: 67%" @click="deleteService(index)" v-if="serviceForm.listService.length > 1">
                         <span class="svg-icon svg-icon-2x d-flex align-items-center mr-0">
                           <inline-svg src="media/svg/icons/Home/Trash.svg" />
                         </span>
