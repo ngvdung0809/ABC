@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <Loading
+      :active.sync="getIsLoading"
+      :is-full-page="true"
+      color="#005CC8"
+    />
   </div>
 </template>
 
@@ -17,6 +22,7 @@
 </style>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -25,6 +31,9 @@ export default {
      * this is to override the layout config using saved data from localStorage
      * remove this to use config only from static json (@/core/config/layout.config.json)
      */
+  },
+  computed: {
+    ...mapGetters(['getIsLoading']),
   },
 };
 </script>

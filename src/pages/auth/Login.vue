@@ -184,7 +184,9 @@ export default {
       // const password = this.$v.form.password.$model;
       const submitButton = this.$refs.kt_login_signin_submit;
       submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      this.$store.commit('SET_IS_LOADING', true);
       const res = await api('loginApi', { username: this.form.username, password: this.form.password });
+      this.$store.commit('SET_IS_LOADING', false);
       if (res.success) {
         this.errors = [];
         sessionStorage.setItem('jwtToken', res?.data?.data?.token);

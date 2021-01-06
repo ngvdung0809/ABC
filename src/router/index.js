@@ -37,6 +37,7 @@ const routes = [
         name: 'ManageAccount',
         path: '/manage-account',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 1);
           await store.dispatch('getAccount', '');
           next();
         },
@@ -46,6 +47,7 @@ const routes = [
         name: 'ManageChuNha',
         path: '/manage-host',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 3);
           await store.dispatch('getHost', '');
           next();
         },
@@ -55,6 +57,7 @@ const routes = [
         name: 'ManageKhachThue',
         path: '/manage-guest',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 3);
           await store.dispatch('getGuest', '');
           next();
         },
@@ -64,6 +67,7 @@ const routes = [
         name: 'ManageCanHo',
         path: '/manage-appartment',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 2);
           await store.dispatch('getAppartment', '');
           next();
         },
@@ -73,6 +77,7 @@ const routes = [
         name: 'ManageToaNha',
         path: '/manage-building',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 2);
           await store.dispatch('getBuilding', '');
           next();
         },
@@ -82,6 +87,7 @@ const routes = [
         name: 'ManageTenant',
         path: '/manage-company',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 3);
           await store.dispatch('getTenant', '');
           next();
         },
@@ -91,6 +97,7 @@ const routes = [
         name: 'ManageContract',
         path: '/manage-contract',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 3);
           await store.dispatch('getContract', '');
           next();
         },
@@ -100,6 +107,7 @@ const routes = [
         name: 'ManageService',
         path: '/manage-service',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 2);
           await store.dispatch('getService', '');
           next();
         },
@@ -108,27 +116,44 @@ const routes = [
       {
         name: 'ManagePayment',
         path: '/period-payment-contract',
+        beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 4);
+          next();
+        },
         component: () => import('@/pages/Payment/Payment'),
       },
       {
         name: 'ManageUnPayment',
         path: '/bad-debt-contract',
+        beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 5);
+          next();
+        },
         component: () => import('@/pages/UnPayment/UnPayment'),
       },
       {
         name: 'ManageServicePayment',
         path: '/period-payment-service',
+        beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 4);
+          next();
+        },
         component: () => import('@/pages/PaymentService/PaymentService'),
       },
       {
         name: 'ManageServiceUnPayment',
         path: '/bad-debt-service',
+        beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 5);
+          next();
+        },
         component: () => import('@/pages/UnPaymentService/UnPaymentService'),
       },
       {
         name: 'ChangePassword',
         path: '/change-password',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 6);
           // await store.dispatch('getService', '');
           next();
         },
@@ -138,6 +163,7 @@ const routes = [
         name: 'Summary',
         path: '/summary',
         beforeEnter: async (to, from, next) => {
+          store.commit('SET_ACTIVE_TAB', 0);
           // await api('overview');
           next();
         },

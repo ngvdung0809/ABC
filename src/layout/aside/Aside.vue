@@ -24,7 +24,7 @@
           >
             <div
               :aria-current-value="`${index}`"
-              :class="['nav-link btn btn-icon btn-clean btn-lg', activeTab === index && 'active']"
+              :class="['nav-link btn btn-icon btn-clean btn-lg', getActiveTab === index && 'active']"
               data-toggle="tab"
               @click="setActiveTab(index)"
             >
@@ -39,7 +39,7 @@
         <div class="btn-logout" @click="logoutAction">
           <span 
             class="svg-icon-xl"
-            v-b-tooltip.hover="'Sign Out'"
+            v-b-tooltip.hover="'Đăng xuất'"
           >
             <!--begin::Svg Icon-->
             <inline-svg src="media/svg/icons/Navigation/Sign-out.svg" />
@@ -96,7 +96,7 @@
                 data-menu-scroll="1"
               >
                 <!-- example static menu here -->
-                <Menu :subMenu="listNav[activeTab].child"></Menu>
+                <Menu :subMenu="listNav[getActiveTab].child"></Menu>
                 <!-- <MenuManage v-if="activeTab == 2"></MenuManage> -->
               </div>
               <!--end::Menu Container-->
@@ -135,7 +135,6 @@ export default {
       outsideTm: 0,
       tabIndex: 0,
       asideExpand: true,
-      activeTab: 0,
       listNav: [
         {
           name: 'Dashboard',
@@ -162,7 +161,6 @@ export default {
         {
           name: 'Các bên liên quan',
           icon: 'media/svg/icons/Home/Home.svg',
-          router: '/manage',
           child: [
             {
               nameSubNav: 'Tòa nhà',
@@ -259,7 +257,7 @@ export default {
     // MenuManage,
   },
   computed: {
-    ...mapGetters(['layoutConfig', 'getClasses']),
+    ...mapGetters(['layoutConfig', 'getClasses', 'getActiveTab']),
 
     /**
      * Get extra classes for menu based on the options
@@ -275,7 +273,8 @@ export default {
   methods: {
     setActiveTab(index) {
       // set active menu
-      this.activeTab = index;
+      // this.getActiveTab = index;
+      this.$store.commit('SET_ACTIVE_TAB', index);
       document.body.classList.remove('aside-minimize');
       this.asideExpand = true;
     },

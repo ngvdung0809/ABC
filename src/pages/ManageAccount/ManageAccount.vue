@@ -257,6 +257,7 @@ export default {
         await this.$store.dispatch('getAccount', '');
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'success');
         this.canUpdate = false;
+        this.clearSelectedListId();
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
@@ -278,6 +279,9 @@ export default {
     },
     updateSelectedListId(value) {
       this.selectedListAccount = value;
+    },
+    clearSelectedListId() {
+      this.selectedListAccount = [];
     },
   },
 };

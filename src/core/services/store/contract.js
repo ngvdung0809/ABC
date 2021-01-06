@@ -20,15 +20,19 @@ export default {
   },
   actions: {
     async getContract({ commit }, payload) {
+      commit('SET_IS_LOADING', true);
       const response = await api('getContract', payload);
+      commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         commit('SET_LIST_CONTRACT', response.data.data);
       } else {
-        // show message failed
+        commit('SET_ERROR_CODE', response.data.error_code);
       }
     },
     async deleteContract({ commit }, payload) {
+      commit('SET_IS_LOADING', true);
       const response = await api('deleteContract', payload);
+      commit('SET_IS_LOADING', false);
       commit('SET_ERROR_CODE', response.data.error_code);
     },
   },

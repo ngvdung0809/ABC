@@ -3,15 +3,19 @@
 import VueApexCharts from 'vue-apexcharts'
 import Vue from 'vue';
 import store from '@/core/services/store/index';
+import Loading from 'vue-loading-overlay';
 import App from './App.vue';
 import router from './router/index';
 import '@/core/plugins/portal-vue';
 import '@/core/plugins/bootstrap-vue';
 import '@/core/plugins/inline-svg';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 Vue.config.productionTip = false;
 Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)
+Vue.use(Loading)
+Vue.component('Loading', Loading)
 // window.PerfectScrollbar = PerfectScrollbar;
 // window.ClipboardJS = ClipboardJS;
 

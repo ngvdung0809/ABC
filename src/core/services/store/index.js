@@ -10,7 +10,8 @@ import khachthue from './khachthue';
 import canho from './canho';
 import toanha from './toanha';
 import service from './service';
-import contract from './contract'
+import contract from './contract';
+import entry from './entry';
 
 Vue.use(Vuex);
 
@@ -25,6 +26,7 @@ export default new Vuex.Store({
     canho,
     toanha,
     service,
-    contract
+    contract,
+    entry,
   },
 });
