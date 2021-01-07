@@ -286,8 +286,8 @@ export default {
         id: this.detail.id,
         data: this.data
       };
-      const submitButton = this.$refs.btn_add_service;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_add_service;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateCanHo', payload);
       if (this.getErrorCodeCanHo === 0) {
         this.cancel()
@@ -297,11 +297,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_SUCCEED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
   },
 };

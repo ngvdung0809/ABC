@@ -180,8 +180,8 @@ export default {
         id: this.detail.id,
         data: this.data,
       };
-      const submitButton = this.$refs.btn_update_service;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_update_service;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateService', payload);
       if (this.getErrorCodeService === 0) {
         this.clearErrorValidate();
@@ -192,11 +192,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
   },
 };

@@ -182,8 +182,8 @@ export default {
       }
       // const username = this.$v.form.username.$model;
       // const password = this.$v.form.password.$model;
-      const submitButton = this.$refs.kt_login_signin_submit;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.kt_login_signin_submit;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       this.$store.commit('SET_IS_LOADING', true);
       const res = await api('loginApi', { username: this.form.username, password: this.form.password });
       this.$store.commit('SET_IS_LOADING', false);
@@ -197,11 +197,11 @@ export default {
       }
       // set spinner to submit button
 
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
     resetMessageError() {
       this.errors = [];

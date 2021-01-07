@@ -129,8 +129,8 @@ export default {
         old_password: this.oldPassword,
         new_password: this.newPassword,
       };
-      const submitButton = this.$refs.btn_change_password;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_change_password;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       const response = await api('changePassword', payload);
       if (response?.data?.error_code === 0) {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_CHANGE_PASSWORD_SUCCEED, 'success');
@@ -139,11 +139,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_CHANGE_PASSWORD_FAILED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
   },
 };

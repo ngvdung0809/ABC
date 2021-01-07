@@ -428,8 +428,8 @@ export default {
       const payload = this.data;
       const key = ['birthday', 'cccd_NgayCap', 'cmt_NgayCap', 'passport_NgayCap', 'passport_NgayHan']
       this.deleteNullValue(payload, key)
-      const submitButton = this.$refs.btn_add_chunha;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_add_chunha;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('addGuest', payload);
       if (this.getErrorGuest === 0) {
         this.cancel()
@@ -438,11 +438,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
     clearErrorValidate() {
       this.$nextTick(() => {

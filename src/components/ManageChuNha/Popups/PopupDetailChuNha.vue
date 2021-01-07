@@ -517,8 +517,8 @@ export default {
         id: this.detail.id,
         data: payload
       }
-      const submitButton = this.$refs.btn_add_chunha;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_add_chunha;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateHost', submitData);
       if (this.getErrorChuNha === 0) {
         this.clearErrorValidate();
@@ -529,11 +529,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
     clearErrorValidate() {
       this.$nextTick(() => {

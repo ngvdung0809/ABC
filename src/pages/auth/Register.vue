@@ -112,8 +112,8 @@ export default {
     },
     onSubmit() {
       // set spinner to submit button
-      const submitButton = this.$refs.login_signup_submit;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.login_signup_submit;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
 
       // dummy delay
     },

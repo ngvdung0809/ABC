@@ -90,7 +90,9 @@ export default {
       });
     },
     async overview() {
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('overview');
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
         this.seriesPieChart = this.responseData.chart_series2;

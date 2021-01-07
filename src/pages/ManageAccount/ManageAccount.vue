@@ -249,8 +249,8 @@ export default {
     },
     async submit() {
       // update account
-      const submitButton = this.$refs.btn_update_account;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_update_account;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('updateAccount', this.dataChanged);
       if (this.getErrorCodeAccount === 0) {
         this.$bvModal.hide(constants.ACCOUNT_CONST.ID_POPUP_DETAIL_ACCOUNT);
@@ -261,11 +261,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_UPDATE_FAILED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
     searchAccount(event) {
       // call api search account

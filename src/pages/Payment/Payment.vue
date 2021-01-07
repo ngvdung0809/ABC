@@ -152,7 +152,9 @@ export default {
         start_date: start,
         end_date: end,
       };
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getPayment', payload);
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
       } else {
@@ -160,7 +162,9 @@ export default {
       }
     },
     async getListCanHo() {
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getCanHo', '');
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.listCanHo = response.data.data.map((canHo) => ({
           value: canHo.id,

@@ -314,8 +314,8 @@ export default {
         return;
       }
       const payload = this.data;
-      const submitButton = this.$refs.btn_add_chunha;
-      submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      // const submitButton = this.$refs.btn_add_chunha;
+      // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
       await this.$store.dispatch('addTenant', payload);
       if (this.getErrorCodeTenant === 0) {
         this.cancel()
@@ -324,11 +324,11 @@ export default {
       } else {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_ADD_FAILED, 'danger');
       }
-      submitButton.classList.remove(
-        'spinner',
-        'spinner-light',
-        'spinner-right',
-      );
+      // submitButton.classList.remove(
+      //   'spinner',
+      //   'spinner-light',
+      //   'spinner-right',
+      // );
     },
     clearErrorValidate() {
       this.$nextTick(() => {
