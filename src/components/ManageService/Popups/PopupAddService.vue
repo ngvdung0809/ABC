@@ -157,7 +157,7 @@ export default {
       };
       // const submitButton = this.$refs.btn_add_service;
       // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
-      await this.$store.dispatch('addBuilding', payload);
+      await this.$store.dispatch('addService', payload);
       if (this.getErrorCodeToaNha === 0) {
         this.clearErrorValidate();
         this.cancel()
