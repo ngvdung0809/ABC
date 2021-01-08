@@ -105,7 +105,9 @@ export default {
         can_ho: '',
         service: '',
       };
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getUnPaymentService', payload);
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
       } else {
@@ -113,7 +115,9 @@ export default {
       }
     },
     async getListCanHo() {
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getCanHo', '');
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.listCanHo = response.data.data.map((canHo) => ({
           value: canHo.id,
@@ -128,7 +132,9 @@ export default {
       }
     },
     async getListService() {
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getService', '');
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.listService = response.data.data.map((service) => ({
           value: service.id,

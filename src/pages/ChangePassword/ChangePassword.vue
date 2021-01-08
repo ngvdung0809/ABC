@@ -131,7 +131,9 @@ export default {
       };
       // const submitButton = this.$refs.btn_change_password;
       // submitButton.classList.add('spinner', 'spinner-light', 'spinner-right');
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('changePassword', payload);
+      this.$store.commit('SET_IS_LOADING', false);
       if (response?.data?.error_code === 0) {
         this.makeToastMessage(constants.COMMON_CONST.MESSAGE_CHANGE_PASSWORD_SUCCEED, 'success');
         sessionStorage.clear();

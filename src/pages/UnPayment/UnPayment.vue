@@ -101,7 +101,9 @@ export default {
       const payload = {
         can_ho: '',
       };
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getUnPayment', payload);
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.responseData = response.data.data;
       } else {
@@ -109,7 +111,9 @@ export default {
       }
     },
     async getListCanHo() {
+      this.$store.commit('SET_IS_LOADING', true);
       const response = await api('getCanHo', '');
+      this.$store.commit('SET_IS_LOADING', false);
       if (response.data.error_code === 0) {
         this.listCanHo = response.data.data.map((canHo) => ({
           value: canHo.id,
